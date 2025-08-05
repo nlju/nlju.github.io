@@ -49,6 +49,17 @@ body {
     text-align: center;
 }
 
+/* ===== NEW: Profile Picture Styling ===== */
+.profile-picture {
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    object-fit: cover;
+    margin-bottom: 2rem;
+    border: 3px solid var(--primary-color);
+    box-shadow: 0 0 20px var(--primary-color);
+}
+
 .glitch-container {
     position: relative;
 }
@@ -115,11 +126,11 @@ body {
     user-select: none; /* Make the "//" unselectable */
 }
 
-/* Tooltip Styling */
+/* ===== UPDATED: Tooltip Styling (Moved Below Button) ===== */
 .contact-item[data-tooltip]::after {
     content: attr(data-tooltip);
     position: absolute;
-    bottom: 150%; /* Position above the button */
+    top: 170%; /* Position below the button */
     left: 50%;
     transform: translateX(-50%);
     background-color: var(--card-bg);
@@ -159,7 +170,7 @@ body {
 }
 @keyframes scroll-down { 0% { transform: translateY(-10px); opacity: 0; } 50% { opacity: 1; } 100% { transform: translateY(10px); opacity: 0; } }
 
-/* General Section Styling */
+/* ===== General Section Styling ===== */
 section {
     padding: 100px 0;
     border-top: 1px solid var(--border-color);
@@ -173,7 +184,6 @@ section h2 {
     text-shadow: 0 0 10px var(--primary-color);
 }
 
-/* Reveal on scroll animation */
 .reveal {
     opacity: 0;
     transform: translateY(50px);
@@ -184,7 +194,6 @@ section h2 {
     transform: translateY(0);
 }
 
-/* Card Styling with 3D Hover */
 .card {
     background: var(--card-bg);
     border: 1px solid var(--border-color);
@@ -199,11 +208,12 @@ section h2 {
     box-shadow: 0 10px 30px rgba(0, 240, 255, 0.2);
 }
 
-/* Experience Timeline */
+/* ===== UPDATED: Experience Timeline (Single-Sided Layout) ===== */
 .timeline {
     position: relative;
     max-width: 800px;
     margin: 0 auto;
+    padding-left: 60px; /* Space for the timeline line and icons */
 }
 .timeline::after {
     content: '';
@@ -212,29 +222,33 @@ section h2 {
     background-image: linear-gradient(to bottom, var(--primary-color), var(--secondary-color));
     top: 0;
     bottom: 0;
-    left: 50%;
-    margin-left: -1.5px;
+    left: 20px; /* Position the line on the far left */
+    margin-left: 0;
     box-shadow: 0 0 10px var(--primary-color);
 }
 .timeline-item {
     position: relative;
-    width: 50%;
-    padding: 10px 40px;
+    width: 100%;
+    padding: 0;
+    margin-bottom: 50px;
 }
-.timeline-item:nth-child(odd) {
-    left: 0;
-    text-align: right;
+.timeline-item::before { /* This is the new chevron/arrow connector */
+    content: '';
+    position: absolute;
+    left: -28px;
+    top: 30px;
+    width: 0;
+    height: 0;
+    border-top: 10px solid transparent;
+    border-bottom: 10px solid transparent;
+    border-right: 15px solid var(--border-color);
 }
-.timeline-item:nth-child(even) {
-    left: 50%;
-    text-align: left;
-}
-.timeline-item::after {
+.timeline-item::after { /* This is the glowing circle on the timeline */
     content: '';
     position: absolute;
     width: 20px;
     height: 20px;
-    right: -10px;
+    left: -29px;
     background-color: var(--bg-color);
     border: 4px solid var(--primary-color);
     top: 25px;
@@ -242,15 +256,12 @@ section h2 {
     z-index: 1;
     box-shadow: 0 0 15px var(--primary-color);
 }
-.timeline-item:nth-child(even)::after {
-    left: -10px;
-}
 .card-content h3 { font-family: var(--font-heading); margin-bottom: 0.5rem; }
 .job-title { font-weight: 600; color: var(--primary-color); }
 .date { font-weight: 300; opacity: 0.8; }
 .card-content p { margin-top: 1rem; }
 
-/* Skills Section */
+/* ===== Skills Section ===== */
 .skills-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
@@ -261,53 +272,26 @@ section h2 {
     color: var(--primary-color);
     margin-bottom: 1.5rem;
 }
-.skill-card ul {
-    list-style: none;
-}
-.skill-card ul li {
-    padding: 0.5rem 0;
-    border-bottom: 1px solid var(--border-color);
-}
+.skill-card ul { list-style: none; }
+.skill-card ul li { padding: 0.5rem 0; border-bottom: 1px solid var(--border-color); }
 .skill-card ul li:last-child { border: none; }
-
-.skill-bar {
-    width: 100%;
-    background-color: rgba(0, 240, 255, 0.1);
-    border-radius: 5px;
-    margin-bottom: 1rem;
-    overflow: hidden;
-}
-.skill-level {
-    background-image: linear-gradient(90deg, var(--secondary-color), var(--primary-color));
-    color: var(--bg-color);
-    padding: 0.5rem;
-    border-radius: 5px;
-    position: relative;
-    transform: translateX(-100%);
-    transition: transform 1.5s cubic-bezier(0.25, 1, 0.5, 1);
-}
-.reveal.visible .skill-level {
-    transform: translateX(0);
-}
+.skill-bar { width: 100%; background-color: rgba(0, 240, 255, 0.1); border-radius: 5px; margin-bottom: 1rem; overflow: hidden; }
+.skill-level { background-image: linear-gradient(90deg, var(--secondary-color), var(--primary-color)); color: var(--bg-color); padding: 0.5rem; border-radius: 5px; position: relative; transform: translateX(-100%); transition: transform 1.5s cubic-bezier(0.25, 1, 0.5, 1); }
+.reveal.visible .skill-level { transform: translateX(0); }
 .skill-name { font-weight: 600; }
 .skill-level.suomi { width: 100%; }
 .skill-level.englanti { width: 85%; }
 
-/* Footer */
-footer {
-    text-align: center;
-    padding: 2rem 0;
-    border-top: 1px solid var(--border-color);
-    font-size: 0.9rem;
-    opacity: 0.5;
-}
+/* ===== Footer ===== */
+footer { text-align: center; padding: 2rem 0; border-top: 1px solid var(--border-color); font-size: 0.9rem; opacity: 0.5; }
 
-/* Responsive Design */
+/* ===== Responsive Design ===== */
 @media (max-width: 768px) {
     .glitch { font-size: 3rem; }
+    .profile-picture { width: 120px; height: 120px; }
     .contact-links { flex-wrap: wrap; justify-content: center; }
+    .timeline { padding-left: 40px; }
     .timeline::after { left: 10px; }
-    .timeline-item { width: 100%; padding-left: 50px; padding-right: 10px; text-align: left !important; }
-    .timeline-item:nth-child(even) { left: 0; }
-    .timeline-item::after { left: 1px; }
+    .timeline-item::before { left: -18px; }
+    .timeline-item::after { left: -19px; }
 }
