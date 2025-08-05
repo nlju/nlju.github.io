@@ -1,76 +1,58 @@
-// ===== NEW: Smooth Plexus/Constellation Background =====
+// ===== NEW, OPTIMIZED: 3D Starfield Background =====
 const canvas = document.getElementById('starfield');
 const ctx = canvas.getContext('2d');
-
-let particlesArray;
 
 function setCanvasSize() {
     canvas.width = window.innerWidth;
     canvas.height = window.innerHeight;
-
-    let numberOfParticles = (canvas.height * canvas.width) / 9000;
-    if (numberOfParticles > 150) numberOfParticles = 150; // Cap particles for performance
-    
-    particlesArray = [];
-    for (let i = 0; i < numberOfParticles; i++) {
-        let size = (Math.random() * 1.5) + 0.5;
-        let x = (Math.random() * ((innerWidth - size * 2) - (size * 2)) + size * 2);
-        let y = (Math.random() * ((innerHeight - size * 2) - (size * 2)) + size * 2);
-        let directionX = (Math.random() * .4) - .2;
-        let directionY = (Math.random() * .4) - .2;
-        let color = '#e0e0e0';
-
-        particlesArray.push({x, y, directionX, directionY, size, color});
-    }
 }
-
-function connect() {
-    let opacityValue = 1;
-    for (let a = 0; a < particlesArray.length; a++) {
-        for (let b = a; b < particlesArray.length; b++) {
-            let distance = ((particlesArray[a].x - particlesArray[b].x) * (particlesArray[a].x - particlesArray[b].x))
-                + ((particlesArray[a].y - particlesArray[b].y) * (particlesArray[a].y - particlesArray[b].y));
-            
-            if (distance < (canvas.width/7) * (canvas.height/7)) {
-                opacityValue = 1 - (distance/20000);
-                ctx.strokeStyle = `rgba(0, 240, 255, ${opacityValue * 0.3})`; // Use primary color for lines
-                ctx.lineWidth = 1;
-                ctx.beginPath();
-                ctx.moveTo(particlesArray[a].x, particlesArray[a].y);
-                ctx.lineTo(particlesArray[b].x, particlesArray[b].y);
-                ctx.stroke();
-            }
-        }
-    }
-}
-
-function animate() {
-    requestAnimationFrame(animate);
-    ctx.clearRect(0,0,innerWidth,innerHeight);
-
-    for (let i = 0; i < particlesArray.length; i++) {
-        let particle = particlesArray[i];
-        if (particle.x < 0 || particle.x > canvas.width) {
-            particle.directionX = -particle.directionX;
-        }
-        if (particle.y < 0 || particle.y > canvas.height) {
-            particle.directionY = -particle.directionY;
-        }
-        particle.x += particle.directionX;
-        particle.y += particle.directionY;
-
-        ctx.beginPath();
-        ctx.arc(particle.x, particle.y, particle.size, 0, Math.PI * 2, false);
-        ctx.fillStyle = particle.color;
-        ctx.fill();
-    }
-    connect();
-}
-
 setCanvasSize();
 window.addEventListener('resize', setCanvasSize);
-animate();
 
+const stars = [];
+const numStars = 800; // Increased star count for a fuller look
+const speed = 0.5;
+const focalLength = canvas.width / 2;
+
+for (let i = 0; i < numStars; i++) {
+    stars.push({
+        x: (Math.random() - 0.5) * canvas.width,
+        y: (Math.random() - 0.5) * canvas.height,
+        z: Math.random() * canvas.width,
+    });
+}
+
+function draw() {
+    ctx.fillStyle = "#050816";
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+    ctx.save();
+    ctx.translate(canvas.width / 2, canvas.height / 2);
+
+    for (let i = 0; i < numStars; i++) {
+        const star = stars[i];
+        star.z -= speed;
+
+        if (star.z <= 0) {
+            star.z = canvas.width;
+        }
+
+        const k = focalLength / star.z;
+        const px = star.x * k;
+        const py = star.y * k;
+
+        const size = (1 - star.z / canvas.width) * 4;
+        const shade = parseInt((1 - star.z / canvas.width) * 255);
+        ctx.fillStyle = `rgba(0, 240, 255, ${shade / 255 * 0.7})`; // Use primary color with opacity
+        ctx.beginPath();
+        ctx.arc(px, py, size, 0, Math.PI * 2);
+        ctx.fill();
+    }
+    
+    ctx.restore();
+    requestAnimationFrame(draw);
+}
+draw();
 
 // ===== Reveal On Scroll Animation (Unchanged) =====
 const observer = new IntersectionObserver((entries) => {
@@ -80,7 +62,7 @@ const observer = new IntersectionObserver((entries) => {
         }
     });
 }, {
-    threshold: 0.1 // Trigger when 10% of the element is visible
+    threshold: 0.1
 });
 
 const revealElements = document.querySelectorAll('.reveal');
