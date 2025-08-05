@@ -2,6 +2,7 @@
     --bg-color: #050816;
     --primary-color: #00f0ff; /* Neon Cyan */
     --secondary-color: #915eff; /* Neon Purple */
+    --green-accent: #28a745; /* New green color */
     --text-color: #e0e0e0;
     --card-bg: rgba(20, 25, 50, 0.5);
     --border-color: rgba(0, 240, 255, 0.3);
@@ -48,7 +49,6 @@ body {
     text-align: center;
 }
 
-/* ===== UPDATED: Interactive Profile Picture Styling ===== */
 .profile-picture {
     width: 150px;
     height: 150px;
@@ -57,17 +57,15 @@ body {
     margin-bottom: 2rem;
     border: 3px solid var(--primary-color);
     box-shadow: 0 0 20px var(--primary-color);
-    /* Add smooth transition for the hover effect */
     transition: width 0.4s ease, height 0.4s ease, margin-bottom 0.4s ease;
 }
 
 .profile-picture:hover {
-    width: 250px; /* Expands the picture */
+    width: 250px;
     height: 250px;
-    margin-bottom: 3rem; /* Adds more space below to push content down */
+    margin-bottom: 3rem;
     cursor: pointer;
 }
-
 
 .glitch-container {
     position: relative;
@@ -204,18 +202,18 @@ section h2 {
 .card {
     background: var(--card-bg);
     border: 1px solid var(--border-color);
-    padding: 1.5rem 2rem; /* Adjusted padding */
-    border-radius: 10px; /* Slightly smaller radius */
+    padding: 1.5rem 2rem;
+    border-radius: 10px;
     backdrop-filter: blur(10px);
-    transition: none; /* Remove hover effect for this card type */
+    transition: none;
     transform-style: none;
 }
-.card:hover { /* Remove 3D hover from timeline cards */
+.card:hover {
     transform: none;
     box-shadow: none;
 }
 
-/* ===== COMPLETELY REWRITTEN: Experience Timeline Layout ===== */
+/* ===== UPDATED AND REWRITTEN: Experience Timeline Layout ===== */
 .timeline {
     position: relative;
     max-width: 800px;
@@ -234,16 +232,18 @@ section h2 {
 .timeline-item {
     position: relative;
     margin-bottom: 50px;
-    padding-left: 100px; /* Make space for date tag and icon */
+    padding-left: 100px; /* Space for date tag and icon */
 }
-.timeline-item .date { /* The date "tag" */
+.timeline-item .date { /* The date "tag" - REPOSITIONED AND RECOLORED */
     position: absolute;
     top: 22px;
-    left: -15px;
+    left: -170px; /* Pushed further to the left to prevent overlap */
+    width: 180px; /* Given a fixed width */
+    text-align: center; /* Centered text inside the tag */
     font-size: 0.85rem;
     font-weight: 600;
-    background-color: var(--primary-color);
-    color: var(--bg-color);
+    background-color: var(--green-accent); /* Use new green color */
+    color: var(--text-color);
     padding: 5px 10px;
     border-radius: 5px;
     z-index: 2;
@@ -260,7 +260,7 @@ section h2 {
     height: 0;
     border-top: 10px solid transparent;
     border-bottom: 10px solid transparent;
-    border-right: 15px solid var(--border-color); /* Matches card border */
+    border-right: 15px solid var(--border-color);
 }
 .timeline-item::after { /* The icon container on the timeline */
     content: '';
@@ -273,9 +273,6 @@ section h2 {
     border: 3px solid var(--primary-color);
     border-radius: 50%;
     z-index: 1;
-    display: flex;
-    align-items: center;
-    justify-content: center;
 }
 .timeline-item::before { /* Simulates briefcase handle with CSS */
     content: '';
@@ -292,9 +289,6 @@ section h2 {
 .card-content h3 { font-family: var(--font-heading); margin-bottom: 0.2rem; }
 .job-title { font-weight: 600; color: var(--primary-color); }
 .card-content p { margin-top: 1rem; }
-.timeline-item .date { display: none; } /* We will hide the old date location */
-.job-title .date { display: inline; font-weight: 300; opacity: 0.8; color: var(--text-color); } /* Style the date next to job title */
-
 
 /* ===== Skills Section (Unchanged, but card hover reset) ===== */
 .skills-grid {
@@ -302,7 +296,7 @@ section h2 {
     grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
     gap: 2rem;
 }
-.skills-grid .card { /* Add the 3D hover effect back to these cards */
+.skills-grid .card {
    transition: transform 0.3s ease, box-shadow 0.3s ease;
    transform-style: preserve-3d;
 }
@@ -325,17 +319,22 @@ section h2 {
 .skill-level.suomi { width: 100%; }
 .skill-level.englanti { width: 85%; }
 
-/* ===== Footer ===== */
 footer { text-align: center; padding: 2rem 0; border-top: 1px solid var(--border-color); font-size: 0.9rem; opacity: 0.5; }
 
 /* ===== Responsive Design ===== */
+@media (max-width: 900px) {
+    .timeline-item .date { /* Hide the date tag on smaller screens to prevent layout breaking */
+        display: none;
+    }
+    .timeline {
+        padding-left: 60px;
+    }
+}
 @media (max-width: 768px) {
     .glitch { font-size: 3rem; }
     .profile-picture { width: 120px; height: 120px; }
     .profile-picture:hover { width: 180px; height: 180px; }
     .contact-links { flex-wrap: wrap; justify-content: center; }
-    .timeline { padding-left: 60px; } /* Adjust for smaller screens */
+    .timeline { padding-left: 40px; }
     .timeline-item { padding-left: 40px; }
-    .timeline-item .date { display: none; } /* Hide the tag on mobile to save space */
-    .timeline-item .job-title .date { display: inline; } /* Ensure date next to title is visible */
 }
