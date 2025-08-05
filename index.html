@@ -3,131 +3,59 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Vinski Nieminen // Futuristic Resume</title>
+    <title>Vinski Nieminen // Immersive 3D Resume</title>
     <link rel="stylesheet" href="style.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
 </head>
 <body>
-    <canvas id="starfield"></canvas>
-
-    <div class="content-wrapper">
-
-        <header id="hero" class="hero-section">
+    <!-- The 3D scene will be rendered here -->
+    <div id="webgl-container"></div>
+    
+    <!-- The content sections that will appear in the 3D space -->
+    <div class="content-container">
+        <section id="hero" class="content-section">
             <img src="profile.jpg" alt="Vinski Nieminen" class="profile-picture">
-            <div class="glitch-container">
-                <h1 class="glitch" data-text="VINSKI NIEMINEN">VINSKI NIEMINEN</h1>
-            </div>
+            <h1 class="glitch" data-text="VINSKI NIEMINEN">VINSKI NIEMINEN</h1>
             <p class="subtitle">Tavoitteellinen nuori mies valmiina uusiin haasteisiin.</p>
             <div class="contact-links">
-                <a href="mailto:nieminenvinski@gmail.com" class="contact-item" data-tooltip="nieminenvinski@gmail.com">Sähköposti</a>
+                <a href="mailto:nieminenvinski@gmail.com">Sähköposti</a>
                 <span>//</span>
-                <a href="tel:0440892005" class="contact-item" data-tooltip="0440892005">Puhelin</a>
+                <a href="https://www.linkedin.com/in/vinski-nieminen-553ba8303/" target="_blank">LinkedIn</a>
                 <span>//</span>
-                <a href="https://www.linkedin.com/in/vinski-nieminen-553ba8303/" target="_blank" class="contact-item">LinkedIn</a>
-                <span>//</span>
-                <a href="#!" class="contact-item" data-tooltip="Lappeenranta">Sijainti</a>
+                <a href="tel:0440892005">Puhelin</a>
             </div>
-            <div class="scroll-indicator">
-                <span>SCROLL</span>
-                <div class="arrow"></div>
-            </div>
-        </header>
+        </section>
 
-        <main>
-            <section id="experience" class="reveal">
-                <h2>// KOKEMUS</h2>
-                <div class="timeline">
-                    <!-- ===== HTML STRUCTURE UPDATED IN THIS SECTION ===== -->
-                    <div class="timeline-item card">
-                        <div class="card-content">
-                            <span class="date">Aug. 2024 - Oct. 2024</span>
-                            <h3>MOTONET HELSINKI</h3>
-                            <p class="job-title">Myyjä</p>
-                            <p>Työtehtäviini kuului kassatyö, hyllytys ja inventointi, jatkaen 2 viikon vuokratyösopimuksen jälkeen pyynnöstä.</p>
-                        </div>
-                    </div>
-                    <div class="timeline-item card">
-                        <div class="card-content">
-                            <span class="date">Apr. 2024 - Jun. 2024</span>
-                            <h3>SNACKY ESPOO</h3>
-                            <p class="job-title">Ravintolatyöntekijä</p>
-                            <p>Vastuualueina ruoanvalmistus, kassatyö, tarjoilu ja puhtaanpito.</p>
-                        </div>
-                    </div>
-                    <div class="timeline-item card">
-                        <div class="card-content">
-                            <span class="date">Feb. 2024 - Mar. 2024</span>
-                            <h3>KIRKKONUMMEN UIMAHALLI</h3>
-                            <p class="job-title">Uimavalvoja</p>
-                            <p>Satunnainen sijaisuus, sisältäen uimahallin järjestyksen ylläpidon ja turvallisuudesta huolehtimisen.</p>
-                        </div>
-                    </div>
-                    <div class="timeline-item card">
-                        <div class="card-content">
-                            <span class="date">Apr. 2023 - Oct. 2023</span>
-                            <h3>HELSINGIN JÄÄKIEKKOTUOMARIT HJT</h3>
-                            <p class="job-title">Jääkiekkotuomari</p>
-                            <p>Kehitti vastuullisuutta, nopeaa päätöksentekoa paineen alla sekä tarkkaavaisuutta.</p>
-                        </div>
-                    </div>
-                    <div class="timeline-item card">
-                        <div class="card-content">
-                            <span class="date">Jun. 2021 & Jul. 2022</span>
-                            <h3>VESIURHEILUKESKUS LAGUUNI</h3>
-                            <p class="job-title">Kesätyöntekijä</p>
-                            <p>Päätehtäviäni olivat asiakaspalvelu ja puhtaanpito. Avustin myös erilaisissa hommissa tarpeen mukaan.</p>
-                        </div>
-                    </div>
-                    <div class="timeline-item card">
-                        <div class="card-content">
-                            <span class="date">Feb. 2021</span>
-                            <h3>K-SUPERMARKET LASIHYTTI</h3>
-                            <p class="job-title">Harjoittelija</p>
-                            <p>Työnkuvaani kuului asiakaspalvelu, hyllytys sekä logistisia tehtäviä.</p>
-                        </div>
-                    </div>
-                </div>
-            </section>
-            
-            <section id="skills" class="reveal">
-                 <h2>// OSAAMINEN & LUVAT</h2>
-                 <div class="skills-grid">
-                    <div class="skill-card card">
-                        <h3>VAHVUUDET</h3>
-                        <ul>
-                            <li>Täsmällisyys</li>
-                            <li>Vastuullisuus</li>
-                            <li>Järjestelmällisyys</li>
-                            <li>Fyysinen kunto</li>
-                        </ul>
-                    </div>
-                    <div class="skill-card card">
-                        <h3>KIELITAITO</h3>
-                        <div class="skill-bar">
-                            <div class="skill-level suomi"><span class="skill-name">Suomi</span></div>
-                        </div>
-                         <div class="skill-bar">
-                            <div class="skill-level englanti"><span class="skill-name">Englanti</span></div>
-                        </div>
-                    </div>
-                    <div class="skill-card card">
-                        <h3>LUVAT & TODISTUKSET</h3>
-                         <ul>
-                            <li>Ylioppilastutkinto (6/2024)</li>
-                            <li>Hygieniapassi (7/2024)</li>
-                            <li>B Ajolupa (10/2022)</li>
-                        </ul>
-                    </div>
-                 </div>
-            </section>
-        </main>
-        
-        <footer>
-            <p>&copy; 2024 Vinski Nieminen. Designed by AI.</p>
-        </footer>
+        <section id="experience" class="content-section">
+            <h2>// KOKEMUS</h2>
+            <div class="card-grid">
+                <div class="card"><h3>MOTONET HELSINKI</h3><p>Myyjä (Aug. 2024 - Oct. 2024)</p></div>
+                <div class="card"><h3>SNACKY ESPOO</h3><p>Ravintolatyöntekijä (Apr. 2024 - Jun. 2024)</p></div>
+                <div class="card"><h3>KIRKKONUMMEN UIMAHALLI</h3><p>Uimavalvoja (Feb. 2024 - Mar. 2024)</p></div>
+                <div class="card"><h3>HELSINGIN JÄÄKIEKKOTUOMARIT</h3><p>Jääkiekkotuomari (Apr. 2023 - Oct. 2023)</p></div>
+                <div class="card"><h3>VESIURHEILUKESKUS LAGUUNI</h3><p>Kesätyöntekijä (Jun. 2021 & Jul. 2022)</p></div>
+                <div class="card"><h3>K-SUPERMARKET LASIHYTTI</h3><p>Harjoittelija (Feb. 2021)</p></div>
+            </div>
+        </section>
+
+        <section id="skills" class="content-section">
+             <h2>// OSAAMINEN & LUVAT</h2>
+             <div class="card-grid skills-grid">
+                <div class="card"><h3>VAHVUUDET</h3><ul><li>Täsmällisyys</li><li>Vastuullisuus</li><li>Järjestelmällisyys</li><li>Fyysinen kunto</li></ul></div>
+                <div class="card"><h3>KIELITAITO</h3><ul><li>Suomi (Äidinkieli)</li><li>Englanti (Sujuva)</li></ul></div>
+                <div class="card"><h3>LUVAT & TODISTUKSET</h3><ul><li>Ylioppilastutkinto</li><li>Hygieniapassi</li><li>B Ajolupa</li></ul></div>
+             </div>
+        </section>
     </div>
+
+    <!-- Professional Animation Libraries -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.9.1/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.9.1/ScrollTrigger.min.js"></script>
+    
+    <!-- Main Script -->
     <script src="script.js"></script>
 </body>
 </html>
