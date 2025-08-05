@@ -10,23 +10,26 @@
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
 </head>
 <body>
-    <!-- The 3D starfield background will be rendered here -->
     <canvas id="starfield"></canvas>
 
     <div class="content-wrapper">
 
-        <!-- ===== HERO SECTION ===== -->
         <header id="hero" class="hero-section">
             <div class="glitch-container">
                 <h1 class="glitch" data-text="VINSKI NIEMINEN">VINSKI NIEMINEN</h1>
             </div>
-            <p class="subtitle">A dynamic and responsible professional with a passion for technology and hands-on problem-solving.</p>
+            <p class="subtitle">Tavoitteellinen nuori mies valmiina uusiin haasteisiin.</p>
+            
             <div class="contact-links">
-                <a href="mailto:nieminenvinski@gmail.com">Email</a>
+                <a href="mailto:nieminenvinski@gmail.com" class="contact-item" data-tooltip="nieminenvinski@gmail.com">Sähköposti</a>
                 <span>//</span>
-                <!-- Add your LinkedIn URL here -->
-                <a href="#" target="_blank">LinkedIn</a>
+                <a href="tel:0440892005" class="contact-item" data-tooltip="0440892005">Puhelin</a>
+                <span>//</span>
+                <a href="https://www.linkedin.com/in/vinski-nieminen-553ba8303/" target="_blank" class="contact-item">LinkedIn</a>
+                <span>//</span>
+                <a href="#!" class="contact-item" data-tooltip="Lappeenranta">Sijainti</a>
             </div>
+
             <div class="scroll-indicator">
                 <span>SCROLL</span>
                 <div class="arrow"></div>
@@ -34,11 +37,10 @@
         </header>
 
         <main>
-            <!-- ===== EXPERIENCE SECTION ===== -->
             <section id="experience" class="reveal">
                 <h2>// KOKEMUS</h2>
                 <div class="timeline">
-                    <!-- Item 1 -->
+                     <!-- Item 1 -->
                     <div class="timeline-item card">
                         <div class="card-content">
                             <h3>MOTONET HELSINKI</h3>
@@ -70,11 +72,25 @@
                             <p>Kehitti vastuullisuutta, nopeaa päätöksentekoa paineen alla sekä tarkkaavaisuutta.</p>
                         </div>
                     </div>
-                    <!-- Add other jobs here following the same structure -->
+                    <!-- Item 5: ADDED -->
+                    <div class="timeline-item card">
+                        <div class="card-content">
+                            <h3>VESIURHEILUKESKUS LAGUUNI</h3>
+                            <p class="job-title">Kesätyöntekijä <span class="date">(6/2021 & 7/2022)</span></p>
+                            <p>Päätehtäviäni olivat asiakaspalvelu ja puhtaanpito. Avustin myös erilaisissa hommissa tarpeen mukaan.</p>
+                        </div>
+                    </div>
+                    <!-- Item 6: ADDED -->
+                    <div class="timeline-item card">
+                        <div class="card-content">
+                            <h3>K-SUPERMARKET LASIHYTTI</h3>
+                            <p class="job-title">Harjoittelija <span class="date">(2/2021)</span></p>
+                            <p>Työnkuvaani kuului asiakaspalvelu, hyllytys sekä logistisia tehtäviä.</p>
+                        </div>
+                    </div>
                 </div>
             </section>
-
-            <!-- ===== SKILLS & CERTIFICATIONS SECTION ===== -->
+            
             <section id="skills" class="reveal">
                  <h2>// OSAAMINEN & LUVAT</h2>
                  <div class="skills-grid">
@@ -107,13 +123,11 @@
                  </div>
             </section>
         </main>
-
+        
         <footer>
             <p>&copy; 2024 Vinski Nieminen. Designed by AI.</p>
         </footer>
-
     </div>
-
     <script src="script.js"></script>
 </body>
 </html>
