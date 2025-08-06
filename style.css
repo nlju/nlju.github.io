@@ -244,27 +244,29 @@ section h2 {
 /* ============================================= */
 /* ===== PHASE 2: PREPARING FOR 3D CONTROL ===== */
 /* ============================================= */
+/* ======================================================= */
+/* ===== FINAL 3D ENGINE STYLES (THE CORRECT WAY) ===== */
+/* ======================================================= */
 
-/* This rule targets all direct children of the hero section,
-   and all cards within the experience and skills sections. */
-.hero-section > *,
-#experience .card,
-#skills .card {
-    /* This takes the elements out of the normal page flow 
-       so they can be positioned by JavaScript. */
+/* Create a container that covers the entire screen */
+.webgl-content {
     position: fixed;
-    top: 50%;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    pointer-events: none; /* The container itself is not clickable */
+    z-index: 1;
+}
+
+/* Style for the individual HTML elements that will be controlled by JS */
+.webgl-content > * {
+    position: absolute;
+    top: 50%; /* Position relative to the container */
     left: 50%;
-
-    /* Start them off as invisible and unclickable. */
-    opacity: 0;
-    pointer-events: none; 
-
-    /* This will allow for smooth transitions when we make them appear. */
-    transition: opacity 0.5s ease, transform 0.5s ease;
-
-    /* This ensures they appear above the canvas background. */
-    z-index: 1; 
+    opacity: 0; /* Start invisible */
+    pointer-events: all; /* But the elements themselves can be clickable */
+    transition: opacity 0.5s ease;
 }
 .card:hover {
     transform: none;
