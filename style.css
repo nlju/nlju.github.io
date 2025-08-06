@@ -9,6 +9,70 @@
     --font-heading: 'Orbitron', sans-serif;
     --font-body: 'Poppins', sans-serif;
 }
+/* ===== SMOOTH SCROLLING (SITE-WIDE) ===== */
+html {
+    scroll-behavior: smooth;
+}
+
+/* ===== NEW: Navigation Bar Styling ===== */
+.main-nav {
+    /* Positioning */
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 1000; /* Ensures it's above all other content */
+
+    /* Look and Feel */
+    padding: 15px 0;
+    background: rgba(5, 8, 22, 0.8); /* Dark background with transparency */
+    backdrop-filter: blur(10px); /* This creates the "frosted glass" effect */
+    border-bottom: 1px solid var(--border-color);
+
+    /* Flexbox for centering links */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.nav-links {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    position: relative; /* Needed for the highlight bar */
+}
+
+.nav-links li a {
+    font-family: var(--font-heading);
+    color: var(--text-color);
+    text-decoration: none;
+    padding: 10px 25px;
+    margin: 0 5px;
+    font-size: 1rem;
+    letter-spacing: 0.1em;
+    transition: color 0.3s ease;
+}
+
+.nav-links li a:hover {
+    color: var(--primary-color);
+}
+
+/* The glowing highlight bar */
+#nav-highlight {
+    position: absolute;
+    bottom: -16px; /* Position it just below the links, over the border */
+    height: 4px;
+    background: var(--primary-color);
+    border-radius: 2px;
+    box-shadow: 0 0 15px var(--primary-color), 0 0 5px var(--primary-color);
+
+    /* This is the magic for the smooth sliding animation */
+    transition: all 0.4s cubic-bezier(0.23, 1, 0.32, 1);
+
+    /* Start with it hidden */
+    opacity: 0;
+}
 
 * {
     box-sizing: border-box;
@@ -177,7 +241,8 @@ body {
 @keyframes scroll-down { 0% { transform: translateY(-10px); opacity: 0; } 50% { opacity: 1; } 100% { transform: translateY(10px); opacity: 0; } }
 
 section {
-    padding: 100px 0;
+    /* Changed padding to padding-top and increased it */
+    padding: 150px 0 100px 0; 
     border-top: 1px solid var(--border-color);
 }
 section h2 {
