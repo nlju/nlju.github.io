@@ -100,3 +100,21 @@ document.addEventListener("DOMContentLoaded", function() {
         "max-glare": 0.5  // From 0 to 1, the glare opacity
     });
 });
+// ===== NEW: Hero Section Parallax on Mouse Move =====
+document.addEventListener("mousemove", function(e) {
+    const parallaxElements = document.querySelectorAll("[data-parallax-speed]");
+
+    const centerX = window.innerWidth / 2;
+    const centerY = window.innerHeight / 2;
+
+    const mouseX = (e.clientX - centerX) / centerX;
+    const mouseY = (e.clientY - centerY) / centerY;
+
+    parallaxElements.forEach(el => {
+        const speed = el.dataset.parallaxSpeed;
+        const x = speed * mouseX;
+        const y = speed * mouseY;
+
+        el.style.transform = `translate(${x}px, ${y}px)`;
+    });
+});
