@@ -10,7 +10,7 @@
 const canvas = document.getElementById('bg-canvas');
 const scene = new THREE.Scene();
 const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
-camera.position.z = 25; // Move camera back
+camera.position.z = 25;
 const renderer = new THREE.WebGLRenderer({
     canvas: canvas,
     antialias: true
@@ -20,88 +20,76 @@ renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
 
 
 // =======================================================
-// PART 2: CREATE THE PARTICLES (*** HEAVILY UPGRADED ***)
+// PART 2: CREATE THE PARTICLES (Unchanged)
 // =======================================================
-
-// --- Create the particle texture ---
-// We will create a texture programmatically using another canvas.
 const particleCanvas = document.createElement('canvas');
 const particleContext = particleCanvas.getContext('2d');
 particleCanvas.width = 16;
 particleCanvas.height = 16;
-
-// Create a soft, circular, glowing gradient
-const gradient = particleContext.createRadialGradient(
-    particleCanvas.width / 2, // x0
-    particleCanvas.height / 2, // y0
-    0, // r0
-    particleCanvas.width / 2, // x1
-    particleCanvas.height / 2, // y1
-    particleCanvas.width / 2  // r1
-);
+const gradient = particleContext.createRadialGradient(particleCanvas.width / 2, particleCanvas.height / 2, 0, particleCanvas.width / 2, particleCanvas.height / 2, particleCanvas.width / 2);
 gradient.addColorStop(0, 'rgba(255, 255, 255, 1)');
 gradient.addColorStop(0.2, 'rgba(255, 255, 255, 0.8)');
 gradient.addColorStop(0.8, 'rgba(255, 255, 255, 0)');
 particleContext.fillStyle = gradient;
 particleContext.fillRect(0, 0, particleCanvas.width, particleCanvas.height);
-
 const particleTexture = new THREE.CanvasTexture(particleCanvas);
-
 
 const particlesCount = 5000;
 const particlesGeometry = new THREE.BufferGeometry();
 const positions = new Float32Array(particlesCount * 3);
-// --- NEW: Create an array for particle colors ---
 const colors = new Float32Array(particlesCount * 3);
-const themeColors = [new THREE.Color(0x00f0ff), new THREE.Color(0x915eff)]; // Cyan, Purple
+const themeColors = [new THREE.Color(0x00f0ff), new THREE.Color(0x915eff)];
 
 for (let i = 0; i < particlesCount; i++) {
-    const i3 = i * 3; // a shorthand for the current particle's index
-
-    // Position
-    positions[i3 + 0] = (Math.random() - 0.5) * 20; // x
-    positions[i3 + 1] = (Math.random() - 0.5) * 20; // y
-    positions[i3 + 2] = (Math.random() - 0.5) * 20; // z
-
-    // --- NEW: Assign a random color from our theme ---
+    const i3 = i * 3;
+    positions[i3 + 0] = (Math.random() - 0.5) * 20;
+    positions[i3 + 1] = (Math.random() - 0.5) * 20;
+    positions[i3 + 2] = (Math.random() - 0.5) * 20;
     const randomColor = themeColors[Math.floor(Math.random() * themeColors.length)];
-    colors[i3 + 0] = randomColor.r; // r
-    colors[i3 + 1] = randomColor.g; // g
-    colors[i3 + 2] = randomColor.b; // b
+    colors[i3 + 0] = randomColor.r;
+    colors[i3 + 1] = randomColor.g;
+    colors[i3 + 2] = randomColor.b;
 }
-
 particlesGeometry.setAttribute('position', new THREE.BufferAttribute(positions, 3));
-// --- NEW: Set the color attribute on our geometry ---
 particlesGeometry.setAttribute('color', new THREE.BufferAttribute(colors, 3));
 
-
-// --- UPGRADED: The particle material ---
 const particlesMaterial = new THREE.PointsMaterial({
-    size: 0.1,
-    sizeAttenuation: true,
-    map: particleTexture, // Use our new circular texture
-    transparent: true,    // Required for the texture's transparency
-    blending: THREE.AdditiveBlending, // Makes overlapping particles glow brighter
-    vertexColors: true    // Tell three.js to use the individual colors we set
+    size: 0.1, sizeAttenuation: true, map: particleTexture,
+    transparent: true, blending: THREE.AdditiveBlending, vertexColors: true
 });
-
 const particles = new THREE.Points(particlesGeometry, particlesMaterial);
 scene.add(particles);
 
 
 // =======================================================
-// PART 3: THE ANIMATION LOOP (Unchanged for now)
+// PART 3: THE ANIMATION LOOP (*** HEAVILY UPGRADED ***)
 // =======================================================
+
+// A clock to keep track of time for smooth, consistent animation
+const clock = new THREE.Clock();
+
 function animate() {
+    const elapsedTime = clock.getElapsedTime(); // Time since the app started
+
+    // --- Passive Animation: Gentle particle movement ---
+    // We'll rotate the entire particle system slowly to give a sense of drift
+    particles.rotation.y = elapsedTime * 0.05;
+    particles.rotation.x = elapsedTime * 0.02;
+
+    // This tells the browser we want to perform the next frame of animation
     requestAnimationFrame(animate);
+
+    // Render the scene from the camera's perspective
     renderer.render(scene, camera);
 }
+// Start the animation loop!
 animate();
 
 
 // =======================================================
-// PART 4: EVENT LISTENERS (Unchanged)
+// PART 4: EVENT LISTENERS (*** UPGRADED ***)
 // =======================================================
+
 function onWindowResize() {
     camera.aspect = window.innerWidth / window.innerHeight;
     camera.updateProjectionMatrix();
@@ -110,13 +98,24 @@ function onWindowResize() {
 }
 window.addEventListener('resize', onWindowResize);
 
+// --- NEW: Scroll-based animation ---
+function onScroll() {
+    // Get how many pixels the user has scrolled down
+    const scrollY = window.scrollY;
+    
+    // The main parallax effect: move the camera's Z position
+    // As we scroll down (scrollY increases), we move the camera closer (z decreases)
+    // This creates the illusion of flying forward through the particles.
+    camera.position.z = 25 - scrollY * 0.04;
+}
+window.addEventListener('scroll', onScroll, { passive: true }); // Use passive for better performance
+
 
 /* 
  * =======================================================
  * ESSENTIAL UTILITIES FROM V1 (DO NOT REMOVE)
  * =======================================================
  */
-// (This section is unchanged and remains at the bottom)
 const observer = new IntersectionObserver((entries) => {
     entries.forEach((entry) => {
         if (entry.isIntersecting) {
