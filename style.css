@@ -241,6 +241,23 @@ section h2 {
     transition: none;
     transform-style: none;
 }
+/* ===== NEW: Preparing cards for 3D tracking ===== */
+#experience .card,
+#skills .card {
+    position: fixed; /* Takes the element out of the normal document flow */
+    top: 50%;
+    left: 50%;
+
+    /* Start invisible and unclickable */
+    opacity: 0;
+    pointer-events: none; 
+
+    /* This will allow smooth transitions later */
+    transition: opacity 0.5s ease, transform 0.5s ease;
+
+    /* Ensure they appear above the canvas but can be layered */
+    z-index: 1; 
+}
 .card:hover {
     transform: none;
     box-shadow: none;
@@ -248,20 +265,8 @@ section h2 {
 
 /* ===== COMPLETELY REWRITTEN: Experience Timeline Layout ===== */
 .timeline {
-    position: relative;
-    max-width: 800px;
-    margin: 0 auto;
-    padding-left: 30px; /* Space for the timeline line */
-}
-.timeline::before { /* The main vertical line */
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    height: 100%;
-    width: 3px;
-    background-image: linear-gradient(to bottom, var(--primary-color), var(--secondary-color));
-    box-shadow: 0 0 10px var(--primary-color);
+    /* This section is now just a container, layout is handled by JS */
+    position: relative; 
 }
 .timeline-item {
     position: relative;
@@ -270,17 +275,7 @@ section h2 {
 .timeline-item .card {
     position: relative;
 }
-.timeline-item .card::before { /* The triangular "notch" */
-    content: '';
-    position: absolute;
-    top: 25px;
-    left: -16px; /* Positioned to perfectly meet the timeline line */
-    width: 0;
-    height: 0;
-    border-top: 10px solid transparent;
-    border-bottom: 10px solid transparent;
-    border-right: 15px solid var(--border-color);
-}
+
 .card-content .date { /* The date "tag" - now inside the card */
     display: inline-block; /* Allows padding and margin */
     font-size: 0.85rem;
@@ -301,13 +296,6 @@ section h2 {
 }
 .card-content p { 
     margin-top: 1rem; 
-}
-
-/* ===== Skills Section (Unchanged, but card hover reset) ===== */
-.skills-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-    gap: 2rem;
 }
 .skills-grid .card {
    /* The old transition and transform-style properties are removed */
