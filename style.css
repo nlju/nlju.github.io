@@ -352,23 +352,23 @@ footer { text-align: center; padding: 2rem 0; border-top: 1px solid var(--border
     .profile-picture:hover { width: 180px; height: 180px; }
     .contact-links { flex-wrap: wrap; justify-content: center; }
     /* ===== NEW: Responsive Navigation Styles ===== */
+/* ===== This is the NEW code to replace the block above ===== */
 .main-nav {
-    /* On mobile, the nav bar needs more vertical space */
-    padding: 10px 0;
+    /* Reduce padding slightly for a tighter look on mobile */
+    padding: 10px 0; 
 }
 
-.nav-links {
-    /* Stack the links vertically instead of horizontally */
-    flex-direction: column;
-    gap: 10px; /* Add some space between the stacked links */
-}
+/* We REMOVED the rule for .nav-links so it stays as a row */
 
 .nav-links li a {
-    /* Adjust padding for a better look in the vertical layout */
-    padding: 5px 20px;
+    /* Make the font smaller to fit the screen */
+    font-size: 0.8rem; 
+
+    /* Adjust padding for the smaller font size */
+    padding: 8px 12px;
 }
 
-/* Adjust the main content so it's not hidden behind the taller mobile nav */
+/* The nav bar is much shorter now, so we can reduce the top padding on sections */
 section {
-    padding-top: 200px;
+    padding-top: 100px; 
 }
