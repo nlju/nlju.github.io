@@ -2,7 +2,7 @@
  * =======================================================
  * VinskiNieminen.com - "The Bioluminescent Deep"
  *
- * Director's Cut - v2.1 (Phase 2, Part A - CORRECTED)
+ * FINAL SCRIPT - v2.2 (Phase 2, Part B)
  * =======================================================
  */
 
@@ -70,70 +70,94 @@ const scrollState = { y: 0 };
 const cameraTarget = { z: 5 };
 window.addEventListener('scroll', () => {
     scrollState.y = window.scrollY;
-    cameraTarget.z = 5 - scrollState.y * 0.015;
+    // The final Z position is -75 to ensure we see the last cards.
+    cameraTarget.z = 5 - scrollState.y * 0.02; 
 }, { passive: true });
 
 function lerp(start, end, t) {
     return start * (1 - t) + end * t;
 }
 
+
 // =======================================================
-// PART 4: ANIMATION LOOP (Will be upgraded in the final step)
+// PART 4: THE ANIMATION LOOP (*** THE FINAL UPGRADE ***)
 // =======================================================
 const clock = new THREE.Clock();
 function animate() {
     const elapsedTime = clock.getElapsedTime();
+    
+    // Smoothly move the camera to its target position
     camera.position.z = lerp(camera.position.z, cameraTarget.z, 0.05);
+    
+    // Add subtle rotation to the particles
     particles.rotation.y = elapsedTime * 0.01;
+    
+    // === THE CORE OF THE 3D-HTML BRIDGE ===
+    // For each tracked object...
+    for (const tracked of trackedObjects) {
+        // 1. Get the 3D position of the object
+        const object3DPosition = tracked.position3D.clone();
+        
+        // 2. Project this 3D position into 2D screen space
+        const screenPosition = object3DPosition.project(camera);
+        
+        // 3. Convert the normalized screen coordinates (-1 to 1) to pixel coordinates
+        const x = (screenPosition.x * window.innerWidth / 2);
+        const y = -(screenPosition.y * window.innerHeight / 2);
+        
+        // 4. Apply the calculated position to the HTML element
+        tracked.element.style.transform = `translate(${x}px, ${y}px)`;
+        
+        // 5. Calculate the distance from the camera to the object
+        const distance = tracked.position3D.distanceTo(camera.position);
+
+        // 6. Calculate opacity and scale based on distance
+        // This makes the element fade and scale in as it gets closer
+        let opacity = 0;
+        let scale = 0;
+        
+        // If the object is within a certain range (e.g., 8 units)
+        if (distance < 8) {
+            // Calculate a fade-in factor (0 when far, 1 when close)
+            opacity = 1 - (distance / 8); 
+            scale = 1 - (distance / 8);
+            tracked.element.style.pointerEvents = 'all'; // Make it clickable
+        } else {
+            tracked.element.style.pointerEvents = 'none'; // Make it not clickable
+        }
+        
+        tracked.element.style.opacity = opacity;
+        // We add the position transform and the scale transform together
+        tracked.element.style.transform = `translate(${x}px, ${y}px) scale(${scale})`;
+    }
+
+    // Render the 3D scene
     requestAnimationFrame(animate);
     renderer.render(scene, camera);
 }
-animate();
+animate(); // Start the engine!
 
 
 // =======================================================
 // PART 5: 3D-HTML SYNCHRONIZATION BRIDGE
 // =======================================================
-
-// 1. Find all HTML elements we want to control in our 3D scene.
 const htmlElementsToTrack = document.querySelectorAll('.hero-section > *, #experience .card, #skills .card');
-
-// 2. Create the data structure that links HTML elements to 3D positions.
 const trackedObjects = [];
-
-// 3. Define the "flight path" - where each object lives in 3D space.
 const objectPositions = [
-    // Profile Section (at the very start of the journey, z=0)
-    { x: 0, y: 0, z: 0 },    // Profile Picture
-    { x: 0, y: 0, z: 0 },    // Name
-    { x: 0, y: 0, z: 0 },    // Subtitle
-    { x: 0, y: 0, z: 0 },    // Contact Links
-    { x: 0, y: 0, z: 0 },    // Scroll Indicator
-    
-    // Experience Cards (deeper in the scene)
-    { x: 0, y: 0, z: -10 },   // Motonet
-    { x: 0, y: 0, z: -20 },  // Snacky
-    { x: 0, y: 0, z: -30 },  // Swimming Hall
-    { x: 0, y: 0, z: -40 },  // HJT Ry
-    { x: 0, y: 0, z: -50 },  // Laguuni
-    { x: 0, y: 0, z: -60 },  // K-Supermarket
-    
-    // Competence Cards (at the very end of the journey)
-    { x: -7, y: 0, z: -70 }, // Strengths (left)
-    { x: 0, y: 0, z: -70 },  // Language (middle)
-    { x: 7, y: 0, z: -70 }   // Education (right)
+    // Profile Section
+    { x: 0, y: 0, z: 0 }, { x: 0, y: 0, z: 0 }, { x: 0, y: 0, z: 0 },
+    { x: 0, y: 0, z: 0 }, { x: 0, y: 0, z: -5 }, // Hide scroll indicator slightly behind
+    // Experience Cards
+    { x: 0, y: 0, z: -10 }, { x: 0, y: 0, z: -20 }, { x: 0, y: 0, z: -30 },
+    { x: 0, y: 0, z: -40 }, { x: 0, y: 0, z: -50 }, { x: 0, y: 0, z: -60 },
+    // Competence Cards
+    { x: -7, y: 0, z: -70 }, { x: 0, y: 0, z: -70 }, { x: 7, y: 0, z: -70 }
 ];
-
-// 4. Populate the bridge array, linking each HTML element to its 3D position.
 htmlElementsToTrack.forEach((element, index) => {
     if (objectPositions[index]) {
         trackedObjects.push({
             element: element,
-            position3D: new THREE.Vector3(
-                objectPositions[index].x,
-                objectPositions[index].y,
-                objectPositions[index].z
-            )
+            position3D: new THREE.Vector3(objectPositions[index].x, objectPositions[index].y, objectPositions[index].z)
         });
     }
 });
@@ -149,8 +173,6 @@ function onWindowResize() {
     renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
 }
 window.addEventListener('resize', onWindowResize);
-
-// We keep the tilt effect, but the "reveal" script is now obsolete.
 document.addEventListener("DOMContentLoaded", function() {
     if (typeof VanillaTilt !== 'undefined') {
         const tiltElements = document.querySelectorAll(".card");
