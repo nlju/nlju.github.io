@@ -352,23 +352,25 @@ footer { text-align: center; padding: 2rem 0; border-top: 1px solid var(--border
     .profile-picture:hover { width: 180px; height: 180px; }
     .contact-links { flex-wrap: wrap; justify-content: center; }
     /* ===== NEW: Responsive Navigation Styles ===== */
-/* ===== This is the NEW code to replace the block above ===== */
 .main-nav {
-    /* Reduce padding slightly for a tighter look on mobile */
-    padding: 9px 0; 
+    padding: 15px 5px; /* Add a bit more vertical padding and some side padding */
 }
 
-/* We REMOVED the rule for .nav-links so it stays as a row */
+.nav-links {
+    /* This is the key: center the items and allow them to wrap */
+    justify-content: center;
+    flex-wrap: wrap;
+    /* Add a small gap for breathing room, both horizontally and vertically if it wraps */
+    gap: 5px; 
+}
 
 .nav-links li a {
-    /* Make the font smaller to fit the screen */
-    font-size: 0.7rem; 
-
-    /* Adjust padding for the smaller font size */
-    padding: 8px 11px;
+    font-size: 0.8rem;
+    /* Reduce horizontal padding to make it less tight */
+    padding: 5px 10px;
 }
 
-/* The nav bar is much shorter now, so we can reduce the top padding on sections */
 section {
-    padding-top: 100px; 
+    /* Add a little more padding to account for potential wrapping */
+    padding-top: 120px;
 }
