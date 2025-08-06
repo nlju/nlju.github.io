@@ -361,7 +361,7 @@ footer { text-align: center; padding: 2rem 0; border-top: 1px solid var(--border
     .profile-picture:hover { width: 180px; height: 180px; }
     .contact-links { flex-wrap: wrap; justify-content: center; }
     .nav-links li a {
-    font-size: 0.75rem;      /* Make font significantly smaller */
+    font-size: 0.75rem   !important;   /* Make font significantly smaller */
     padding: 8px 5px;       /* Reduce side padding for more space */
     letter-spacing: normal; /* Use normal letter spacing on mobile */
 }
