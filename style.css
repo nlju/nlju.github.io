@@ -133,32 +133,8 @@ body {
     font-size: 5rem;
     color: var(--text-color);
     letter-spacing: 0.2em;
-    position: relative;
     text-shadow: 0 0 10px var(--primary-color), 0 0 20px var(--primary-color);
 }
-.glitch:before, .glitch:after {
-    content: attr(data-text);
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: var(--bg--color);
-    overflow: hidden;
-}
-.glitch:before {
-    left: 2px;
-    text-shadow: -2px 0 var(--secondary-color);
-    animation: glitch-anim-1 2s infinite linear alternate-reverse;
-}
-.glitch:after {
-    left: -2px;
-    text-shadow: -2px 0 var(--primary-color), 2px 2px var(--secondary-color);
-    animation: glitch-anim-2 2s infinite linear alternate-reverse;
-}
-
-@keyframes glitch-anim-1 { 0% { clip-path: inset(15% 0 86% 0); } 100% { clip-path: inset(81% 0 10% 0); } }
-@keyframes glitch-anim-2 { 0% { clip-path: inset(61% 0 31% 0); } 100% { clip-path: inset(11% 0 81% 0); } }
 
 .subtitle {
     font-size: 1.2rem;
