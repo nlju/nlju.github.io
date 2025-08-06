@@ -34,13 +34,22 @@ html {
     justify-content: center;
     align-items: center;
 }
-
+/* +++ REPLACE WITH THIS NEW CODE +++ */
 .nav-links {
     list-style: none;
     margin: 0;
     padding: 0;
-    display: flex;
-    position: relative; /* Needed for the highlight bar */
+    position: relative;
+
+    /* --- Changes are below --- */
+    display: grid; /* Changed from flex to grid */
+    width: 100%;   /* Make the grid take up the full width */
+
+    /* The magic for perfect centering: */
+    grid-template-columns: 1fr auto 1fr; 
+}
+.nav-links li {
+    text-align: center;
 }
 
 .nav-links li a {
@@ -354,14 +363,6 @@ footer { text-align: center; padding: 2rem 0; border-top: 1px solid var(--border
     /* ===== NEW: Responsive Navigation Styles ===== */
 .main-nav {
     padding: 15px 5px; /* Add a bit more vertical padding and some side padding */
-}
-
-.nav-links {
-    /* This is the key: center the items and allow them to wrap */
-    justify-content: center;
-    flex-wrap: wrap;
-    /* Add a small gap for breathing room, both horizontally and vertically if it wraps */
-    gap: 5px; 
 }
 
 .nav-links li a {
