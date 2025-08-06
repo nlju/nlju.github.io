@@ -1,117 +1,120 @@
-/*
- * =======================================================
- * VinskiNieminen.com - FINAL 3D ENGINE v4.0
- * Using CSS3DRenderer for stable, correct 3D HTML
- * =======================================================
- */
+// ===== NEW: Smooth Plexus/Constellation Background =====
+const canvas = document.getElementById('starfield');
+const ctx = canvas.getContext('2d');
 
-// =======================================================
-// PART 1: SETUP RENDERERS AND SCENE
-// =======================================================
-let scene, camera, renderer, cssRenderer;
-let webGLContainer, cssContainer;
+let particlesArray;
 
-// WebGL (Particles)
-webGLContainer = document.getElementById('bg-canvas');
-scene = new THREE.Scene();
-camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
-camera.position.z = 900;
-renderer = new THREE.WebGLRenderer({ canvas: webGLContainer, antialias: true, alpha: true });
-renderer.setSize(window.innerWidth, window.innerHeight);
-renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+function setCanvasSize() {
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
 
-// CSS3D (HTML Content)
-cssContainer = document.getElementById('css-renderer');
-cssRenderer = new THREE.CSS3DRenderer();
-cssRenderer.setSize(window.innerWidth, window.innerHeight);
-cssContainer.appendChild(cssRenderer.domElement);
+    let numberOfParticles = (canvas.height * canvas.width) / 9000;
+    if (numberOfParticles > 150) numberOfParticles = 150; // Cap particles for performance
+    
+    particlesArray = [];
+    for (let i = 0; i < numberOfParticles; i++) {
+        let size = (Math.random() * 1.5) + 0.5;
+        let x = (Math.random() * ((innerWidth - size * 2) - (size * 2)) + size * 2);
+        let y = (Math.random() * ((innerHeight - size * 2) - (size * 2)) + size * 2);
+        let directionX = (Math.random() * .4) - .2;
+        let directionY = (Math.random() * .4) - .2;
+        let color = '#e0e0e0';
 
-// =======================================================
-// PART 2: PARTICLES
-// =======================================================
-const particlesGeometry = new THREE.BufferGeometry();
-const particlesCount = 15000;
-const positions = new Float32Array(particlesCount * 3);
-const themeColors = [new THREE.Color(0x00f0ff), new THREE.Color(0x915eff)];
-
-for (let i = 0; i < particlesCount * 3; i++) {
-    positions[i] = (Math.random() - 0.5) * 2000; // Spread them far and wide
-}
-particlesGeometry.setAttribute('position', new THREE.BufferAttribute(positions, 3));
-const particlesMaterial = new THREE.PointsMaterial({
-    size: 2,
-    sizeAttenuation: true,
-    color: 0x00f0ff,
-    transparent: true,
-    blending: THREE.AdditiveBlending
-});
-const particles = new THREE.Points(particlesGeometry, particlesMaterial);
-scene.add(particles);
-
-// =======================================================
-// PART 3: 3D HTML OBJECTS
-// =======================================================
-const objects = [];
-const objectPositions = [
-    { selector: '.hero-section', z: 0 },
-    { selector: '#experience', z: -1000 },
-    { selector: '#skills', z: -2000 },
-    { selector: 'footer', z: -2500 }
-];
-
-objectPositions.forEach(objInfo => {
-    const element = document.querySelector(objInfo.selector);
-    if (element) {
-        const object = new THREE.CSS3DObject(element);
-        object.position.z = objInfo.z;
-        scene.add(object);
-        objects.push(object);
+        particlesArray.push({x, y, directionX, directionY, size, color});
     }
-});
-
-// =======================================================
-// PART 4: VIRTUAL SCROLL AND ANIMATION ENGINE
-// =======================================================
-const scrollHeight = 3000; // This defines the total length of our "journey"
-document.getElementById('scroll-container').style.height = scrollHeight + 'px';
-
-let targetZ = 900;
-let currentZ = 900;
-const lerpFactor = 0.08;
-
-window.addEventListener('scroll', () => {
-    const scrollPercent = window.scrollY / (scrollHeight - window.innerHeight);
-    targetZ = 900 - scrollPercent * (scrollHeight + 500);
-});
-
-const clock = new THREE.Clock();
-function animate() {
-    // Smooth the camera movement
-    currentZ = lerp(currentZ, targetZ, lerpFactor);
-    camera.position.z = currentZ;
-
-    // Animate particles
-    const elapsedTime = clock.getElapsedTime();
-    particles.rotation.y = -elapsedTime * 0.02;
-
-    requestAnimationFrame(animate);
-    renderer.render(scene, camera);
-    cssRenderer.render(scene, camera);
 }
+
+function connect() {
+    let opacityValue = 1;
+    for (let a = 0; a < particlesArray.length; a++) {
+        for (let b = a; b < particlesArray.length; b++) {
+            let distance = ((particlesArray[a].x - particlesArray[b].x) * (particlesArray[a].x - particlesArray[b].x))
+                + ((particlesArray[a].y - particlesArray[b].y) * (particlesArray[a].y - particlesArray[b].y));
+            
+            if (distance < (canvas.width/7) * (canvas.height/7)) {
+                opacityValue = 1 - (distance/20000);
+                ctx.strokeStyle = `rgba(0, 240, 255, ${opacityValue * 0.3})`; // Use primary color for lines
+                ctx.lineWidth = 1;
+                ctx.beginPath();
+                ctx.moveTo(particlesArray[a].x, particlesArray[a].y);
+                ctx.lineTo(particlesArray[b].x, particlesArray[b].y);
+                ctx.stroke();
+            }
+        }
+    }
+}
+
+function animate() {
+    requestAnimationFrame(animate);
+    ctx.clearRect(0,0,innerWidth,innerHeight);
+
+    for (let i = 0; i < particlesArray.length; i++) {
+        let particle = particlesArray[i];
+        if (particle.x < 0 || particle.x > canvas.width) {
+            particle.directionX = -particle.directionX;
+        }
+        if (particle.y < 0 || particle.y > canvas.height) {
+            particle.directionY = -particle.directionY;
+        }
+        particle.x += particle.directionX;
+        particle.y += particle.directionY;
+
+        ctx.beginPath();
+        ctx.arc(particle.x, particle.y, particle.size, 0, Math.PI * 2, false);
+        ctx.fillStyle = particle.color;
+        ctx.fill();
+    }
+    connect();
+}
+
+setCanvasSize();
+window.addEventListener('resize', setCanvasSize);
 animate();
 
-// =======================================================
-// PART 5: UTILITIES
-// =======================================================
-function onWindowResize() {
-    camera.aspect = window.innerWidth / window.innerHeight;
-    camera.updateProjectionMatrix();
-    renderer.setSize(window.innerWidth, window.innerHeight);
-    cssRenderer.setSize(window.innerWidth, window.innerHeight);
-    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
-}
-window.addEventListener('resize', onWindowResize);
 
-function lerp(start, end, t) {
-    return start * (1 - t) + end * t;
-}
+// ===== Reveal On Scroll Animation (Unchanged) =====
+const observer = new IntersectionObserver((entries) => {
+    entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+            entry.target.classList.add('visible');
+        }
+    });
+}, {
+    threshold: 0.1 // Trigger when 10% of the element is visible
+});
+
+const revealElements = document.querySelectorAll('.reveal');
+revealElements.forEach((el) => observer.observe(el));
+// ===== NEW: 3D Tilt Effect Initialization =====
+document.addEventListener("DOMContentLoaded", function() {
+    // We select all elements that have the class "card"
+    const tiltElements = document.querySelectorAll(".card");
+
+    // Apply the tilt effect to all selected cards
+    VanillaTilt.init(tiltElements, {
+        max: 15,          // Max tilt rotation (degrees)
+        perspective: 1000, // Transform perspective, the lower the more extreme the tilt
+        scale: 1.05,       // 1.05 = 5% increase on hover
+        speed: 400,       // Speed of the enter/exit transition
+        glare: true,      // If you want a glare effect
+        "max-glare": 0.5  // From 0 to 1, the glare opacity
+    });
+});
+// ===== NEW: Hero Section Parallax on Mouse Move =====
+document.addEventListener("mousemove", function(e) {
+    const parallaxElements = document.querySelectorAll("[data-parallax-speed]");
+
+    const centerX = window.innerWidth / 2;
+    const centerY = window.innerHeight / 2;
+
+    const mouseX = (e.clientX - centerX) / centerX;
+    const mouseY = (e.clientY - centerY) / centerY;
+
+    parallaxElements.forEach(el => {
+        const speed = el.dataset.parallaxSpeed;
+        const x = speed * mouseX;
+        const y = speed * mouseY;
+
+        el.style.transform = `translate(${x}px, ${y}px)`;
+    });
+});
