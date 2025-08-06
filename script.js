@@ -100,3 +100,32 @@ document.addEventListener("DOMContentLoaded", function() {
         "max-glare": 0.5  // From 0 to 1, the glare opacity
     });
 });
+// ===== NEW: Interactive Navigation Highlight =====
+document.addEventListener("DOMContentLoaded", function() {
+    const highlight = document.getElementById('nav-highlight');
+    const navLinks = document.querySelectorAll('.nav-links a');
+    const navList = document.querySelector('.nav-links');
+
+    function moveHighlight(e) {
+        const link = e.target;
+        const linkCoords = link.getBoundingClientRect();
+        const navListCoords = navList.getBoundingClientRect();
+
+        // Calculate position relative to the parent list
+        const coords = {
+            width: linkCoords.width,
+            left: linkCoords.left - navListCoords.left
+        };
+
+        highlight.style.width = `${coords.width}px`;
+        highlight.style.transform = `translateX(${coords.left}px)`;
+        highlight.style.opacity = '1';
+    }
+
+    function hideHighlight() {
+        highlight.style.opacity = '0';
+    }
+
+    navLinks.forEach(a => a.addEventListener('mouseenter', moveHighlight));
+    navList.addEventListener('mouseleave', hideHighlight);
+});
