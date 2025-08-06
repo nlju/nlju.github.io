@@ -58,22 +58,6 @@ html {
     color: var(--primary-color);
 }
 
-/* The glowing highlight bar */
-#nav-highlight {
-    position: absolute;
-    bottom: -16px; /* Position it just below the links, over the border */
-    height: 4px;
-    background: var(--primary-color);
-    border-radius: 2px;
-    box-shadow: 0 0 15px var(--primary-color), 0 0 5px var(--primary-color);
-
-    /* This is the magic for the smooth sliding animation */
-    transition: all 0.4s cubic-bezier(0.23, 1, 0.32, 1);
-
-    /* Start with it hidden */
-    opacity: 0;
-}
-
 * {
     box-sizing: border-box;
     margin: 0;
@@ -367,4 +351,24 @@ footer { text-align: center; padding: 2rem 0; border-top: 1px solid var(--border
     .profile-picture { width: 120px; height: 120px; }
     .profile-picture:hover { width: 180px; height: 180px; }
     .contact-links { flex-wrap: wrap; justify-content: center; }
+    /* ===== NEW: Responsive Navigation Styles ===== */
+.main-nav {
+    /* On mobile, the nav bar needs more vertical space */
+    padding: 10px 0;
+}
+
+.nav-links {
+    /* Stack the links vertically instead of horizontally */
+    flex-direction: column;
+    gap: 10px; /* Add some space between the stacked links */
+}
+
+.nav-links li a {
+    /* Adjust padding for a better look in the vertical layout */
+    padding: 5px 20px;
+}
+
+/* Adjust the main content so it's not hidden behind the taller mobile nav */
+section {
+    padding-top: 200px;
 }
