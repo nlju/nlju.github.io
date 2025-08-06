@@ -85,3 +85,18 @@ const observer = new IntersectionObserver((entries) => {
 
 const revealElements = document.querySelectorAll('.reveal');
 revealElements.forEach((el) => observer.observe(el));
+// ===== NEW: 3D Tilt Effect Initialization =====
+document.addEventListener("DOMContentLoaded", function() {
+    // We select all elements that have the class "card"
+    const tiltElements = document.querySelectorAll(".card");
+
+    // Apply the tilt effect to all selected cards
+    VanillaTilt.init(tiltElements, {
+        max: 15,          // Max tilt rotation (degrees)
+        perspective: 1000, // Transform perspective, the lower the more extreme the tilt
+        scale: 1.05,       // 1.05 = 5% increase on hover
+        speed: 400,       // Speed of the enter/exit transition
+        glare: true,      // If you want a glare effect
+        "max-glare": 0.5  // From 0 to 1, the glare opacity
+    });
+});
