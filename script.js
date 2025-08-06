@@ -1,26 +1,34 @@
 /* 
  * =======================================================
  * VinskiNieminen.com - "The Bioluminescent Deep"
+ *
+ * Director's Cut - v2.0
  * =======================================================
  */
 
 // =======================================================
-// PART 1: SETUP THE 3D SCENE (Unchanged)
+// PART 1: SETUP (Largely the same, but with adjustments)
 // =======================================================
 const canvas = document.getElementById('bg-canvas');
 const scene = new THREE.Scene();
 const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
-camera.position.z = 25;
+// START CLOSER: We start the camera inside the particle field for immersion.
+camera.position.z = 5; 
 const renderer = new THREE.WebGLRenderer({
     canvas: canvas,
-    antialias: true
+    antialias: true,
+    // NEW: Make the background transparent so we can use CSS for the base color
+    alpha: true 
 });
 renderer.setSize(window.innerWidth, window.innerHeight);
 renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
 
+// NEW: Use CSS for the background color so it's always there
+canvas.style.backgroundColor = '#050816';
+
 
 // =======================================================
-// PART 2: CREATE THE PARTICLES (Unchanged)
+// PART 2: PARTICLES (Unchanged)
 // =======================================================
 const particleCanvas = document.createElement('canvas');
 const particleContext = particleCanvas.getContext('2d');
@@ -34,7 +42,8 @@ particleContext.fillStyle = gradient;
 particleContext.fillRect(0, 0, particleCanvas.width, particleCanvas.height);
 const particleTexture = new THREE.CanvasTexture(particleCanvas);
 
-const particlesCount = 5000;
+// Create a much deeper field of particles
+const particlesCount = 10000; 
 const particlesGeometry = new THREE.BufferGeometry();
 const positions = new Float32Array(particlesCount * 3);
 const colors = new Float32Array(particlesCount * 3);
@@ -42,9 +51,11 @@ const themeColors = [new THREE.Color(0x00f0ff), new THREE.Color(0x915eff)];
 
 for (let i = 0; i < particlesCount; i++) {
     const i3 = i * 3;
-    positions[i3 + 0] = (Math.random() - 0.5) * 20;
-    positions[i3 + 1] = (Math.random() - 0.5) * 20;
-    positions[i3 + 2] = (Math.random() - 0.5) * 20;
+    // Spread them out more, especially on the Z axis
+    positions[i3 + 0] = (Math.random() - 0.5) * 30; // x
+    positions[i3 + 1] = (Math.random() - 0.5) * 30; // y
+    positions[i3 + 2] = (Math.random() - 0.5) * 80; // z (much deeper)
+    
     const randomColor = themeColors[Math.floor(Math.random() * themeColors.length)];
     colors[i3 + 0] = randomColor.r;
     colors[i3 + 1] = randomColor.g;
@@ -60,36 +71,58 @@ const particlesMaterial = new THREE.PointsMaterial({
 const particles = new THREE.Points(particlesGeometry, particlesMaterial);
 scene.add(particles);
 
-
 // =======================================================
-// PART 3: THE ANIMATION LOOP (*** HEAVILY UPGRADED ***)
+// PART 3: CINEMATIC CAMERA ENGINE (*** COMPLETELY NEW ***)
 // =======================================================
 
-// A clock to keep track of time for smooth, consistent animation
+// This object will store our scroll position
+const scrollState = {
+    y: 0
+};
+
+// This object will store the camera's target position
+const cameraTarget = {
+    z: 5 // The camera wants to be at z=5 initially
+};
+
+// Listen for the scroll event
+window.addEventListener('scroll', () => {
+    scrollState.y = window.scrollY;
+    
+    // As we scroll, update where the camera SHOULD be.
+    // We move from z=5 towards z=-60 (the depth of our particle field)
+    // The multiplier is much smaller for a slower, more cinematic feel.
+    cameraTarget.z = 5 - scrollState.y * 0.015;
+}, { passive: true });
+
+// The "lerp" function: Linear Interpolation.
+// This is the secret to smoothness. It moves a value (start) towards
+// another value (end) by a small amount (t).
+function lerp(start, end, t) {
+    return start * (1 - t) + end * t;
+}
+
 const clock = new THREE.Clock();
 
 function animate() {
-    const elapsedTime = clock.getElapsedTime(); // Time since the app started
+    const elapsedTime = clock.getElapsedTime();
 
-    // --- Passive Animation: Gentle particle movement ---
-    // We'll rotate the entire particle system slowly to give a sense of drift
-    particles.rotation.y = elapsedTime * 0.05;
-    particles.rotation.x = elapsedTime * 0.02;
+    // SMOOTHING: Instead of jumping, the camera's actual position
+    // "lerps" towards its target position. 0.1 is the "smoothing factor".
+    camera.position.z = lerp(camera.position.z, cameraTarget.z, 0.05);
 
-    // This tells the browser we want to perform the next frame of animation
+    // Subtle passive rotation
+    particles.rotation.y = elapsedTime * 0.01;
+    
     requestAnimationFrame(animate);
-
-    // Render the scene from the camera's perspective
     renderer.render(scene, camera);
 }
-// Start the animation loop!
 animate();
 
 
 // =======================================================
-// PART 4: EVENT LISTENERS (*** UPGRADED ***)
+// PART 4: UTILITIES (Listeners and V1 scripts)
 // =======================================================
-
 function onWindowResize() {
     camera.aspect = window.innerWidth / window.innerHeight;
     camera.updateProjectionMatrix();
@@ -98,24 +131,7 @@ function onWindowResize() {
 }
 window.addEventListener('resize', onWindowResize);
 
-// --- NEW: Scroll-based animation ---
-function onScroll() {
-    // Get how many pixels the user has scrolled down
-    const scrollY = window.scrollY;
-    
-    // The main parallax effect: move the camera's Z position
-    // As we scroll down (scrollY increases), we move the camera closer (z decreases)
-    // This creates the illusion of flying forward through the particles.
-    camera.position.z = 25 - scrollY * 0.04;
-}
-window.addEventListener('scroll', onScroll, { passive: true }); // Use passive for better performance
-
-
-/* 
- * =======================================================
- * ESSENTIAL UTILITIES FROM V1 (DO NOT REMOVE)
- * =======================================================
- */
+// Essential V1 Scripts
 const observer = new IntersectionObserver((entries) => {
     entries.forEach((entry) => {
         if (entry.isIntersecting) {
