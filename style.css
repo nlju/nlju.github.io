@@ -355,17 +355,17 @@ footer { text-align: center; padding: 2rem 0; border-top: 1px solid var(--border
 /* ===== This is the NEW code to replace the block above ===== */
 .main-nav {
     /* Reduce padding slightly for a tighter look on mobile */
-    padding: 10px 0; 
+    padding: 9px 0; 
 }
 
 /* We REMOVED the rule for .nav-links so it stays as a row */
 
 .nav-links li a {
     /* Make the font smaller to fit the screen */
-    font-size: 0.8rem; 
+    font-size: 0.7rem; 
 
     /* Adjust padding for the smaller font size */
-    padding: 8px 12px;
+    padding: 8px 11px;
 }
 
 /* The nav bar is much shorter now, so we can reduce the top padding on sections */
