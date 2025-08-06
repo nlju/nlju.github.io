@@ -2,7 +2,7 @@
  * =======================================================
  * VinskiNieminen.com - "The Bioluminescent Deep"
  *
- * FINAL SCRIPT - v2.2 (Phase 2, Part B)
+ * FINAL SCRIPT - v2.3 (CORRECTED LOGIC)
  * =======================================================
  */
 
@@ -70,7 +70,6 @@ const scrollState = { y: 0 };
 const cameraTarget = { z: 5 };
 window.addEventListener('scroll', () => {
     scrollState.y = window.scrollY;
-    // The final Z position is -75 to ensure we see the last cards.
     cameraTarget.z = 5 - scrollState.y * 0.02; 
 }, { passive: true });
 
@@ -78,68 +77,8 @@ function lerp(start, end, t) {
     return start * (1 - t) + end * t;
 }
 
-
 // =======================================================
-// PART 4: THE ANIMATION LOOP (*** THE FINAL UPGRADE ***)
-// =======================================================
-const clock = new THREE.Clock();
-function animate() {
-    const elapsedTime = clock.getElapsedTime();
-    
-    // Smoothly move the camera to its target position
-    camera.position.z = lerp(camera.position.z, cameraTarget.z, 0.05);
-    
-    // Add subtle rotation to the particles
-    particles.rotation.y = elapsedTime * 0.01;
-    
-    // === THE CORE OF THE 3D-HTML BRIDGE ===
-    // For each tracked object...
-    for (const tracked of trackedObjects) {
-        // 1. Get the 3D position of the object
-        const object3DPosition = tracked.position3D.clone();
-        
-        // 2. Project this 3D position into 2D screen space
-        const screenPosition = object3DPosition.project(camera);
-        
-        // 3. Convert the normalized screen coordinates (-1 to 1) to pixel coordinates
-        const x = (screenPosition.x * window.innerWidth / 2);
-        const y = -(screenPosition.y * window.innerHeight / 2);
-        
-        // 4. Apply the calculated position to the HTML element
-        tracked.element.style.transform = `translate(${x}px, ${y}px)`;
-        
-        // 5. Calculate the distance from the camera to the object
-        const distance = tracked.position3D.distanceTo(camera.position);
-
-        // 6. Calculate opacity and scale based on distance
-        // This makes the element fade and scale in as it gets closer
-        let opacity = 0;
-        let scale = 0;
-        
-        // If the object is within a certain range (e.g., 8 units)
-        if (distance < 8) {
-            // Calculate a fade-in factor (0 when far, 1 when close)
-            opacity = 1 - (distance / 8); 
-            scale = 1 - (distance / 8);
-            tracked.element.style.pointerEvents = 'all'; // Make it clickable
-        } else {
-            tracked.element.style.pointerEvents = 'none'; // Make it not clickable
-        }
-        
-        tracked.element.style.opacity = opacity;
-        // We add the position transform and the scale transform together
-        tracked.element.style.transform = `translate(${x}px, ${y}px) scale(${scale})`;
-    }
-
-    // Render the 3D scene
-    requestAnimationFrame(animate);
-    renderer.render(scene, camera);
-}
-animate(); // Start the engine!
-
-
-// =======================================================
-// PART 5: 3D-HTML SYNCHRONIZATION BRIDGE
+// PART 4: 3D-HTML SYNCHRONIZATION BRIDGE (*** MOVED HERE - BEFORE ANIMATION ***)
 // =======================================================
 const htmlElementsToTrack = document.querySelectorAll('.hero-section > *, #experience .card, #skills .card');
 const trackedObjects = [];
@@ -162,6 +101,42 @@ htmlElementsToTrack.forEach((element, index) => {
     }
 });
 
+// =======================================================
+// PART 5: THE ANIMATION LOOP (*** NOW CORRECTLY PLACED AT THE END ***)
+// =======================================================
+const clock = new THREE.Clock();
+function animate() {
+    const elapsedTime = clock.getElapsedTime();
+    camera.position.z = lerp(camera.position.z, cameraTarget.z, 0.05);
+    particles.rotation.y = elapsedTime * 0.01;
+    
+    for (const tracked of trackedObjects) {
+        const object3DPosition = tracked.position3D.clone();
+        const screenPosition = object3DPosition.project(camera);
+        const x = (screenPosition.x * window.innerWidth / 2);
+        const y = -(screenPosition.y * window.innerHeight / 2);
+        
+        const distance = tracked.position3D.distanceTo(camera.position);
+        let opacity = 0;
+        let scale = 0;
+        
+        if (distance < 8) {
+            opacity = 1 - (distance / 8); 
+            scale = 1 - (distance / 8);
+            tracked.element.style.pointerEvents = 'all';
+        } else {
+            tracked.element.style.pointerEvents = 'none';
+        }
+        
+        tracked.element.style.opacity = opacity;
+        tracked.element.style.transform = `translate(${x}px, ${y}px) scale(${scale})`;
+    }
+
+    requestAnimationFrame(animate);
+    renderer.render(scene, camera);
+}
+// Start the engine only AFTER everything has been defined.
+animate(); 
 
 // =======================================================
 // PART 6: UTILITIES
