@@ -241,21 +241,29 @@ section h2 {
     transition: none;
     transform-style: none;
 }
-/* ===== NEW: Preparing cards for 3D tracking ===== */
+/* ============================================= */
+/* ===== PHASE 2: PREPARING FOR 3D CONTROL ===== */
+/* ============================================= */
+
+/* This rule targets all direct children of the hero section,
+   and all cards within the experience and skills sections. */
+.hero-section > *,
 #experience .card,
 #skills .card {
-    position: fixed; /* Takes the element out of the normal document flow */
+    /* This takes the elements out of the normal page flow 
+       so they can be positioned by JavaScript. */
+    position: fixed;
     top: 50%;
     left: 50%;
 
-    /* Start invisible and unclickable */
+    /* Start them off as invisible and unclickable. */
     opacity: 0;
     pointer-events: none; 
 
-    /* This will allow smooth transitions later */
+    /* This will allow for smooth transitions when we make them appear. */
     transition: opacity 0.5s ease, transform 0.5s ease;
 
-    /* Ensure they appear above the canvas but can be layered */
+    /* This ensures they appear above the canvas background. */
     z-index: 1; 
 }
 .card:hover {
