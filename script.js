@@ -2,7 +2,7 @@
  * =======================================================
  * VinskiNieminen.com - "The Bioluminescent Deep"
  *
- * Director's Cut - v2.1 (Phase 2, Part A)
+ * Director's Cut - v2.1 (Phase 2, Part A - CORRECTED)
  * =======================================================
  */
 
@@ -78,7 +78,7 @@ function lerp(start, end, t) {
 }
 
 // =======================================================
-// PART 4: ANIMATION LOOP (Will be upgraded in next step)
+// PART 4: ANIMATION LOOP (Will be upgraded in the final step)
 // =======================================================
 const clock = new THREE.Clock();
 function animate() {
@@ -90,38 +90,45 @@ function animate() {
 }
 animate();
 
+
 // =======================================================
-// PART 5: 3D-HTML SYNCHRONIZATION (*** NEW SECTION ***)
+// PART 5: 3D-HTML SYNCHRONIZATION BRIDGE
 // =======================================================
 
-// 1. Find all the HTML elements we want to track
-const htmlElementsToTrack = document.querySelectorAll('#experience .card, #skills .card');
+// 1. Find all HTML elements we want to control in our 3D scene.
+const htmlElementsToTrack = document.querySelectorAll('.hero-section > *, #experience .card, #skills .card');
 
-// 2. Create our "bridge" data structure
+// 2. Create the data structure that links HTML elements to 3D positions.
 const trackedObjects = [];
 
-// 3. Define where each card will live in our 3D world
-// The Z position determines where it appears on our "flight path"
+// 3. Define the "flight path" - where each object lives in 3D space.
 const objectPositions = [
-    // Experience Cards
-    { x: 0, y: 0, z: -5 },   // Motonet
-    { x: 0, y: 0, z: -15 },  // Snacky
-    { x: 0, y: 0, z: -25 },  // Swimming Hall
-    { x: 0, y: 0, z: -35 },  // HJT Ry
-    { x: 0, y: 0, z: -45 },  // Laguuni
-    { x: 0, y: 0, z: -55 },  // K-Supermarket
-    // Competence Cards
-    { x: -7, y: 0, z: -65 }, // Strengths (to the left)
-    { x: 0, y: 0, z: -65 },  // Language (in the middle)
-    { x: 7, y: 0, z: -65 }   // Education (to the right)
+    // Profile Section (at the very start of the journey, z=0)
+    { x: 0, y: 0, z: 0 },    // Profile Picture
+    { x: 0, y: 0, z: 0 },    // Name
+    { x: 0, y: 0, z: 0 },    // Subtitle
+    { x: 0, y: 0, z: 0 },    // Contact Links
+    { x: 0, y: 0, z: 0 },    // Scroll Indicator
+    
+    // Experience Cards (deeper in the scene)
+    { x: 0, y: 0, z: -10 },   // Motonet
+    { x: 0, y: 0, z: -20 },  // Snacky
+    { x: 0, y: 0, z: -30 },  // Swimming Hall
+    { x: 0, y: 0, z: -40 },  // HJT Ry
+    { x: 0, y: 0, z: -50 },  // Laguuni
+    { x: 0, y: 0, z: -60 },  // K-Supermarket
+    
+    // Competence Cards (at the very end of the journey)
+    { x: -7, y: 0, z: -70 }, // Strengths (left)
+    { x: 0, y: 0, z: -70 },  // Language (middle)
+    { x: 7, y: 0, z: -70 }   // Education (right)
 ];
 
-// 4. Populate the bridge array
+// 4. Populate the bridge array, linking each HTML element to its 3D position.
 htmlElementsToTrack.forEach((element, index) => {
     if (objectPositions[index]) {
         trackedObjects.push({
             element: element,
-            // A THREE.Vector3 is an object that holds an x, y, z coordinate
             position3D: new THREE.Vector3(
                 objectPositions[index].x,
                 objectPositions[index].y,
@@ -143,8 +150,7 @@ function onWindowResize() {
 }
 window.addEventListener('resize', onWindowResize);
 
-// The old ".reveal" IntersectionObserver has been REMOVED.
-// We keep the tilt effect initialization.
+// We keep the tilt effect, but the "reveal" script is now obsolete.
 document.addEventListener("DOMContentLoaded", function() {
     if (typeof VanillaTilt !== 'undefined') {
         const tiltElements = document.querySelectorAll(".card");
