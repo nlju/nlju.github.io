@@ -46,10 +46,14 @@
         </div>
     </div>
     
-    <!-- Using compatible r128 libraries from cdnjs with the 'defer' attribute -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js" defer></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/tween.js/18.6.4/tween.min.js" defer></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/examples/js/renderers/CSS3DRenderer.js" defer></script>
+    <!-- 
+        ============================================================
+        THE SELF-CONTAINED FIX: Loading the libraries from our own repository.
+        ============================================================
+    -->
+    <script src="three.min.js" defer></script>
+    <script src="tween.min.js" defer></script>
+    <script src="CSS3DRenderer.js" defer></script>
     
     <script src="script.js" defer></script>
 </body>
