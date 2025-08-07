@@ -85,15 +85,15 @@
     
     <!-- 
         ============================================================
-        THE FINAL, CORRECTED SCRIPT LOADING
-        All files are loaded from the official threejs.org source.
-        This guarantees they are compatible.
+        THE FINAL, FOOLPROOF FIX
+        The "defer" attribute guarantees that the libraries load and run
+        before our script.js file runs. This eliminates the race condition.
         ============================================================
     -->
-    <script src="https://threejs.org/build/three.min.js"></script>
-    <script src="https://threejs.org/examples/js/libs/tween.min.js"></script>
-    <script src="https://threejs.org/examples/js/renderers/CSS3DRenderer.js"></script>
+    <script src="https://threejs.org/build/three.min.js" defer></script>
+    <script src="https://threejs.org/examples/js/libs/tween.min.js" defer></script>
+    <script src="https://threejs.org/examples/js/renderers/CSS3DRenderer.js" defer></script>
     
-    <script src="script.js"></script>
+    <script src="script.js" defer></script>
 </body>
 </html>
