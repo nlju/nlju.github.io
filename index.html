@@ -1,221 +1,142 @@
 <!DOCTYPE html>
-
 <html lang="fi">
-
 <head>
-
     <meta charset="UTF-8">
-
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-    <title>Vinski Nieminen - Ansioluettelo</title>
-
+    <title>Vinski Nieminen // Futuristic Resume</title>
     <link rel="stylesheet" href="style.css">
-
     <link rel="preconnect" href="https://fonts.googleapis.com">
-
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-
-    <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@700&family=Roboto:wght@400;500&display=swap" rel="stylesheet">
-
-    <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script> <!-- Placeholder for Font Awesome Kit -->
-
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
 </head>
-
 <body>
+    <canvas id="starfield"></canvas>
 
-    <div class="resume-container">
+    <div class="content-wrapper">
+        <!-- ===== NEW NAVIGATION BAR ===== -->
+        <nav class="main-nav">
+            <ul class="nav-links">
+                <li><a href="#hero">PROFILE</a></li>
+                <li><a href="#experience">EXPERIENCE</a></li>
+                <li><a href="#skills">COMPETENCE</a></li>
+            </ul>
+        </nav>
 
-        <!-- ===== LEFT SIDEBAR ===== -->
-
-        <aside class="sidebar">
-
-            <!-- IMPORTANT: Replace 'profile-photo.jpg' with the actual name of your photo file -->
-
-            <img src="profile-photo.jpg" alt="Vinski Nieminen" class="profile-photo">
-
- 
-
-            <div class="contact-info">
-
-                <!-- IMPORTANT: Replace placeholder info with your actual details -->
-
-                <p><i class="fas fa-phone-alt"></i> [YOUR PHONE NUMBER]</p>
-
-                <p><i class="fas fa-envelope"></i> nieminenvinski@gmail.com</p>
-
-                <p><i class="fas fa-map-marker-alt"></i> [YOUR CITY, COUNTRY]</p>
-
+            <header id="hero" class="hero-section">
+            <img src="profile.jpg" alt="Vinski Nieminen" class="profile-picture" data-parallax-speed="5">
+            <div class="glitch-container" data-parallax-speed="-5">
+                <h1 class="glitch">VINSKI NIEMINEN</h1>
             </div>
+            <p class="subtitle" data-parallax-speed="2">Goal-oriented student ready for new opportunities.</p>
+            <div class="contact-links">
+                <a href="mailto:nieminenvinski@gmail.com" class="contact-item" data-tooltip="nieminenvinski@gmail.com">Email</a>
+                <span>//</span>
+                <a href="tel:+358 440892005" class="contact-item" data-tooltip="+358 440892005">Phone number</a>
+                <span>//</span>
+                <a href="https://www.linkedin.com/in/vinski-nieminen-553ba8303/" target="_blank" class="contact-item">LinkedIn</a>
+                <span>//</span>
+                <a href="#!" class="contact-item" data-tooltip="Lappeenranta">Location</a>
+            </div>
+            <div class="scroll-indicator">
+                <span>SCROLL</span>
+                <div class="arrow"></div>
+            </div>
+        </header>
 
- 
-
-            <section class="sidebar-section">
-
-                <h2>VAHVUUDET</h2>
-
-                <ul>
-
-                    <li>Täsmällisyys</li>
-
-                    <li>Vastuullisuus</li>
-
-                    <li>Järjestelmällisyys</li>
-
-                    <li>Fyysinen kunto</li>
-
-                </ul>
-
-            </section>
-
- 
-
-            <section class="sidebar-section">
-
-                <h2>OPINNOT & LUVAT</h2>
-
-                <div class="license">
-
-                    <p class="license-title">YLIOPPILASTUTKINTO</p>
-
-                    <p class="license-date">6/2024</p>
-
-                </div>
-
-                 <div class="license">
-
-                    <p class="license-title">HYGIENIAPASSI</p>
-
-                    <p class="license-date">7/2024</p>
-
-                </div>
-
-                <div class="license">
-
-                    <p class="license-title">B AJOLUPA</p>
-
-                    <p class="license-date">10/2022</p>
-
-                </div>
-
-            </section>
-
- 
-
-            <section class="sidebar-section">
-
-                <h2>KIELITAITO</h2>
-
-                <p>Suomi</p>
-
-                <p>Englanti</p>
-
-            </section>
-
-        </aside>
-
- 
-
-        <!-- ===== RIGHT MAIN CONTENT ===== -->
-
-        <main class="main-content">
-
-            <header class="main-header">
-
-                <h1>VINSKI</h1>
-
-                <h1>NIEMINEN</h1>
-
-            </header>
-
- 
-
-            <section class="experience">
-
-                <h2>KOKEMUS</h2>
-
+        <main>
+            <section id="experience" class="reveal">
+                <h2>// EXPERIENCE</h2>
                 <div class="timeline">
-
-                    <div class="timeline-item">
-
-                        <h3>MOTONET HELSINKI</h3>
-
-                        <p class="job-title">Myyjä</p>
-
-                        <p class="date">8/2024 - 10/2024</p>
-
-                        <p>Alkuun 2 viikon vuokratyösopimus, jonka jälkeen jatkoin työskentelyä pyynnöstä marraskuuhun asti. Työtehtäviini kuului kassatyö, hyllytys ja inventointi.</p>
-
+                    <!-- ===== HTML STRUCTURE UPDATED IN THIS SECTION ===== -->
+                    <div class="timeline-item card">
+                        <div class="card-content">
+                            <span class="date">Aug. 2024 - Oct. 2024</span>
+                            <h3>MOTONET HELSINKI</h3>
+                            <p class="job-title">Store Worker</p>
+                            <p>Began on a two-week temporary contract. Due to excellent work, it was then extended through November upon request.</p>
+                        </div>
                     </div>
-
-                    <div class="timeline-item">
-
-                        <h3>SNACKY ESPOO</h3>
-
-                        <p class="job-title">Ravintolatyöntekijä</p>
-
-                        <p class="date">4/2024 - 6/2024</p>
-
-                        <p>Työnkuvaani kuului ruoanvalmistus, kassatyö, tarjoilu ja puhtaanpito.</p>
-
+                    <div class="timeline-item card">
+                        <div class="card-content">
+                            <span class="date">Apr. 2024 - Jun. 2024</span>
+                            <h3>SNACKY ESPOO</h3>
+                            <p class="job-title">Restaurant Employee</p>
+                            <p>My responsibilities included a range of tasks such as food preparation, working the cash register, serving customers, and ensuring a clean environment.</p>
+                        </div>
                     </div>
-
-                    <div class="timeline-item">
-
-                        <h3>KIRKKONUMMEN UIMAHALLI</h3>
-
-                        <p class="job-title">Uimavalvoja</p>
-
-                        <p class="date">2/2024 - 3/2024</p>
-
-                        <p>Suoritin hyväksytysti uimavalvojan testiuinnin ja työskentelin satunnaisesti sijaisena. Työnkuvaani kuului uimahallin järjestyksen ylläpito ja turvallisuudesta huolehtiminen.</p>
-
+                    <div class="timeline-item card">
+                        <div class="card-content">
+                            <span class="date">Feb. 2024 - Mar. 2024</span>
+                            <h3>SWIMMING HALL KIRKKONUMMI</h3>
+                            <p class="job-title">Contract Lifeguard</p>
+                            <p>I passed the lifeguard certification swim test and served as an on-call substitute. My job was to ensure pool safety and maintain order.</p>
+                        </div>
                     </div>
-
-                    <div class="timeline-item">
-
-                        <h3>HELSINGIN JÄÄKIEKKOTUOMARIT HJT</h3>
-
-                        <p class="job-title">Jääkiekkotuomari</p>
-
-                        <p class="date">4/2023 - 10/2023</p>
-
-                        <p>Jääkiekkoa tuomaroidessa olen oppinut vastuullisuutta ja nopeaa päätöksentekoa paineen alla sekä tarkkaavaisuuteni on kehittynyt.</p>
-
+                    <div class="timeline-item card">
+                        <div class="card-content">
+                            <span class="date">Apr. 2023 - Oct. 2023</span>
+                            <h3>HELSINGIN JÄÄKIEKKOTUOMARIT HJT RY</h3>
+                            <p class="job-title">Ice Hockey Referee</p>
+                            <p>Refereeing youth and amateur matches, I developed responsibility and rapid decision-making under pressure.</p>
+                        </div>
                     </div>
-
-                    <div class="timeline-item">
-
-                        <h3>VESIURHEILUKESKUS LAGUUNI</h3>
-
-                        <p class="job-title">Kesätyöntekijä</p>
-
-                        <p class="date">6/2021 & 7/2022</p>
-
-                        <p>Päätehtäviäni olivat asiakaspalvelu ja puhtaanpito. Avustin myös erilaisissa hommissa tarpeen mukaan.</p>
-
+                    <div class="timeline-item card">
+                        <div class="card-content">
+                            <span class="date">Jun. 2021 & Jul. 2022</span>
+                            <h3>WATER SPORTS CENTER LAGUUNI</h3>
+                            <p class="job-title">Summer Worker</p>
+                            <p>My main tasks were providing customer service and maintaining general cleanliness.</p>
+                        </div>
                     </div>
-
-                    <div class="timeline-item">
-
-                        <h3>K-SUPERMARKET LASIHYTTI</h3>
-
-                        <p class="job-title">Harjoittelija</p>
-
-                        <p class="date">2/2021</p>
-
-                        <p>Työnkuvaani kuului asiakaspalvelu, hyllytys sekä logistisia tehtäviä.</p>
-
+                    <div class="timeline-item card">
+                        <div class="card-content">
+                            <span class="date">Feb. 2021</span>
+                            <h3>K-SUPERMARKET LASIHYTTI</h3>
+                            <p class="job-title">Intern</p>
+                            <p>My work included customer service, shelving and basic logistics tasks.</p>
+                        </div>
                     </div>
-
                 </div>
-
             </section>
-
+            
+            <section id="skills" class="reveal">
+                 <h2>// COMPETENCE</h2>
+                 <div class="skills-grid">
+                    <div class="skill-card card">
+                        <h3>STRENGHTS</h3>
+                        <ul>
+                            <li>Punctuality</li>
+                            <li>Responsibility</li>
+                            <li>Systematic approach</li>
+                            <li>Proactiveness</li>
+                        </ul>
+                    </div>
+                    <div class="skill-card card">
+                        <h3>LANGUAGE SKILLS</h3>
+                        <div class="skill-bar">
+                            <div class="skill-level suomi"><span class="skill-name">Finnish</span></div>
+                        </div>
+                         <div class="skill-bar">
+                            <div class="skill-level englanti"><span class="skill-name">English</span></div>
+                        </div>
+                    </div>
+                    <div class="skill-card card">
+                        <h3>EDUCATION & CERTIFICATIONS</h3>
+                         <ul>
+                            <li>Matriculation Examination (Jun. 2024)</li>
+                            <li>Hygiene Passport (Jul. 2024)</li>
+                            <li>Driving licence (Oct. 2022)</li>
+                        </ul>
+                    </div>
+                 </div>
+            </section>
         </main>
-
+        
+        <footer>
+            <p>&copy; 2025 Vinski Nieminen. Designed by AI.</p>
+        </footer>
     </div>
-
+    <script type="text/javascript" src="https://unpkg.com/vanilla-tilt@1.7.2/dist/vanilla-tilt.min.js"></script>
+    <script src="script.js"></script>
 </body>
-
 </html>
