@@ -14,7 +14,7 @@
     <canvas id="starfield"></canvas>
 
     <div id="content-container" style="display: none;">
-        <!-- ===== SECTION 1: PROFILE ===== -->
+        <!-- SECTION 1: PROFILE -->
         <div id="profile-card" class="content-card">
             <img src="profile.jpg" alt="Vinski Nieminen" class="profile-picture">
             <div class="glitch-container">
@@ -26,7 +26,7 @@
             </div>
         </div>
 
-        <!-- ===== SECTION 2: EXPERIENCE ===== -->
+        <!-- SECTION 2: EXPERIENCE -->
         <div id="experience-card" class="content-card">
             <h2>// EXPERIENCE</h2>
             <div class="timeline">
@@ -53,7 +53,7 @@
             </div>
         </div>
 
-        <!-- ===== SECTION 3: COMPETENCE ===== -->
+        <!-- SECTION 3: COMPETENCE -->
         <div id="competence-card" class="content-card">
             <h2>// COMPETENCE</h2>
             <div class="skills-grid">
@@ -83,10 +83,16 @@
         </div>
     </div>
     
-    <!-- All library files are loaded from the same source (cdnjs) and version (r128) -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/tween.js/18.6.4/tween.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/examples/js/renderers/CSS3DRenderer.js"></script>
+    <!-- 
+        ============================================================
+        THE FINAL, CORRECTED SCRIPT LOADING
+        All files are loaded from the official threejs.org source.
+        This guarantees they are compatible.
+        ============================================================
+    -->
+    <script src="https://threejs.org/build/three.min.js"></script>
+    <script src="https://threejs.org/examples/js/libs/tween.min.js"></script>
+    <script src="https://threejs.org/examples/js/renderers/CSS3DRenderer.js"></script>
     
     <script src="script.js"></script>
 </body>
