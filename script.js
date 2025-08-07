@@ -1,5 +1,3 @@
-// Libraries (THREE, TWEEN, CSS3DRenderer) are now loaded globally from index.html
-
 // --- Global variables for the 3D scene ---
 let camera, scene, renderer;
 const objects = [];
@@ -31,8 +29,8 @@ function init3D() {
     for (let i = 0; i < elementIDs.length; i++) {
         const element = document.getElementById(elementIDs[i]);
         
-        // FIX #1: Removed "THREE." prefix. CSS3DObject is a global constructor now.
-        const object = new CSS3DObject(element); 
+        // CORRECTED: Using the proper THREE. prefix, which now works
+        const object = new THREE.CSS3DObject(element); 
 
         object.position.x = 0;
         object.position.y = 0;
@@ -46,8 +44,8 @@ function init3D() {
         objects.push(object);
     }
 
-    // FIX #2: Removed "THREE." prefix. CSS3DRenderer is also a global constructor.
-    renderer = new CSS3DRenderer(); 
+    // CORRECTED: Using the proper THREE. prefix
+    renderer = new THREE.CSS3DRenderer(); 
     renderer.setSize(window.innerWidth, window.innerHeight);
     document.getElementById('scene-container').appendChild(renderer.domElement);
 
