@@ -13,7 +13,7 @@
     <!-- The 3D scene will be rendered here -->
     <div id="scene-container"></div>
 
-    <!-- The old canvas for the starfield background -->
+    <!-- The canvas for the starfield background -->
     <canvas id="starfield"></canvas>
 
     <!-- The content is in a hidden container for the 3D script to use -->
@@ -91,23 +91,15 @@
     
     <!-- 
         ============================================================
-        CRITICAL FIX: This section tells the browser how to load the
-        3D libraries that script.js needs.
+        DEFINITIVE FIX: Loading libraries with standard script tags.
+        This is more reliable and avoids the module error.
         ============================================================
     -->
-    <script type="importmap">
-        {
-            "imports": {
-                "three": "https://unpkg.com/three@0.164.1/build/three.module.js",
-                "three/addons/": "https://unpkg.com/three@0.164.1/examples/jsm/"
-            }
-        }
-    </script>
-
-    <!-- 
-        CRITICAL FIX: We now load script.js as a "module"
-        which allows it to use the "import" keyword.
-    -->
-    <script type="module" src="script.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/tween.js/18.6.4/tween.min.js"></script>
+    <script src="https://threejs.org/examples/js/renderers/CSS3DRenderer.js"></script>
+    
+    <!-- Our script is loaded last, after the libraries are ready -->
+    <script src="script.js"></script>
 </body>
 </html>
