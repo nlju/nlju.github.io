@@ -16,13 +16,7 @@
     <!-- The old canvas for the starfield background -->
     <canvas id="starfield"></canvas>
 
-    <!-- 
-      =====================================================================
-      NEW HTML STRUCTURE
-      The content is now in a hidden container. Our 3D script will grab 
-      these elements and place them in the scene.
-      =====================================================================
-    -->
+    <!-- The content is in a hidden container for the 3D script to use -->
     <div id="content-container" style="display: none;">
 
         <!-- ===== SECTION 1: PROFILE ===== -->
@@ -97,7 +91,8 @@
     
     <!-- 
         ============================================================
-        NEW: Importing the Three.js library
+        CRITICAL FIX: This section tells the browser how to load the
+        3D libraries that script.js needs.
         ============================================================
     -->
     <script type="importmap">
@@ -108,6 +103,11 @@
             }
         }
     </script>
+
+    <!-- 
+        CRITICAL FIX: We now load script.js as a "module"
+        which allows it to use the "import" keyword.
+    -->
     <script type="module" src="script.js"></script>
 </body>
 </html>
