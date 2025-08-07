@@ -1,5 +1,4 @@
 // Libraries (THREE, TWEEN, CSS3DRenderer) are now loaded globally from index.html
-// No imports are needed.
 
 // --- Global variables for the 3D scene ---
 let camera, scene, renderer;
@@ -31,7 +30,9 @@ function init3D() {
     
     for (let i = 0; i < elementIDs.length; i++) {
         const element = document.getElementById(elementIDs[i]);
-        const object = new THREE.CSS3DObject(element); // Use THREE.CSS3DObject
+        
+        // FIX #1: Removed "THREE." prefix. CSS3DObject is a global constructor now.
+        const object = new CSS3DObject(element); 
 
         object.position.x = 0;
         object.position.y = 0;
@@ -45,7 +46,8 @@ function init3D() {
         objects.push(object);
     }
 
-    renderer = new THREE.CSS3DRenderer(); // Use THREE.CSS3DRenderer
+    // FIX #2: Removed "THREE." prefix. CSS3DRenderer is also a global constructor.
+    renderer = new CSS3DRenderer(); 
     renderer.setSize(window.innerWidth, window.innerHeight);
     document.getElementById('scene-container').appendChild(renderer.domElement);
 
@@ -55,14 +57,13 @@ function init3D() {
 
 function initBackground() {
     setCanvasSize();
-    // The resize listener for the background is now combined in onWindowResize
 }
 
 function onWindowResize() {
     camera.aspect = window.innerWidth / window.innerHeight;
     camera.updateProjectionMatrix();
     renderer.setSize(window.innerWidth, window.innerHeight);
-    setCanvasSize(); // Also resize the background canvas
+    setCanvasSize();
 }
 
 function onMouseWheel(event) {
