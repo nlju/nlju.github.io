@@ -1,4 +1,7 @@
-// ===== NEW: Smooth Plexus/Constellation Background =====
+// The starfield background code remains the same for now.
+// We will integrate it into the 3D scene later if needed,
+// but for now, it can stay as it is.
+
 const canvas = document.getElementById('starfield');
 const ctx = canvas.getContext('2d');
 
@@ -33,7 +36,7 @@ function connect() {
             
             if (distance < (canvas.width/7) * (canvas.height/7)) {
                 opacityValue = 1 - (distance/20000);
-                ctx.strokeStyle = `rgba(0, 240, 255, ${opacityValue * 0.3})`; // Use primary color for lines
+                ctx.strokeStyle = `rgba(0, 240, 255, ${opacityValue * 0.3})`;
                 ctx.lineWidth = 1;
                 ctx.beginPath();
                 ctx.moveTo(particlesArray[a].x, particlesArray[a].y);
@@ -44,8 +47,8 @@ function connect() {
     }
 }
 
-function animate() {
-    requestAnimationFrame(animate);
+function animateBackground() {
+    requestAnimationFrame(animateBackground);
     ctx.clearRect(0,0,innerWidth,innerHeight);
 
     for (let i = 0; i < particlesArray.length; i++) {
@@ -69,52 +72,8 @@ function animate() {
 
 setCanvasSize();
 window.addEventListener('resize', setCanvasSize);
-animate();
+animateBackground();
 
-
-// ===== Reveal On Scroll Animation (Unchanged) =====
-const observer = new IntersectionObserver((entries) => {
-    entries.forEach((entry) => {
-        if (entry.isIntersecting) {
-            entry.target.classList.add('visible');
-        }
-    });
-}, {
-    threshold: 0.1 // Trigger when 10% of the element is visible
-});
-
-const revealElements = document.querySelectorAll('.reveal');
-revealElements.forEach((el) => observer.observe(el));
-// ===== NEW: 3D Tilt Effect Initialization =====
-document.addEventListener("DOMContentLoaded", function() {
-    // We select all elements that have the class "card"
-    const tiltElements = document.querySelectorAll(".card");
-
-    // Apply the tilt effect to all selected cards
-    VanillaTilt.init(tiltElements, {
-        max: 15,          // Max tilt rotation (degrees)
-        perspective: 1000, // Transform perspective, the lower the more extreme the tilt
-        scale: 1.05,       // 1.05 = 5% increase on hover
-        speed: 400,       // Speed of the enter/exit transition
-        glare: true,      // If you want a glare effect
-        "max-glare": 0.5  // From 0 to 1, the glare opacity
-    });
-});
-// ===== NEW: Hero Section Parallax on Mouse Move =====
-document.addEventListener("mousemove", function(e) {
-    const parallaxElements = document.querySelectorAll("[data-parallax-speed]");
-
-    const centerX = window.innerWidth / 2;
-    const centerY = window.innerHeight / 2;
-
-    const mouseX = (e.clientX - centerX) / centerX;
-    const mouseY = (e.clientY - centerY) / centerY;
-
-    parallaxElements.forEach(el => {
-        const speed = el.dataset.parallaxSpeed;
-        const x = speed * mouseX;
-        const y = speed * mouseY;
-
-        el.style.transform = `translate(${x}px, ${y}px)`;
-    });
-});
+// ==========================================================
+// THE 3D LOGIC WILL BE ADDED HERE IN THE NEXT STEPS
+// ==========================================================
