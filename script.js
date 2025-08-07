@@ -29,6 +29,7 @@ function init3D() {
     for (let i = 0; i < elementIDs.length; i++) {
         const element = document.getElementById(elementIDs[i]);
         
+        // This will now work because the libraries are compatible
         const object = new THREE.CSS3DObject(element); 
 
         object.position.x = 0;
@@ -43,6 +44,7 @@ function init3D() {
         objects.push(object);
     }
 
+    // This will also work now
     renderer = new THREE.CSS3DRenderer(); 
     renderer.setSize(window.innerWidth, window.innerHeight);
     document.getElementById('scene-container').appendChild(renderer.domElement);
