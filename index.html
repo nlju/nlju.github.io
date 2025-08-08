@@ -10,17 +10,10 @@
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
 </head>
 <body>
-    <!-- ===== Video Background ===== -->
-    <div class="video-background-container">
-        <div class="video-overlay"></div>
-        <video id="background-video" autoplay loop muted playsinline>
-            <!-- ===== THIS IS THE NEW, VERIFIED VIDEO LINK ===== -->
-            <source src="https://videos.pexels.com/video-files/4434463/4434463-hd_1920_1080_25fps.mp4" type="video/mp4">
-            Your browser does not support the video tag.
-        </video>
-    </div>
+    <canvas id="starfield"></canvas>
 
     <div class="content-wrapper">
+        <!-- ===== NEW NAVIGATION BAR ===== -->
         <nav class="main-nav">
             <ul class="nav-links">
                 <li><a href="#hero">PROFILE</a></li>
@@ -54,23 +47,87 @@
             <section id="experience" class="reveal">
                 <h2>// EXPERIENCE</h2>
                 <div class="timeline">
-                    <!-- Experience items remain the same -->
-                    <div class="timeline-item card"><div class="card-content"><span class="date">Aug. 2024 - Oct. 2024</span><h3>MOTONET HELSINKI</h3><p class="job-title">Store Worker</p><p>Began on a two-week temporary contract. Due to excellent work, it was then extended through November upon request.</p></div></div>
-                    <div class="timeline-item card"><div class="card-content"><span class="date">Apr. 2024 - Jun. 2024</span><h3>SNACKY ESPOO</h3><p class="job-title">Restaurant Employee</p><p>My responsibilities included a range of tasks such as food preparation, working the cash register, serving customers, and ensuring a clean environment.</p></div></div>
-                    <div class="timeline-item card"><div class="card-content"><span class="date">Feb. 2024 - Mar. 2024</span><h3>SWIMMING HALL KIRKKONUMMI</h3><p class="job-title">Contract Lifeguard</p><p>I passed the lifeguard certification swim test and served as an on-call substitute. My job was to ensure pool safety and maintain order.</p></div></div>
-                    <div class="timeline-item card"><div class="card-content"><span class="date">Apr. 2023 - Oct. 2023</span><h3>HELSINGIN JÄÄKIEKKOTUOMARIT HJT RY</h3><p class="job-title">Ice Hockey Referee</p><p>Refereeing youth and amateur matches, I developed responsibility and rapid decision-making under pressure.</p></div></div>
-                    <div class="timeline-item card"><div class="card-content"><span class="date">Jun. 2021 & Jul. 2022</span><h3>WATER SPORTS CENTER LAGUUNI</h3><p class="job-title">Summer Worker</p><p>My main tasks were providing customer service and maintaining general cleanliness.</p></div></div>
-                    <div class="timeline-item card"><div class="card-content"><span class="date">Feb. 2021</span><h3>K-SUPERMARKET LASIHYTTI</h3><p class="job-title">Intern</p><p>My work included customer service, shelving and basic logistics tasks.</p></div></div>
+                    <!-- ===== HTML STRUCTURE UPDATED IN THIS SECTION ===== -->
+                    <div class="timeline-item card">
+                        <div class="card-content">
+                            <span class="date">Aug. 2024 - Oct. 2024</span>
+                            <h3>MOTONET HELSINKI</h3>
+                            <p class="job-title">Store Worker</p>
+                            <p>Began on a two-week temporary contract. Due to excellent work, it was then extended through November upon request.</p>
+                        </div>
+                    </div>
+                    <div class="timeline-item card">
+                        <div class="card-content">
+                            <span class="date">Apr. 2024 - Jun. 2024</span>
+                            <h3>SNACKY ESPOO</h3>
+                            <p class="job-title">Restaurant Employee</p>
+                            <p>My responsibilities included a range of tasks such as food preparation, working the cash register, serving customers, and ensuring a clean environment.</p>
+                        </div>
+                    </div>
+                    <div class="timeline-item card">
+                        <div class="card-content">
+                            <span class="date">Feb. 2024 - Mar. 2024</span>
+                            <h3>SWIMMING HALL KIRKKONUMMI</h3>
+                            <p class="job-title">Contract Lifeguard</p>
+                            <p>I passed the lifeguard certification swim test and served as an on-call substitute. My job was to ensure pool safety and maintain order.</p>
+                        </div>
+                    </div>
+                    <div class="timeline-item card">
+                        <div class="card-content">
+                            <span class="date">Apr. 2023 - Oct. 2023</span>
+                            <h3>HELSINGIN JÄÄKIEKKOTUOMARIT HJT RY</h3>
+                            <p class="job-title">Ice Hockey Referee</p>
+                            <p>Refereeing youth and amateur matches, I developed responsibility and rapid decision-making under pressure.</p>
+                        </div>
+                    </div>
+                    <div class="timeline-item card">
+                        <div class="card-content">
+                            <span class="date">Jun. 2021 & Jul. 2022</span>
+                            <h3>WATER SPORTS CENTER LAGUUNI</h3>
+                            <p class="job-title">Summer Worker</p>
+                            <p>My main tasks were providing customer service and maintaining general cleanliness.</p>
+                        </div>
+                    </div>
+                    <div class="timeline-item card">
+                        <div class="card-content">
+                            <span class="date">Feb. 2021</span>
+                            <h3>K-SUPERMARKET LASIHYTTI</h3>
+                            <p class="job-title">Intern</p>
+                            <p>My work included customer service, shelving and basic logistics tasks.</p>
+                        </div>
+                    </div>
                 </div>
             </section>
             
             <section id="skills" class="reveal">
                  <h2>// COMPETENCE</h2>
                  <div class="skills-grid">
-                    <!-- Skills items remain the same -->
-                    <div class="skill-card card"><h3>STRENGHTS</h3><ul><li>Punctuality</li><li>Responsibility</li><li>Systematic approach</li><li>Proactiveness</li></ul></div>
-                    <div class="skill-card card"><h3>LANGUAGE SKILLS</h3><div class="skill-bar"><div class="skill-level suomi"><span class="skill-name">Finnish</span></div></div><div class="skill-bar"><div class="skill-level englanti"><span class="skill-name">English</span></div></div></div>
-                    <div class="skill-card card"><h3>EDUCATION & CERTIFICATIONS</h3><ul><li>Matriculation Examination (Jun. 2024)</li><li>Hygiene Passport (Jul. 2024)</li><li>Driving licence (Oct. 2022)</li></ul></div>
+                    <div class="skill-card card">
+                        <h3>STRENGHTS</h3>
+                        <ul>
+                            <li>Punctuality</li>
+                            <li>Responsibility</li>
+                            <li>Systematic approach</li>
+                            <li>Proactiveness</li>
+                        </ul>
+                    </div>
+                    <div class="skill-card card">
+                        <h3>LANGUAGE SKILLS</h3>
+                        <div class="skill-bar">
+                            <div class="skill-level suomi"><span class="skill-name">Finnish</span></div>
+                        </div>
+                         <div class="skill-bar">
+                            <div class="skill-level englanti"><span class="skill-name">English</span></div>
+                        </div>
+                    </div>
+                    <div class="skill-card card">
+                        <h3>EDUCATION & CERTIFICATIONS</h3>
+                         <ul>
+                            <li>Matriculation Examination (Jun. 2024)</li>
+                            <li>Hygiene Passport (Jul. 2024)</li>
+                            <li>Driving licence (Oct. 2022)</li>
+                        </ul>
+                    </div>
                  </div>
             </section>
         </main>
