@@ -10,29 +10,21 @@
     --font-body: 'Poppins', sans-serif;
 }
 /* ===== SMOOTH SCROLLING (SITE-WIDE) ===== */
-html {
-    scroll-behavior: smooth;
-}
+html { scroll-behavior: smooth; }
 
-/* ===== NEW: Navigation Bar Styling ===== */
+/* Anchor offset for fixed nav */
+#hero, #experience, #skills { scroll-margin-top: 100px; }
+
+/* Better focus styles for keyboard users */
+:focus-visible { outline: 2px solid var(--primary-color); outline-offset: 2px; }
+.nav-links a:focus-visible, .contact-text:focus-visible, .link-only:focus-visible { text-decoration: underline; }
+
+/* ===== Navigation Bar Styling ===== */
 .main-nav {
-    /* Positioning */
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    z-index: 1000; /* Ensures it's above all other content */
-
-    /* Look and Feel */
-    padding: 15px 0;
-    background: rgba(5, 8, 22, 0.8); /* Dark background with transparency */
-    backdrop-filter: blur(10px); /* This creates the "frosted glass" effect */
+    position: fixed; top: 0; left: 0; width: 100%; z-index: 1000;
+    padding: 15px 0; background: rgba(5, 8, 22, 0.8); backdrop-filter: blur(10px);
     border-bottom: 1px solid var(--border-color);
-
-    /* Flexbox for centering links */
-    display: flex;
-    justify-content: center;
-    align-items: center;
+    display: flex; justify-content: center; align-items: center;
 }
 /* +++ REPLACE WITH THIS NEW CODE +++ */
 .nav-links {
@@ -143,52 +135,23 @@ body {
     max-width: 600px;
 }
 
+/* ===== Contact links (reduced interactivity, visible info) ===== */
 .contact-links {
-    margin-top: 2rem;
-    display: flex;
-    gap: 1rem;
-    align-items: center;
+    margin-top: 2rem; display: flex; flex-wrap: wrap; gap: 1rem 1.5rem; align-items: center; justify-content: center;
 }
 .contact-item {
-    color: var(--primary-color);
-    text-decoration: none;
-    font-weight: 600;
-    margin: 0 0.5rem;
-    transition: text-shadow 0.3s ease;
-    position: relative;
+    display: inline-flex; align-items: center; gap: 0.5rem; color: var(--text-color);
 }
-.contact-item:hover {
-    text-shadow: 0 0 15px var(--primary-color);
-}
-.contact-links span {
-    color: var(--primary-color);
-    opacity: 0.5;
-    user-select: none;
-}
+.contact-icon { font-size: 1rem; line-height: 1; }
+.contact-text { color: var(--text-color); text-decoration: none; border-bottom: 1px dotted rgba(255,255,255,0.25); }
+.contact-text:hover { text-decoration: none; border-bottom-color: rgba(255,255,255,0.5); }
 
-.contact-item[data-tooltip]::after {
-    content: attr(data-tooltip);
-    position: absolute;
-    top: 170%;
-    left: 50%;
-    transform: translateX(-50%);
-    background-color: var(--card-bg);
-    color: var(--text-color);
-    padding: 8px 12px;
-    border-radius: 5px;
-    border: 1px solid var(--border-color);
-    font-size: 0.9rem;
-    white-space: nowrap;
-    opacity: 0;
-    visibility: hidden;
-    transition: opacity 0.3s ease, visibility 0.3s ease;
-    z-index: 10;
-    pointer-events: none;
-}
-.contact-item[data-tooltip]:hover::after {
-    opacity: 1;
-    visibility: visible;
-}
+/* Keep a subtle hover only for LinkedIn CTA */
+.link-only { color: var(--primary-color); text-decoration: none; font-weight: 600; }
+.link-only:hover { text-shadow: 0 0 15px var(--primary-color); }
+
+/* Remove old tooltip separators styling (no longer used) */
+/* removed: .contact-item[data-tooltip] styles and '//' separators */
 
 
 .scroll-indicator {
@@ -335,24 +298,18 @@ footer { text-align: center; padding: 2rem 0; border-top: 1px solid var(--border
     .glitch { font-size: 3rem; }
     .profile-picture { width: 120px; height: 120px; }
     .profile-picture:hover { width: 180px; height: 180px; }
-    .contact-links { flex-wrap: wrap; justify-content: center; }
-    .nav-links li a {
-    font-size: 0.75rem   !important;   /* Make font significantly smaller */
-    padding: 8px 5px;       /* Reduce side padding for more space */
-    letter-spacing: normal; /* Use normal letter spacing on mobile */
-}
-    /* ===== NEW: Responsive Navigation Styles ===== */
-.main-nav {
-    padding: 15px 5px; /* Add a bit more vertical padding and some side padding */
+
+    .contact-links { gap: 0.75rem 1rem; }
+    .contact-icon { font-size: 0.95rem; }
+
+    .nav-links li a { font-size: 0.75rem !important; padding: 8px 5px; letter-spacing: normal; }
+    .main-nav { padding: 15px 5px; }
+    section { padding-top: 120px; }
 }
 
-.nav-links li a {
-    font-size: 0.8rem;
-    /* Reduce horizontal padding to make it less tight */
-    padding: 5px 10px;
-}
-
-section {
-    /* Add a little more padding to account for potential wrapping */
-    padding-top: 120px;
+/* Respect reduced motion preferences */
+@media (prefers-reduced-motion: reduce) {
+    html { scroll-behavior: auto; }
+    * { animation: none !important; transition: none !important; }
+    .reveal { opacity: 1 !important; transform: none !important; }
 }
