@@ -1,9 +1,28 @@
 <!DOCTYPE html>
-<html lang="fi">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Vinski Nieminen</title>
+
+    <!-- SEO -->
+    <meta name="description" content="Vinski Nieminen — goal-oriented student ready for new opportunities. Experience, strengths, and contact information. Based in Lappeenranta, Finland.">
+    <link rel="canonical" href="https://nlju.github.io/">
+    <meta name="theme-color" content="#050816">
+    <meta name="color-scheme" content="dark light">
+
+    <!-- Open Graph / Twitter -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://nlju.github.io/">
+    <meta property="og:title" content="Vinski Nieminen">
+    <meta property="og:description" content="Goal-oriented student ready for new opportunities. Experience, strengths, and contact information.">
+    <meta property="og:image" content="https://nlju.github.io/profile.jpg">
+
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Vinski Nieminen">
+    <meta name="twitter:description" content="Goal-oriented student ready for new opportunities.">
+    <meta name="twitter:image" content="https://nlju.github.io/profile.jpg">
+
     <link rel="stylesheet" href="style.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -13,8 +32,8 @@
     <canvas id="starfield"></canvas>
 
     <div class="content-wrapper">
-        <!-- ===== NEW NAVIGATION BAR ===== -->
-        <nav class="main-nav">
+        <!-- ===== NAVIGATION BAR ===== -->
+        <nav class="main-nav" aria-label="Primary">
             <ul class="nav-links">
                 <li><a href="#hero">PROFILE</a></li>
                 <li><a href="#experience">EXPERIENCE</a></li>
@@ -22,20 +41,26 @@
             </ul>
         </nav>
 
-            <header id="hero" class="hero-section">
-            <img src="profile.jpg" alt="Vinski Nieminen" class="profile-picture" data-parallax-speed="5">
+        <header id="hero" class="hero-section">
+            <img src="profile.jpg" alt="Portrait of Vinski Nieminen" class="profile-picture" data-parallax-speed="5">
             <div class="glitch-container" data-parallax-speed="-5">
                 <h1 class="glitch">VINSKI NIEMINEN</h1>
             </div>
             <p class="subtitle" data-parallax-speed="2">Goal-oriented student ready for new opportunities.</p>
-            <div class="contact-links">
-                <a href="mailto:nieminenvinski@gmail.com" class="contact-item" data-tooltip="nieminenvinski@gmail.com">Email</a>
-                <span>//</span>
-                <a href="tel:+358 440892005" class="contact-item" data-tooltip="+358 440892005">Phone number</a>
-                <span>//</span>
-                <a href="https://www.linkedin.com/in/vinski-nieminen-553ba8303/" target="_blank" class="contact-item">LinkedIn</a>
-                <span>//</span>
-                <a href="#!" class="contact-item" data-tooltip="Lappeenranta">Location</a>
+            <div class="contact-links" role="list">
+                <div class="contact-item" role="listitem">
+                    <span class="contact-icon" aria-hidden="true">✉️</span>
+                    <a href="mailto:nieminenvinski@gmail.com" class="contact-text" aria-label="Email: nieminenvinski@gmail.com">nieminenvinski@gmail.com</a>
+                </div>
+                <div class="contact-item" role="listitem">
+                    <span class="contact-icon" aria-hidden="true">📞</span>
+                    <a href="tel:+358440892005" class="contact-text" aria-label="Phone: +358 440892005">+358 440892005</a>
+                </div>
+                <div class="contact-item" role="listitem">
+                    <span class="contact-icon" aria-hidden="true">📍</span>
+                    <a href="https://maps.google.com/?q=Lappeenranta" target="_blank" rel="noopener noreferrer" class="contact-text" aria-label="Location: Lappeenranta">Lappeenranta</a>
+                </div>
+                <a href="https://www.linkedin.com/in/vinski-nieminen-553ba8303/" target="_blank" rel="noopener noreferrer me" class="contact-item link-only" aria-label="LinkedIn profile">LinkedIn</a>
             </div>
             <div class="scroll-indicator">
                 <span>SCROLL</span>
@@ -103,7 +128,7 @@
                  <h2>// COMPETENCE</h2>
                  <div class="skills-grid">
                     <div class="skill-card card">
-                        <h3>STRENGHTS</h3>
+                        <h3>STRENGTHS</h3>
                         <ul>
                             <li>Punctuality</li>
                             <li>Responsibility</li>
