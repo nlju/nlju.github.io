@@ -143,8 +143,8 @@ body {
     display: inline-flex; align-items: center; gap: 0.5rem; color: var(--text-color);
 }
 .contact-icon { font-size: 1rem; line-height: 1; }
-.contact-text { color: var(--text-color); text-decoration: none; border-bottom: 1px dotted rgba(255,255,255,0.25); }
-.contact-text:hover { text-decoration: none; border-bottom-color: rgba(255,255,255,0.5); }
+.contact-text { color: var(--primary-color); text-decoration: none; border-bottom: none; }
+.contact-text:hover { text-decoration: none; }
 
 /* Keep a subtle hover only for LinkedIn CTA */
 .link-only { color: var(--primary-color); text-decoration: none; font-weight: 600; }
