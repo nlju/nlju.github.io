@@ -1,8 +1,13 @@
-// ===== NEW: Smooth Plexus/Constellation Background =====
+// ===== Smooth Plexus/Constellation Background =====
 const canvas = document.getElementById('starfield');
 const ctx = canvas.getContext('2d');
 
-let particlesArray;
+let particlesArray = [];
+let animationId = null;
+let isAnimating = false;
+
+const prefersReducedMotionQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
+let prefersReducedMotion = prefersReducedMotionQuery.matches;
 
 function setCanvasSize() {
     canvas.width = window.innerWidth;
@@ -13,27 +18,39 @@ function setCanvasSize() {
     
     particlesArray = [];
     for (let i = 0; i < numberOfParticles; i++) {
-        let size = (Math.random() * 1.5) + 0.5;
-        let x = (Math.random() * ((innerWidth - size * 2) - (size * 2)) + size * 2);
-        let y = (Math.random() * ((innerHeight - size * 2) - (size * 2)) + size * 2);
-        let directionX = (Math.random() * .4) - .2;
-        let directionY = (Math.random() * .4) - .2;
-        let color = '#e0e0e0';
+        const size = (Math.random() * 1.5) + 0.5;
+        const x = (Math.random() * ((innerWidth - size * 2) - (size * 2)) + size * 2);
+        const y = (Math.random() * ((innerHeight - size * 2) - (size * 2)) + size * 2);
+        const directionX = (Math.random() * 0.4) - 0.2;
+        const directionY = (Math.random() * 0.4) - 0.2;
+        const color = '#e0e0e0';
 
-        particlesArray.push({x, y, directionX, directionY, size, color});
+        particlesArray.push({ x, y, directionX, directionY, size, color });
+    }
+}
+
+function drawParticlesOnce() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    for (let i = 0; i < particlesArray.length; i++) {
+        const p = particlesArray[i];
+        ctx.beginPath();
+        ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2, false);
+        ctx.fillStyle = p.color;
+        ctx.fill();
     }
 }
 
 function connect() {
     let opacityValue = 1;
     for (let a = 0; a < particlesArray.length; a++) {
-        for (let b = a; b < particlesArray.length; b++) {
-            let distance = ((particlesArray[a].x - particlesArray[b].x) * (particlesArray[a].x - particlesArray[b].x))
-                + ((particlesArray[a].y - particlesArray[b].y) * (particlesArray[a].y - particlesArray[b].y));
+        for (let b = a + 1; b < particlesArray.length; b++) { // start at a+1 to skip self/dupes
+            const dx = particlesArray[a].x - particlesArray[b].x;
+            const dy = particlesArray[a].y - particlesArray[b].y;
+            const distance = (dx * dx) + (dy * dy);
             
-            if (distance < (canvas.width/7) * (canvas.height/7)) {
-                opacityValue = 1 - (distance/20000);
-                ctx.strokeStyle = `rgba(0, 240, 255, ${opacityValue * 0.3})`; // Use primary color for lines
+            if (distance < (canvas.width / 7) * (canvas.height / 7)) {
+                opacityValue = 1 - (distance / 20000);
+                ctx.strokeStyle = `rgba(0, 240, 255, ${opacityValue * 0.3})`;
                 ctx.lineWidth = 1;
                 ctx.beginPath();
                 ctx.moveTo(particlesArray[a].x, particlesArray[a].y);
@@ -45,11 +62,11 @@ function connect() {
 }
 
 function animate() {
-    requestAnimationFrame(animate);
-    ctx.clearRect(0,0,innerWidth,innerHeight);
+    animationId = requestAnimationFrame(animate);
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
 
     for (let i = 0; i < particlesArray.length; i++) {
-        let particle = particlesArray[i];
+        const particle = particlesArray[i];
         if (particle.x < 0 || particle.x > canvas.width) {
             particle.directionX = -particle.directionX;
         }
@@ -67,41 +84,87 @@ function animate() {
     connect();
 }
 
+function startAnimation() {
+    if (isAnimating) return;
+    isAnimating = true;
+    animate();
+}
+
+function stopAnimation() {
+    if (animationId != null) {
+        cancelAnimationFrame(animationId);
+        animationId = null;
+    }
+    isAnimating = false;
+}
+
+function applyMotionPreference() {
+    if (prefersReducedMotion) {
+        stopAnimation();
+        drawParticlesOnce();
+        // Remove parallax and skip tilt init
+        document.removeEventListener("mousemove", parallaxHandler);
+    } else {
+        startAnimation();
+        // Ensure parallax is active
+        document.addEventListener("mousemove", parallaxHandler);
+    }
+}
+
 setCanvasSize();
-window.addEventListener('resize', setCanvasSize);
-animate();
+window.addEventListener('resize', () => {
+    setCanvasSize();
+    if (prefersReducedMotion) {
+        drawParticlesOnce();
+    }
+});
 
+// Pause animation when tab is not visible (saves battery)
+document.addEventListener('visibilitychange', () => {
+    if (document.hidden) {
+        stopAnimation();
+    } else if (!prefersReducedMotion) {
+        startAnimation();
+    }
+});
 
-// ===== Reveal On Scroll Animation (Unchanged) =====
+// React to user changing reduced-motion preference live
+if (typeof prefersReducedMotionQuery.addEventListener === 'function') {
+    prefersReducedMotionQuery.addEventListener('change', (e) => {
+        prefersReducedMotion = e.matches;
+        applyMotionPreference();
+    });
+}
+
+// ===== Reveal On Scroll Animation =====
 const observer = new IntersectionObserver((entries) => {
     entries.forEach((entry) => {
         if (entry.isIntersecting) {
             entry.target.classList.add('visible');
         }
     });
-}, {
-    threshold: 0.1 // Trigger when 10% of the element is visible
-});
+}, { threshold: 0.1 });
 
 const revealElements = document.querySelectorAll('.reveal');
 revealElements.forEach((el) => observer.observe(el));
-// ===== NEW: 3D Tilt Effect Initialization =====
-document.addEventListener("DOMContentLoaded", function() {
-    // We select all elements that have the class "card"
-    const tiltElements = document.querySelectorAll(".card");
 
-    // Apply the tilt effect to all selected cards
-    VanillaTilt.init(tiltElements, {
-        max: 15,          // Max tilt rotation (degrees)
-        perspective: 1000, // Transform perspective, the lower the more extreme the tilt
-        scale: 1.05,       // 1.05 = 5% increase on hover
-        speed: 400,       // Speed of the enter/exit transition
-        glare: true,      // If you want a glare effect
-        "max-glare": 0.5  // From 0 to 1, the glare opacity
-    });
+// ===== 3D Tilt Effect Initialization =====
+document.addEventListener("DOMContentLoaded", function() {
+    const tiltElements = document.querySelectorAll(".card");
+    if (!prefersReducedMotion && typeof VanillaTilt !== 'undefined') {
+        VanillaTilt.init(tiltElements, {
+            max: 15,
+            perspective: 1000,
+            scale: 1.05,
+            speed: 400,
+            glare: true,
+            "max-glare": 0.5
+        });
+    }
 });
-// ===== NEW: Hero Section Parallax on Mouse Move =====
-document.addEventListener("mousemove", function(e) {
+
+// ===== Hero Section Parallax on Mouse Move =====
+function parallaxHandler(e) {
     const parallaxElements = document.querySelectorAll("[data-parallax-speed]");
 
     const centerX = window.innerWidth / 2;
@@ -111,10 +174,13 @@ document.addEventListener("mousemove", function(e) {
     const mouseY = (e.clientY - centerY) / centerY;
 
     parallaxElements.forEach(el => {
-        const speed = el.dataset.parallaxSpeed;
+        const speed = Number(el.dataset.parallaxSpeed || 0);
         const x = speed * mouseX;
         const y = speed * mouseY;
 
         el.style.transform = `translate(${x}px, ${y}px)`;
     });
-});
+}
+
+// Apply motion preference on load
+applyMotionPreference();
