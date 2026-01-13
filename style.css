@@ -290,6 +290,7 @@ section h2 {
 .skill-name { font-weight: 600; }
 .skill-level.suomi { width: 100%; }
 .skill-level.englanti { width: 85%; }
+.skill-level.ruotsi { width: 30%; }
 
 footer { text-align: center; padding: 2rem 0; border-top: 1px solid var(--border-color); font-size: 0.9rem; opacity: 0.5; }
 
