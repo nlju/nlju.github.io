@@ -693,10 +693,22 @@ a:hover { color: #FFB098; }
    Project card - one window card carrying the workflow schema
    ============================================================ */
 
+/* The card is a window floating on the scene, not a block in the text
+   column: its own full-height stage, centred, with the landscape visible
+   all around it. */
+.card-stage {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 var(--pad) clamp(40px, 8vh, 96px);
+  box-sizing: border-box;
+}
+
 .scard {
   position: relative;
   display: flex; flex-direction: column;
-  max-width: 760px;
+  width: min(760px, 100%);
   border-radius: 18px;
   overflow: hidden;
   background: linear-gradient(180deg, #171C2E 0%, #10141F 55%, #0B0E17 100%);
