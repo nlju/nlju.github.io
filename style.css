@@ -154,24 +154,6 @@ body {
 /* removed: .contact-item[data-tooltip] styles and '//' separators */
 
 
-.scroll-indicator {
-    position: absolute;
-    bottom: 5vh;
-    color: var(--primary-color);
-    font-family: var(--font-heading);
-    font-size: 0.8rem;
-    letter-spacing: 0.1em;
-}
-
-.arrow {
-    width: 2px;
-    height: 30px;
-    background: var(--primary-color);
-    margin: 10px auto 0;
-    animation: scroll-down 1.5s infinite;
-}
-@keyframes scroll-down { 0% { transform: translateY(-10px); opacity: 0; } 50% { opacity: 1; } 100% { transform: translateY(10px); opacity: 0; } }
-
 section {
     /* Changed padding to padding-top and increased it */
     padding: 150px 0 100px 0; 
@@ -291,8 +273,6 @@ section h2 {
 .skill-level.suomi { width: 100%; }
 .skill-level.englanti { width: 85%; }
 .skill-level.ruotsi { width: 30%; }
-
-footer { text-align: center; padding: 2rem 0; border-top: 1px solid var(--border-color); font-size: 0.9rem; opacity: 0.5; }
 
 /* ===== Responsive Design ===== */
 @media (max-width: 768px) {
