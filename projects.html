@@ -36,7 +36,7 @@ try {
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=Archivo:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="style.css?v=20260826">
+<link rel="stylesheet" href="style.css?v=20260826b">
 </head>
 <body>
 
@@ -105,20 +105,15 @@ try {
     <div class="wrap">
       <h1 class="eyebrow">PROJECTS</h1>
       <p class="project-lead">Learning quantitative research. Over the past year I’ve built a small-cap trading algorithm end to end — from data pipeline to automated live execution. It has taught me about statistical biases and to distrust a good result.</p>
-    </div>
-  </section>
 
-  <section class="stack-section" aria-label="What the project taught me">
-    <div class="stack-sticky">
-      <div class="stack">
-        <article class="scard" data-i="0">
+      <article class="scard reveal">
           <div class="scard-bar">
             <span class="dot"></span><span class="dot"></span><span class="dot"></span>
             <span class="scard-name">workflow</span>
           </div>
           <div class="scard-body">
             <h2>Workflow</h2>
-            <p class="scard-text">I research signal sets in-sample and verify them out-of-sample to avoid curve fitting. Even once a strategy is finished I keep cross-checking it, and study borrow availability.</p>
+            <p class="scard-text">I research signal sets in-sample and verify them out-of-sample to avoid curve fitting.</p>
             <svg class="flow" viewBox="0 0 640 106" role="img" aria-label="Workflow: second-resolution data feeds in-sample research, which is verified out-of-sample, then cross-checked live. Most candidates are discarded at the out-of-sample stage and return to research.">
               <defs>
                 <marker id="ah" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="6" markerHeight="6" orient="auto">
@@ -150,27 +145,10 @@ try {
             </svg>
           </div>
         </article>
-        <article class="scard" data-i="1">
-          <div class="scard-bar">
-            <span class="dot"></span><span class="dot"></span><span class="dot"></span>
-            <span class="scard-name">failure_modes</span>
-          </div>
-          <div class="scard-body">
-            <h2>Failure modes</h2>
-            <p class="scard-text tight">Each has cost me a result at least once.</p>
-            <ul class="fmodes"><li>lookahead</li><li>survivorship bias</li><li>split-adjusted prices</li><li>timezone and DST drift</li><li>shadow fills</li></ul>
-          </div>
-        </article>
-      </div>
-      <ol class="stack-pips" aria-hidden="true">
-        <li></li><li></li>
-      </ol>
     </div>
   </section>
-
-  <section class="block stack-tail"></section>
 </main>
 
-<script src="script.js?v=20260826"></script>
+<script src="script.js?v=20260826b"></script>
 </body>
 </html>

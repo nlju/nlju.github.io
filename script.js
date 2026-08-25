@@ -84,15 +84,7 @@
     };
   });
 
-  // Scroll-driven card stack (projects page only).
-  var stackSec = document.querySelector(".stack-section");
-  var cards = stackSec ? [].slice.call(stackSec.querySelectorAll(".scard")) : [];
-  var pips = stackSec ? [].slice.call(stackSec.querySelectorAll(".stack-pips li")) : [];
-  var stackBox = stackSec ? stackSec.querySelector(".stack") : null;
-  var stackP = 0, lastPip = -1, stackW = 0, stackH = 0;
-  var cardState = cards.map(function () { return { t: null, o: null }; });
-
-  if (!layers.length && !fades.length && !cards.length) return;
+  if (!layers.length && !fades.length ) return;
 
   var progress = 0;      // 0 at page top, 1 at page bottom
   var vh = 1;            // viewport height in px
@@ -107,19 +99,6 @@
     var max = (doc.scrollHeight || 0) - vh;
     var y = window.pageYOffset || doc.scrollTop || 0;
     progress = max > 0 ? Math.min(1, Math.max(0, y / max)) : 0;
-
-    if (stackBox) {
-      stackW = stackBox.offsetWidth;
-      stackH = stackBox.offsetHeight;
-    }
-
-    if (stackSec) {
-      // how far through the tall section we are: 0 when its top reaches the
-      // top of the viewport, 1 when its bottom does
-      var travel = stackSec.offsetHeight - vh;
-      var passed = -stackSec.getBoundingClientRect().top;
-      stackP = travel > 0 ? Math.min(1, Math.max(0, passed / travel)) : 0;
-    }
   }
 
   function paint() {
@@ -150,36 +129,6 @@
       t = t * t * (3 - 2 * t);                     // smoothstep, no hard start/stop
       var o = Math.round((d.dir === "in" ? t : 1 - t) * 1000) / 1000;
       if (o !== d.last) { d.el.style.opacity = o; d.last = o; }
-    }
-
-    if (cards.length) {
-      var n = cards.length;
-      var pos = stackP * (n - 1);          // which card is at the front
-      for (var c = 0; c < n; c++) {
-        var d = c - pos;                   // 0 = front, >0 waiting, <0 already passed
-        // a card you have moved past recedes slightly faster than one still
-        // waiting, so the deck never looks evenly spaced
-        var back = d >= 0 ? d : -d * 1.1;
-        var sc = 1 - 0.08 * back;
-        var ty = -(stackH * 0.105) * back;
-        var tx = -(stackW * 0.068) * back;
-        var op = d >= 0 ? Math.max(0, 1 - 0.24 * d) : Math.max(0.12, 1 + d * 0.55);
-
-        var t = "translate3d(" + tx.toFixed(1) + "px," + ty.toFixed(1) + "px,0) scale(" + sc.toFixed(4) + ")";
-        var o = op.toFixed(3);
-        var st = cardState[c];
-        if (t !== st.t) { cards[c].style.transform = t; st.t = t; }
-        if (o !== st.o) {
-          cards[c].style.opacity = o;
-          cards[c].style.zIndex = String(100 - Math.round(back * 10));
-          st.o = o;
-        }
-      }
-      var active = Math.round(pos);
-      if (active !== lastPip) {
-        for (var q = 0; q < pips.length; q++) pips[q].classList.toggle("on", q === active);
-        lastPip = active;
-      }
     }
 
     // keep going only while the pointer is still settling

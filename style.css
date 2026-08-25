@@ -690,45 +690,18 @@ a:hover { color: #FFB098; }
 }
 
 /* ============================================================
-   Scroll-driven card stack
-
-   Three window cards held in depth. The section is tall; a sticky frame
-   inside it pins the stack while you scroll past, and that scroll
-   position decides which card is at the front. Cards ahead wait behind,
-   smaller and up-left; the card you just left recedes back into the
-   deck rather than flying away.
-
-   Every frame writes only transform and opacity, from one rAF, and the
-   card positions come from a single scroll measurement per frame.
+   Project card - one window card carrying the workflow schema
    ============================================================ */
 
-.stack-section { height: 220vh; position: relative; }
-
-.stack-sticky {
-  position: sticky; top: 0;
-  height: 100vh;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.stack {
-  position: relative;
-  width: min(760px, 86vw);
-  height: min(430px, 62vh);
-  perspective: 1400px;
-}
-
 .scard {
-  position: absolute; inset: 0;
+  position: relative;
   display: flex; flex-direction: column;
+  max-width: 760px;
   border-radius: 18px;
   overflow: hidden;
   background: linear-gradient(180deg, #171C2E 0%, #10141F 55%, #0B0E17 100%);
   border: 1px solid rgba(139, 123, 240, 0.34);
   box-shadow: 0 30px 70px -24px rgba(0, 0, 0, 0.8), 0 0 46px -18px rgba(139, 123, 240, 0.4);
-  transform-origin: 50% 50%;
-  will-change: transform, opacity;
 }
 
 .scard-bar {
@@ -787,54 +760,25 @@ a:hover { color: #FFB098; }
 .flow .head-l { fill: rgba(255, 122, 89, 0.75); stroke: none; }
 .flow .loop-lbl { fill: #FF8F6B; font-size: 10px; letter-spacing: 0.08em; }
 
-/* card 2 - failure modes, set in mono like a checklist of things that lie */
-.scard-text.tight { margin-bottom: clamp(16px, 2vw, 24px); }
-
-.fmodes { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: clamp(9px, 1.2vw, 13px); }
-.fmodes li {
-  position: relative;
-  padding-left: 22px;
+/* workflow schema on the first card */
+.flow { width: 100%; height: auto; display: block; margin-top: clamp(16px, 2.2vw, 26px); }
+.flow rect {
+  fill: rgba(255, 255, 255, 0.045);
+  stroke: rgba(139, 123, 240, 0.42);
+  stroke-width: 1;
+}
+.flow text {
+  fill: #C3C9DA;
   font-family: var(--f-mono);
-  font-size: clamp(13px, 1.35vw, 15px);
-  color: var(--ink-2);
-  letter-spacing: 0.01em;
+  font-size: 11px;
+  letter-spacing: 0.02em;
 }
-.fmodes li::before {
-  content: "";
-  position: absolute; left: 0; top: 0.62em;
-  width: 11px; height: 1px;
-  background: rgba(255, 122, 89, 0.75);
-}
-
-/* progress pips */
-.stack-pips {
-  position: absolute; left: 50%; bottom: clamp(18px, 5vh, 48px);
-  transform: translateX(-50%);
-  display: flex; gap: 10px;
-  list-style: none; margin: 0; padding: 0;
-}
-.stack-pips li {
-  width: 26px; height: 3px; border-radius: 2px;
-  background: rgba(255, 255, 255, 0.16);
-  transition: background 0.3s ease;
-}
-.stack-pips li.on { background: var(--indigo); }
-
-.stack-tail { height: 12vh; padding: 0; }
-
-@media (max-width: 700px) {
-  .stack-section { height: 210vh; }
-  .stack { height: min(400px, 64vh); }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  /* no pinning, no depth - just read the three cards in order */
-  .stack-section { height: auto; }
-  .stack-sticky { position: static; height: auto; display: block; }
-  .stack { height: auto; display: flex; flex-direction: column; gap: 20px; width: 100%; }
-  .scard { position: static; transform: none !important; opacity: 1 !important; }
-  .stack-pips { display: none; }
-}
+.flow .lbl { fill: var(--ink-4); font-size: 10px; letter-spacing: 0.08em; }
+.flow line, .flow path { fill: none; stroke: rgba(139, 123, 240, 0.6); stroke-width: 1.2; }
+.flow .head { fill: rgba(139, 123, 240, 0.85); stroke: none; }
+.flow .loop { stroke: rgba(255, 122, 89, 0.5); stroke-dasharray: 3 4; }
+.flow .head-l { fill: rgba(255, 122, 89, 0.75); stroke: none; }
+.flow .loop-lbl { fill: #FF8F6B; font-size: 10px; letter-spacing: 0.08em; }
 
 /* ============================================================
    Snowball page transition
