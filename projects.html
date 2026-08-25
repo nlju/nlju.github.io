@@ -3,15 +3,15 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Vinski Nieminen</title>
-<meta name="description" content="Vinski Nieminen — Business Analytics student at LUT University in Lappeenranta, Finland. Experience, competence and contact information.">
+<title>Projects — Vinski Nieminen</title>
+<meta name="description" content="Learning quantitative research. A small-cap trading algorithm built end to end, from data pipeline to automated live execution.">
 <meta name="theme-color" content="#06070C">
-<link rel="canonical" href="https://vinskinieminen.com/">
-<meta property="og:url" content="https://vinskinieminen.com/">
-<meta property="og:title" content="Vinski Nieminen">
-<meta property="og:description" content="Business Analytics student at LUT University. Learning quantitative research — building a small-cap trading algorithm end to end.">
-<meta name="twitter:title" content="Vinski Nieminen">
-<meta name="twitter:description" content="Business Analytics student at LUT University. Learning quantitative research — building a small-cap trading algorithm end to end.">
+<link rel="canonical" href="https://vinskinieminen.com/projects.html">
+<meta property="og:url" content="https://vinskinieminen.com/projects.html">
+<meta property="og:title" content="Projects — Vinski Nieminen">
+<meta property="og:description" content="Learning quantitative research. A small-cap trading algorithm built end to end, from data pipeline to automated live execution.">
+<meta name="twitter:title" content="Projects — Vinski Nieminen">
+<meta name="twitter:description" content="Learning quantitative research. A small-cap trading algorithm built end to end, from data pipeline to automated live execution.">
 <link rel="icon" href="favicon.svg" type="image/svg+xml">
 <meta name="color-scheme" content="dark">
 <meta property="og:type" content="website">
@@ -22,20 +22,16 @@
 <meta property="og:image:alt" content="Vinski Nieminen — Business Analytics student at LUT University">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:image" content="https://vinskinieminen.com/og.jpg">
-<script type="application/ld+json">
-{
-  "@context": "https://schema.org",
-  "@type": "Person",
-  "name": "Vinski Nieminen",
-  "url": "https://vinskinieminen.com/",
-  "email": "mailto:nieminenvinski@gmail.com",
-  "telephone": "+358440892005",
-  "jobTitle": "Business Analytics student",
-  "address": { "@type": "PostalAddress", "addressLocality": "Lappeenranta", "addressCountry": "FI" },
-  "alumniOf": { "@type": "CollegeOrUniversity", "name": "LUT University" },
-  "knowsLanguage": ["fi", "en", "sv"],
-  "sameAs": ["https://www.linkedin.com/in/vinskinieminen/"]
-}
+<script>
+/* Runs before first paint: if we arrived through the snowball transition,
+   mark the document so the cover is already down and no unmasked frame
+   of the page can flash. */
+try {
+  if (sessionStorage.getItem("snowfall") === "1") {
+    document.documentElement.className += " arriving";
+    sessionStorage.removeItem("snowfall");
+  }
+} catch (e) {}
 </script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -88,199 +84,91 @@
 
   <div class="scrim"></div>
 </div>
-</div>
 
-<a class="skip" href="#experience">Skip to content</a>
+<div class="page-cover" aria-hidden="true"><div class="cover-drift"></div></div>
+
+<a class="skip" href="#projects">Skip to content</a>
 
 <header class="topbar">
   <div class="wrap topbar-inner">
     <nav aria-label="Primary">
-      <a href="#index">INDEX</a>
-      <a class="to-projects" href="projects.html">PROJECTS</a>
-      <a href="#experience">EXPERIENCE</a>
-      <a href="#competence">COMPETENCE</a>
+      <a href="index.html#index">INDEX</a>
+      <a href="projects.html" aria-current="page">PROJECTS</a>
+      <a href="index.html#experience">EXPERIENCE</a>
+      <a href="index.html#competence">COMPETENCE</a>
     </nav>
   </div>
 </header>
 
-<main>
-
-<section class="hero" id="index">
-  <div class="wrap">
-    <h1 class="name">Vinski<br>Nieminen</h1>
-
-    <p class="about">Business student at LUT University maintaining <strong>4.5/5 GPA</strong>. Alongside that I research and build <strong>systematic trading strategies at one-second resolution</strong> — mostly small-cap intraday patterns, backtested against years of historical data.</p>
-
-    <ul class="contact">
-      <li><a href="mailto:nieminenvinski@gmail.com">
-        <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="2" y="4" width="20" height="16" rx="2"></rect><path d="m2 7 10 6 10-6"></path></svg>
-        nieminenvinski@gmail.com</a></li>
-      <li><a href="tel:+358440892005">
-        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1 1 .4 1.9.7 2.8a2 2 0 0 1-.5 2.1L8.1 9.9a16 16 0 0 0 6 6l1.3-1.2a2 2 0 0 1 2.1-.5c.9.3 1.8.6 2.8.7a2 2 0 0 1 1.7 2Z"></path></svg>
-        +358 44 089 2005</a></li>
-      <li><a class="cta" href="https://www.linkedin.com/in/vinskinieminen/" target="_blank" rel="noopener noreferrer me">LinkedIn
-        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 17 17 7"></path><path d="M8 7h9v9"></path></svg></a></li>
-      <li><span class="place">
-        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"></path><circle cx="12" cy="10" r="3"></circle></svg>
-        Lappeenranta</span></li>
-    </ul>
-  </div>
-</section>
-
-<section class="block" id="experience">
-  <div class="wrap">
-    <p class="eyebrow reveal">EXPERIENCE</p>
-
-    <div class="roles">
-
-      <article class="role reveal">
-        <div class="role-top">
-          <div>
-            <h2>Länsi-Uudenmaan Säästöpankki</h2>
-            <p class="title">Customer Acquisition Intern</p>
-          </div>
-          <span class="period">JUN 2026 → AUG 2026</span>
-        </div>
-        <p class="desc">Managing B2B and B2C new customer acquisition. Booking qualified meetings for Relationship and Investment Managers regarding corporate financing, personal loans, and investment solutions.</p>
-      </article>
-
-      <article class="role reveal">
-        <div class="role-top">
-          <div>
-            <h2>Hirsala Golf</h2>
-            <p class="title">Greenskeeper</p>
-          </div>
-          <span class="period">MAY 2026 → AUG 2026</span>
-        </div>
-        <p class="desc">Golf course renovation, along with the standard greenskeeping duties. Full-time through May, part-time from June.</p>
-      </article>
-
-      <article class="role reveal">
-        <div class="role-top">
-          <div>
-            <h2>Motonet Helsinki</h2>
-            <p class="title">Store Worker</p>
-          </div>
-          <span class="period">AUG → OCT 2024</span>
-        </div>
-        <p class="desc">Cashiering, shelving and other standard store duties. Began on a two-week temporary contract, extended after strong performance.</p>
-      </article>
-
-      <article class="role reveal">
-        <div class="role-top">
-          <div>
-            <h2>Snacky Espoo</h2>
-            <p class="title">Restaurant Employee</p>
-          </div>
-          <span class="period">APR → JUN 2024</span>
-        </div>
-        <p class="desc">Food preparation, cash register, customer service and maintaining a clean environment.</p>
-      </article>
-
-      <article class="role reveal">
-        <div class="role-top">
-          <div>
-            <h2>Swimming Hall Kirkkonummi</h2>
-            <p class="title">Contract Lifeguard</p>
-          </div>
-          <span class="period">FEB → MAR 2024</span>
-        </div>
-        <p class="desc">Passed the lifeguard certification swim test and served as an on-call substitute, ensuring pool safety and order.</p>
-      </article>
-
-      <article class="role reveal">
-        <div class="role-top">
-          <div>
-            <h2>Helsingin Jääkiekkotuomarit HJT ry</h2>
-            <p class="title">Ice Hockey Referee</p>
-          </div>
-          <span class="period">APR → OCT 2023</span>
-        </div>
-        <p class="desc">Refereeing youth and amateur matches. Developed responsibility and rapid decision-making under pressure.</p>
-      </article>
-
-      <article class="role reveal">
-        <div class="role-top">
-          <div>
-            <h2>Water Sports Center Laguuni</h2>
-            <p class="title">Summer Worker</p>
-          </div>
-          <span class="period">2021 &amp; 2022</span>
-        </div>
-        <p class="desc">Customer service and general maintenance across two summer seasons.</p>
-      </article>
-
-      <article class="role reveal">
-        <div class="role-top">
-          <div>
-            <h2>K-Supermarket Lasihytti</h2>
-            <p class="title">Intern</p>
-          </div>
-          <span class="period">FEB 2021</span>
-        </div>
-        <p class="desc">Customer service, shelving and basic logistics tasks.</p>
-      </article>
-
+<main class="page-in">
+  <section class="block" id="projects">
+    <div class="wrap">
+      <h1 class="eyebrow">PROJECTS</h1>
+      <p class="project-lead">Learning quantitative research. Over the past year I’ve built a small-cap trading algorithm end to end — from data pipeline to automated live execution. It has taught me about statistical biases and to distrust a good result.</p>
     </div>
-  </div>
-</section>
+  </section>
 
-<section class="block" id="competence">
-  <div class="wrap">
-    <p class="eyebrow reveal">COMPETENCE</p>
-
-    <div class="panels">
-
-      <div class="panel reveal">
-        <p class="panel-label">EDUCATION</p>
-        <h3 class="panel-h">LUT University</h3>
-        <p class="panel-sub">Bachelor’s, Business Analytics</p>
-        <p class="panel-date">SEP 2025 → JUL 2028</p>
-        <hr>
-        <h3 class="panel-h sm">Matriculation Examination</h3>
-        <p class="panel-date">JUN 2024</p>
-      </div>
-
-      <div class="panel reveal">
-        <p class="panel-label">LANGUAGES</p>
-        <div class="langs">
-          <div class="lang">
-            <div class="lang-track"><span class="lang-fill" style="width:100%"></span><span class="lang-name">Finnish</span></div>
-            <span class="lang-lvl">Native</span>
+  <section class="stack-section" aria-label="What the project taught me">
+    <div class="stack-sticky">
+      <div class="stack">
+        <article class="scard" data-i="0">
+          <div class="scard-bar">
+            <span class="dot"></span><span class="dot"></span><span class="dot"></span>
+            <span class="scard-name">workflow</span>
           </div>
-          <div class="lang">
-            <div class="lang-track"><span class="lang-fill" style="width:85%"></span><span class="lang-name">English</span></div>
-            <span class="lang-lvl">C1</span>
+          <div class="scard-body">
+            <h2>Workflow</h2>
+            <p class="scard-text">I research signal sets in-sample and verify them out-of-sample to avoid curve fitting. Even once a strategy is finished I keep cross-checking it, and study borrow availability.</p>
+            <svg class="flow" viewBox="0 0 640 106" role="img" aria-label="Workflow: second-resolution data feeds in-sample research, which is verified out-of-sample, then cross-checked live. Most candidates are discarded at the out-of-sample stage and return to research.">
+              <defs>
+                <marker id="ah" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="6" markerHeight="6" orient="auto">
+                  <path d="M0,0 L8,4 L0,8 Z" class="head"></path>
+                </marker>
+                <marker id="ahL" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="6" markerHeight="6" orient="auto">
+                  <path d="M0,0 L8,4 L0,8 Z" class="head-l"></path>
+                </marker>
+              </defs>
+
+              <rect x="40" y="6" width="124" height="38" rx="7"></rect>
+              <text x="102" y="29" text-anchor="middle">second-res data</text>
+
+              <rect x="198" y="6" width="90" height="38" rx="7"></rect>
+              <text x="243" y="29" text-anchor="middle">in-sample</text>
+
+              <rect x="322" y="6" width="112" height="38" rx="7"></rect>
+              <text x="378" y="29" text-anchor="middle">out-of-sample</text>
+
+              <rect x="468" y="6" width="132" height="38" rx="7"></rect>
+              <text x="534" y="29" text-anchor="middle">live cross-check</text>
+
+              <line x1="164" y1="25" x2="192" y2="25" marker-end="url(#ah)"></line>
+              <line x1="288" y1="25" x2="316" y2="25" marker-end="url(#ah)"></line>
+              <line x1="434" y1="25" x2="462" y2="25" marker-end="url(#ah)"></line>
+
+              <path class="loop" d="M378,44 V74 H243 V52" marker-end="url(#ahL)"></path>
+              <text x="311" y="94" text-anchor="middle" class="loop-lbl">most die here</text>
+            </svg>
           </div>
-          <div class="lang">
-            <div class="lang-track"><span class="lang-fill" style="width:30%"></span><span class="lang-name">Swedish</span></div>
-            <span class="lang-lvl">A2</span>
+        </article>
+        <article class="scard" data-i="1">
+          <div class="scard-bar">
+            <span class="dot"></span><span class="dot"></span><span class="dot"></span>
+            <span class="scard-name">failure_modes</span>
           </div>
-        </div>
-
-        <p class="panel-label mt">CERTIFICATIONS</p>
-        <dl class="rows">
-          <div><dt>Google AI Essentials</dt><dd>2026</dd></div>
-          <div><dt>Hygiene Passport</dt><dd>2024</dd></div>
-          <div><dt>Driving licence</dt><dd>2022</dd></div>
-        </dl>
+          <div class="scard-body">
+            <h2>Failure modes</h2>
+            <p class="scard-text tight">Each has cost me a result at least once.</p>
+            <ul class="fmodes"><li>lookahead</li><li>survivorship bias</li><li>split-adjusted prices</li><li>timezone and DST drift</li><li>shadow fills</li></ul>
+          </div>
+        </article>
       </div>
-
-      <div class="panel reveal">
-        <p class="panel-label">STRENGTHS</p>
-        <ol class="strengths">
-          <li>Proactiveness</li>
-          <li>Responsibility</li>
-          <li>Systematic approach</li>
-          <li>Punctuality</li>
-          <li>Resilience</li>
-        </ol>
-      </div>
-
+      <ol class="stack-pips" aria-hidden="true">
+        <li></li><li></li>
+      </ol>
     </div>
-  </div>
-</section>
+  </section>
 
+  <section class="block stack-tail"></section>
 </main>
 
 <script src="script.js"></script>

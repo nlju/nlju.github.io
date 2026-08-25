@@ -1,296 +1,938 @@
+/* ============================================================
+   Vinski Nieminen — "Signal"
+   Palette, type scale and layout tokens
+   ============================================================ */
+
 :root {
-    --bg-color: #050816;
-    --primary-color: #00f0ff; /* Neon Cyan */
-    --secondary-color: #915eff; /* Neon Purple */
-    --green-accent: #28a745; /* New green color */
-    --text-color: #e0e0e0;
-    --card-bg: rgba(20, 25, 50, 0.5);
-    --border-color: rgba(0, 240, 255, 0.3);
-    --font-heading: 'Orbitron', sans-serif;
-    --font-body: 'Poppins', sans-serif;
+  --bg:        #06070C;
+  --ink:       #ECEEF5;
+  --ink-2:     #C3C9DA;
+  --ink-3:     #A0A8BF;
+  --ink-4:     #8B93AB;
+  --ink-5:     #7A8199;
+
+  --indigo:    #8B7BF0;
+  --indigo-dp: #6556E8;
+  --coral:     #FF7A59;
+  --coral-lt:  #FF8F6B;
+
+  --glass:     rgba(255, 255, 255, 0.05);
+  --glass-2:   rgba(255, 255, 255, 0.028);
+  --edge:      rgba(255, 255, 255, 0.12);
+  --edge-2:    rgba(255, 255, 255, 0.075);
+  --edge-lit:  rgba(139, 123, 240, 0.32);
+
+  --f-display: "Bricolage Grotesque", "Helvetica Neue", Arial, sans-serif;
+  --f-body:    "Archivo", "Helvetica Neue", Arial, sans-serif;
+  --f-mono:    "JetBrains Mono", ui-monospace, Consolas, monospace;
+
+  --wrap:      1180px;
+  --pad:       clamp(20px, 5vw, 72px);
 }
-/* ===== SMOOTH SCROLLING (SITE-WIDE) ===== */
+
+* { box-sizing: border-box; }
+
 html { scroll-behavior: smooth; }
 
-/* Anchor offset for fixed nav */
-#hero, #experience, #skills { scroll-margin-top: 100px; }
-
-/* Better focus styles for keyboard users */
-:focus-visible { outline: 2px solid var(--primary-color); outline-offset: 2px; }
-.nav-links a:focus-visible, .contact-text:focus-visible, .link-only:focus-visible { text-decoration: underline; }
-
-/* ===== Navigation Bar Styling ===== */
-.main-nav {
-    position: fixed; top: 0; left: 0; width: 100%; z-index: 1000;
-    padding: 15px 0; background: rgba(5, 8, 22, 0.8); backdrop-filter: blur(10px);
-    border-bottom: 1px solid var(--border-color);
-    display: flex; justify-content: center; align-items: center;
-}
-/* +++ REPLACE WITH THIS NEW CODE +++ */
-.nav-links {
-    list-style: none;
-    margin: 0;
-    padding: 0;
-    position: relative;
-
-    /* --- Changes are below --- */
-    display: grid; /* Changed from flex to grid */
-    width: 100%;   /* Make the grid take up the full width */
-
-    /* The magic for perfect centering: */
-    grid-template-columns: 1fr auto 1fr; 
-}
-.nav-links li {
-    text-align: center;
-}
-
-.nav-links li a {
-    font-family: var(--font-heading);
-    color: var(--text-color);
-    text-decoration: none;
-    padding: 10px 25px;
-    margin: 0 5px;
-    font-size: 1rem;
-    letter-spacing: 0.1em;
-    transition: color 0.3s ease;
-}
-
-.nav-links li a:hover {
-    color: var(--primary-color);
-}
-
-* {
-    box-sizing: border-box;
-    margin: 0;
-    padding: 0;
-}
-
 body {
-    background-color: var(--bg-color);
-    color: var(--text-color);
-    font-family: var(--font-body);
-    overflow-x: hidden;
+  margin: 0;
+  background: var(--bg);
+  color: var(--ink);
+  font-family: var(--f-body);
+  font-size: 16px;
+  line-height: 1.6;
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
 }
 
-#starfield {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    z-index: -1;
+.wrap { max-width: var(--wrap); margin: 0 auto; padding: 0 var(--pad); }
+
+a { color: var(--coral-lt); text-decoration: none; }
+a:hover { color: #FFB098; }
+:focus-visible { outline: 2px solid var(--indigo); outline-offset: 3px; border-radius: 4px; }
+
+.skip {
+  position: absolute; left: -9999px; top: 0; z-index: 100;
+  background: var(--indigo-dp); color: #fff; padding: 12px 20px; border-radius: 0 0 8px 0;
+}
+.skip:focus { left: 0; }
+
+/* ============================================================
+   Parallax backdrop — fixed layers, transformed by script.js
+   ============================================================ */
+
+.backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  overflow: hidden;
 }
 
-.content-wrapper {
-    position: relative;
-    z-index: 1;
-    width: 90%;
-    max-width: 1000px;
-    margin: 0 auto;
+.layer { position: absolute; will-change: transform; }
+
+.sky {
+  position: absolute; inset: 0;
+  background: linear-gradient(180deg, #06070C 0%, #080B18 42%, #0B1122 72%, #0C1326 100%);
 }
 
-.hero-section {
-    min-height: 100vh;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    text-align: center;
+/* Stars are a REPEATING 320px tile, not 74 unique gradients stretched over
+   165vh - the browser rasterises one small tile and reuses it. */
+.stars {
+  top: -25vh; left: 0; right: 0; height: 140vh;
+}
+.stars > div {
+  position: absolute; inset: 0;
+  background-image:
+    radial-gradient(1.8px 1.8px at 17.1% 94.9%, rgba(255,255,255,0.25), transparent),
+    radial-gradient(2.0px 2.0px at 31.5% 55.5%, rgba(255,255,255,0.70), transparent),
+    radial-gradient(2.1px 2.1px at 32.9% 33.5%, rgba(255,255,255,0.22), transparent),
+    radial-gradient(1.3px 1.3px at 49.5% 63.0%, rgba(255,255,255,0.67), transparent),
+    radial-gradient(1.8px 1.8px at 46.2% 17.8%, rgba(255,255,255,0.30), transparent),
+    radial-gradient(1.4px 1.4px at 18.9% 97.2%, rgba(255,255,255,0.30), transparent),
+    radial-gradient(1.9px 1.9px at 32.8% 5.7%, rgba(255,255,255,0.68), transparent),
+    radial-gradient(1.5px 1.5px at 80.0% 36.1%, rgba(255,255,255,0.61), transparent),
+    radial-gradient(1.0px 1.0px at 50.6% 39.3%, rgba(255,255,255,0.58), transparent),
+    radial-gradient(2.1px 2.1px at 46.8% 77.0%, rgba(255,255,255,0.69), transparent),
+    radial-gradient(1.1px 1.1px at 24.2% 0.3%, rgba(255,255,255,0.50), transparent),
+    radial-gradient(1.2px 1.2px at 96.6% 16.3%, rgba(255,255,255,0.72), transparent),
+    radial-gradient(1.2px 1.2px at 66.4% 16.9%, rgba(255,255,255,0.50), transparent),
+    radial-gradient(2.1px 2.1px at 4.6% 95.4%, rgba(255,255,255,0.58), transparent),
+    radial-gradient(1.9px 1.9px at 81.4% 25.6%, rgba(255,255,255,0.33), transparent),
+    radial-gradient(1.5px 1.5px at 94.1% 62.8%, rgba(255,255,255,0.74), transparent),
+    radial-gradient(1.7px 1.7px at 5.6% 45.3%, rgba(255,255,255,0.70), transparent),
+    radial-gradient(1.3px 1.3px at 12.3% 79.1%, rgba(255,255,255,0.37), transparent),
+    radial-gradient(1.3px 1.3px at 78.1% 94.8%, rgba(255,255,255,0.61), transparent),
+    radial-gradient(1.4px 1.4px at 98.4% 16.5%, rgba(255,255,255,0.56), transparent),
+    radial-gradient(0.9px 0.9px at 84.5% 3.2%, rgba(255,255,255,0.35), transparent),
+    radial-gradient(1.2px 1.2px at 33.6% 69.5%, rgba(255,255,255,0.37), transparent),
+    radial-gradient(1.9px 1.9px at 78.1% 89.7%, rgba(255,255,255,0.74), transparent),
+    radial-gradient(1.9px 1.9px at 12.6% 19.6%, rgba(255,255,255,0.68), transparent),
+    radial-gradient(2.0px 2.0px at 74.9% 29.4%, rgba(255,255,255,0.35), transparent),
+    radial-gradient(1.4px 1.4px at 26.3% 89.5%, rgba(255,255,255,0.68), transparent);
+  background-size: 320px 320px;
+  animation: shimmer 12s ease-in-out infinite;
 }
 
-.profile-picture {
-    width: 150px;
-    height: 150px;
-    border-radius: 50%;
-    object-fit: cover;
-    margin-bottom: 2rem;
-    border: 3px solid var(--primary-color);
-    box-shadow: 0 0 20px var(--primary-color);
-    transition: width 0.4s ease, height 0.4s ease, margin-bottom 0.4s ease;
+.moon {
+  top: 18vh; right: 7vw;
+  width: 58px; height: 58px; border-radius: 50%;
+  background: radial-gradient(circle at 36% 32%, #FFFDF6 0%, #F8F1DE 44%, #DCD0AE 76%, #BFB088 100%);
+  box-shadow:
+    0 0 24px 5px rgba(255, 250, 234, 0.34),
+    0 0 74px 24px rgba(255, 241, 212, 0.17),
+    0 0 176px 68px rgba(148, 138, 218, 0.13);
 }
 
-.profile-picture:hover {
-    width: 250px;
-    height: 250px;
-    margin-bottom: 3rem;
-    cursor: pointer;
+/* No filter: blur() - radial gradients are already soft, and a blur filter
+   on a large composited layer is expensive for no visible gain. */
+.aurora {
+  top: -10vh; left: -12%; right: -12%; height: 78vh;
+}
+.aurora > div {
+  position: absolute; inset: 0;
+  background:
+    radial-gradient(56% 96% at 28% 6%, rgba(101, 86, 232, 0.26), transparent 72%),
+    radial-gradient(46% 88% at 68% 14%, rgba(255, 122, 89, 0.17), transparent 74%),
+    radial-gradient(40% 76% at 48% 2%, rgba(96, 214, 178, 0.12), transparent 76%);
+  animation: shimmer 19s ease-in-out infinite reverse;
 }
 
-.glitch-container {
-    position: relative;
+.orb { border-radius: 50%; }
+.orb-indigo {
+  top: -28vh; left: -20vw;
+  width: min(880px, 88vw); height: min(880px, 88vw);
+  background: radial-gradient(circle, rgba(101,86,232,0.38) 0%, rgba(101,86,232,0.10) 44%, rgba(101,86,232,0) 70%);
+  animation: breathe 13s ease-in-out infinite;
+}
+.orb-coral {
+  top: -16vh; right: -24vw;
+  width: min(820px, 84vw); height: min(820px, 84vw);
+  background: radial-gradient(circle, rgba(255,122,89,0.30) 0%, rgba(255,122,89,0.08) 46%, rgba(255,122,89,0) 70%);
+  animation: breathe 17s ease-in-out infinite reverse;
 }
 
-.glitch {
-    font-family: var(--font-heading);
-    font-size: 5rem;
-    color: var(--text-color);
-    letter-spacing: 0.2em;
-    text-shadow: 0 0 10px var(--primary-color), 0 0 20px var(--primary-color);
+/* Mist bands sit between the forest layers and do most of the work of
+   making the distance read as distance. Two linear gradients: near-free. */
+.mist { left: -6%; right: -6%; }
+.mist-1 {
+  bottom: -100vh; height: 116vh;
+  background: linear-gradient(180deg,
+    transparent 0%, rgba(150, 168, 214, 0.09) 22%, rgba(150, 168, 214, 0.13) 34%, transparent 52%);
+}
+.mist-2 {
+  bottom: -100vh; height: 100vh;
+  background: linear-gradient(180deg,
+    transparent 0%, rgba(138, 158, 208, 0.11) 20%, rgba(138, 158, 208, 0.15) 30%, transparent 48%);
 }
 
-.subtitle {
-    font-size: 1.2rem;
-    font-weight: 300;
-    margin-top: 1rem;
-    max-width: 600px;
+/* Landscape. Ridges may stretch - they are abstract landforms.
+   Forests must not: height:auto keeps the viewBox aspect so every spruce
+   holds its true shape. */
+.scene { left: -4%; right: -4%; display: flex; flex-direction: column; }
+.scene .shape { display: block; width: 100%; shape-rendering: geometricPrecision; }
+.scene .shape path:not([fill]) { fill: currentColor; }
+.scene .fill { flex-grow: 1; background: currentColor; box-shadow: 0 -46px 62px -12px currentColor; }
+
+.ridge-far { bottom: -100vh; height: 128vh; color: #0C1226; }
+.ridge-far .shape { height: 22vh; }
+
+.ridge-mid { bottom: -100vh; height: 118vh; color: #0A0F1E; }
+.ridge-mid .shape { height: 24vh; }
+
+.forest-far { bottom: -100vh; height: 104vh; color: #060914; }
+.forest-far .shape { height: auto; }
+
+.forest-near { bottom: -100vh; height: 88vh; color: #020307; }
+.forest-near .shape { height: auto; }
+
+/* Snow: the OUTER layer takes the JS parallax transform, the two inner
+   tiles animate their own transform. Compositor-only, no repaint. */
+.snow { top: -20vh; left: 0; right: 0; height: 232vh; }
+.snow > div { position: absolute; inset: 0; will-change: transform; }
+.snow-a {
+  background-image:
+    radial-gradient(1.6px 1.6px at 42.2% 98.2%, rgba(255,255,255,0.44), transparent),
+    radial-gradient(1.9px 1.9px at 59.1% 48.5%, rgba(255,255,255,0.31), transparent),
+    radial-gradient(2.4px 2.4px at 63.1% 82.2%, rgba(255,255,255,0.53), transparent),
+    radial-gradient(2.4px 2.4px at 58.2% 10.8%, rgba(255,255,255,0.30), transparent),
+    radial-gradient(1.6px 1.6px at 18.8% 8.9%, rgba(255,255,255,0.51), transparent),
+    radial-gradient(2.0px 2.0px at 67.4% 52.2%, rgba(255,255,255,0.38), transparent),
+    radial-gradient(1.9px 1.9px at 25.6% 9.7%, rgba(255,255,255,0.52), transparent),
+    radial-gradient(2.0px 2.0px at 26.1% 12.5%, rgba(255,255,255,0.54), transparent),
+    radial-gradient(1.6px 1.6px at 3.4% 43.9%, rgba(255,255,255,0.42), transparent),
+    radial-gradient(2.1px 2.1px at 82.0% 23.2%, rgba(255,255,255,0.29), transparent),
+    radial-gradient(2.2px 2.2px at 63.0% 43.4%, rgba(255,255,255,0.37), transparent),
+    radial-gradient(1.7px 1.7px at 58.4% 7.6%, rgba(255,255,255,0.54), transparent),
+    radial-gradient(2.1px 2.1px at 17.5% 73.0%, rgba(255,255,255,0.50), transparent),
+    radial-gradient(2.0px 2.0px at 44.4% 52.7%, rgba(255,255,255,0.38), transparent);
+  background-size: 300px 300px;
+  animation: fall-a 24s linear infinite;
+}
+.snow-b {
+  background-image:
+    radial-gradient(2.8px 2.8px at 95.1% 15.0%, rgba(255,255,255,0.20), transparent),
+    radial-gradient(3.5px 3.5px at 68.7% 55.6%, rgba(255,255,255,0.31), transparent),
+    radial-gradient(3.4px 3.4px at 24.9% 35.3%, rgba(255,255,255,0.16), transparent),
+    radial-gradient(3.2px 3.2px at 43.2% 52.6%, rgba(255,255,255,0.18), transparent),
+    radial-gradient(3.2px 3.2px at 3.4% 88.5%, rgba(255,255,255,0.32), transparent),
+    radial-gradient(3.0px 3.0px at 13.6% 94.6%, rgba(255,255,255,0.21), transparent),
+    radial-gradient(3.1px 3.1px at 72.2% 54.8%, rgba(255,255,255,0.33), transparent),
+    radial-gradient(2.9px 2.9px at 60.0% 2.6%, rgba(255,255,255,0.24), transparent),
+    radial-gradient(3.3px 3.3px at 98.5% 64.9%, rgba(255,255,255,0.33), transparent);
+  background-size: 420px 420px;
+  animation: fall-b 41s linear infinite;
 }
 
-/* ===== Contact links (reduced interactivity, visible info) ===== */
-.contact-links {
-    margin-top: 2rem; display: flex; flex-wrap: wrap; gap: 1rem 1.5rem; align-items: center; justify-content: center;
-}
-.contact-item {
-    display: inline-flex; align-items: center; gap: 0.5rem; color: var(--text-color);
-}
-.contact-icon { font-size: 1rem; line-height: 1; }
-.contact-text { color: var(--primary-color); text-decoration: none; border-bottom: none; }
-.contact-text:hover { text-decoration: none; }
-
-/* Keep a subtle hover only for LinkedIn CTA */
-.link-only { color: var(--primary-color); text-decoration: none; font-weight: 600; }
-.link-only:hover { text-shadow: 0 0 15px var(--primary-color); }
-
-/* Remove old tooltip separators styling (no longer used) */
-/* removed: .contact-item[data-tooltip] styles and '//' separators */
-
-
-section {
-    /* Changed padding to padding-top and increased it */
-    padding: 150px 0 100px 0; 
-    border-top: 1px solid var(--border-color);
-}
-section h2 {
-    font-family: var(--font-heading);
-    font-size: 2.5rem;
-    text-align: center;
-    margin-bottom: 60px;
-    color: var(--primary-color);
-    text-shadow: 0 0 10px var(--primary-color);
+.scrim {
+  position: absolute; inset: 0;
+  background: linear-gradient(180deg,
+    rgba(6,7,12,0.60) 0%,
+    rgba(6,7,12,0.28) 26%,
+    rgba(6,7,12,0.40) 58%,
+    rgba(6,7,12,0.72) 100%);
 }
 
-.reveal {
-    opacity: 0;
-    transform: translateY(50px);
-    transition: opacity 0.8s ease-out, transform 0.8s ease-out;
-}
-.reveal.visible {
-    opacity: 1;
-    transform: translateY(0);
+/* ============================================================
+   Dawn. A second sky cross-fades over the night one as you scroll.
+   Driven by the same 0..1 progress value as the parallax, and applied
+   as opacity on already-composited layers - no repaint, no layout.
+   ============================================================ */
+
+.fades { will-change: transform, opacity; }
+
+.sky-dawn {
+  position: absolute; inset: 0;
+  opacity: 0;
+  background: linear-gradient(180deg,
+    #101637 0%,
+    #20204A 13%,
+    #392856 23%,
+    #653A5C 30%,
+    #9A5657 36%,
+    #BC6E50 41%,
+    #7C4544 49%,
+    #3A2640 62%,
+    #191324 79%,
+    #0B0914 100%);
 }
 
-.card {
-    background: var(--card-bg);
-    border: 1px solid var(--border-color);
-    padding: 1.5rem 2rem;
-    border-radius: 10px;
-    backdrop-filter: blur(10px);
-    transition: none;
-    transform-style: none;
-}
-.card:hover {
-    transform: none;
-    box-shadow: none;
+.dawn-sun {
+  position: absolute; inset: 0;
+  opacity: 0;
+  background:
+    radial-gradient(28% 19% at 12% 40%, rgba(255, 192, 128, 0.46), transparent 70%),
+    radial-gradient(64% 36% at 14% 43%, rgba(255, 138, 88, 0.24), transparent 72%),
+    radial-gradient(52% 24% at 62% 46%, rgba(214, 122, 118, 0.14), transparent 74%);
 }
 
-/* ===== COMPLETELY REWRITTEN: Experience Timeline Layout ===== */
-.timeline {
-    position: relative;
-    max-width: 800px;
-    margin: 0 auto;
-    padding-left: 30px; /* Space for the timeline line */
-}
-.timeline::before { /* The main vertical line */
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    height: 100%;
-    width: 3px;
-    background-image: linear-gradient(to bottom, var(--primary-color), var(--secondary-color));
-    box-shadow: 0 0 10px var(--primary-color);
-}
-.timeline-item {
-    position: relative;
-    margin-bottom: 30px;
-}
-.timeline-item .card {
-    position: relative;
-}
-.timeline-item .card::before { /* The triangular "notch" */
-    content: '';
-    position: absolute;
-    top: 25px;
-    left: -16px; /* Positioned to perfectly meet the timeline line */
-    width: 0;
-    height: 0;
-    border-top: 10px solid transparent;
-    border-bottom: 10px solid transparent;
-    border-right: 15px solid var(--border-color);
-}
-.card-content .date { /* The date "tag" - now inside the card */
-    display: inline-block; /* Allows padding and margin */
-    font-size: 0.85rem;
-    font-weight: 600;
-    background-color: var(--green-accent);
-    color: #fff;
-    padding: 5px 12px;
-    border-radius: 5px;
-    margin-bottom: 1rem; /* Space between date and company name */
-}
-.card-content h3 { 
-    font-family: var(--font-heading); 
-    margin-bottom: 0.2rem; 
-}
-.job-title { 
-    font-weight: 600; 
-    color: var(--primary-color);
-}
-.card-content p { 
-    margin-top: 1rem; 
+/* The sun. Parked a full viewport below the fold and given 100vh of travel,
+   so it climbs out from behind the near forest rather than materialising in
+   open sky. Sits before every landscape layer in the DOM, so the trees and
+   ridges occlude it on the way up. */
+.sun {
+  top: 114vh; left: 7vw;
+  width: 84px; height: 84px; border-radius: 50%;
+  opacity: 0;
+  background: radial-gradient(circle at 50% 40%, #FFFDF4 0%, #FFDD9C 30%, #FFA857 64%, #FF7E33 100%);
+  box-shadow:
+    0 0 30px 5px rgba(255, 206, 140, 0.52),
+    0 0 104px 30px rgba(255, 158, 88, 0.24),
+    0 0 250px 104px rgba(255, 126, 70, 0.13);
 }
 
-/* ===== Skills Section (Unchanged, but card hover reset) ===== */
-.skills-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-    gap: 2rem;
-}
-.skills-grid .card {
-   /* The old transition and transform-style properties are removed */
-}
-.skill-card h3 {
-    font-family: var(--font-heading);
-    color: var(--primary-color);
-    margin-bottom: 1.5rem;
-}
-.skill-card ul { list-style: none; }
-.skill-card ul li { padding: 0.5rem 0; border-bottom: 1px solid var(--border-color); }
-.skill-card ul li:last-child { border: none; }
-.skill-bar { width: 100%; background-color: rgba(0, 240, 255, 0.1); border-radius: 5px; margin-bottom: 1rem; overflow: hidden; }
-.skill-level { background-image: linear-gradient(90deg, var(--secondary-color), var(--primary-color)); color: var(--bg-color); padding: 0.5rem; border-radius: 5px; position: relative; transform: translateX(-100%); transition: transform 1.5s cubic-bezier(0.25, 1, 0.5, 1); }
-.reveal.visible .skill-level { transform: translateX(0); }
-.skill-name { font-weight: 600; }
-.skill-level.suomi { width: 100%; }
-.skill-level.englanti { width: 85%; }
-.skill-level.ruotsi { width: 30%; }
+@keyframes breathe { 0%, 100% { opacity: 0.74; } 50% { opacity: 1; } }
+@keyframes shimmer { 0%, 100% { opacity: 0.72; } 50% { opacity: 1; } }
+@keyframes fall-a { from { transform: translate3d(0, 0, 0); } to { transform: translate3d(-46px, 300px, 0); } }
+@keyframes fall-b { from { transform: translate3d(0, 0, 0); } to { transform: translate3d(38px, 420px, 0); } }
 
-/* ===== Responsive Design ===== */
-@media (max-width: 768px) {
-    .glitch { font-size: 3rem; }
-    .profile-picture { width: 120px; height: 120px; }
-    .profile-picture:hover { width: 180px; height: 180px; }
+/* ============================================================
+   Top bar
+   ============================================================ */
 
-    .contact-links { gap: 0.75rem 1rem; }
-    .contact-icon { font-size: 0.95rem; }
+.topbar {
+  position: sticky; top: 0; z-index: 20;
+  background: rgba(6, 7, 12, 0.72);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.07);
+}
+.topbar-inner { display: flex; justify-content: flex-end; align-items: center; height: 62px; }
+.topbar nav { display: flex; gap: clamp(16px, 3vw, 36px); }
+.topbar nav a {
+  font-family: var(--f-mono); font-size: 11px; letter-spacing: 0.14em;
+  color: var(--ink-5); transition: color 0.25s ease;
+}
+.topbar nav a:hover { color: var(--ink); }
 
-    .nav-links li a { font-size: 0.75rem !important; padding: 8px 5px; letter-spacing: normal; }
-    .main-nav { padding: 15px 5px; }
-    section { padding-top: 120px; }
+/* ============================================================
+   Hero
+   ============================================================ */
+
+.hero { padding: clamp(64px, 12vh, 132px) 0 clamp(56px, 9vh, 96px); }
+
+.name {
+  font-family: var(--f-display);
+  font-size: clamp(40px, 12.5vw, 132px);
+  font-weight: 800;
+  line-height: 0.87;
+  letter-spacing: -0.045em;
+  margin: 0 0 clamp(28px, 4vw, 44px);
+  background-image: linear-gradient(104deg, #FFFFFF 4%, #C9C4FF 32%, var(--indigo) 56%, var(--coral) 92%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
 }
 
-/* Respect reduced motion preferences */
+.about {
+  font-size: clamp(17px, 2vw, 22px);
+  line-height: 1.6;
+  max-width: 34em;
+  margin: 0 0 clamp(30px, 4vw, 46px);
+  color: #B6BDD0;
+  text-wrap: pretty;
+}
+.about strong { color: var(--ink); font-weight: 600; }
+
+.contact { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; gap: 12px; }
+.contact a, .contact .place {
+  display: inline-flex; align-items: center; gap: 10px;
+  padding: 13px 20px; border-radius: 100px;
+  background: rgba(255, 255, 255, 0.07); border: 1px solid var(--edge);
+  color: var(--ink); font-size: 15px;
+  transition: border-color 0.25s ease, transform 0.25s ease, background 0.25s ease;
+}
+.contact a:hover { border-color: rgba(139,123,240,0.6); transform: translateY(-2px); color: var(--ink); }
+.contact .place { background: var(--glass-2); border-color: var(--edge-2); color: var(--ink-5); }
+.contact svg { width: 15px; height: 15px; fill: none; stroke: var(--indigo); stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; flex-shrink: 0; }
+.contact .place svg { stroke: var(--ink-4); }
+.contact .cta {
+  background: linear-gradient(100deg, rgba(101,86,232,0.92), rgba(255,122,89,0.88));
+  border-color: rgba(255,255,255,0.18); color: #fff; font-weight: 600;
+}
+.contact .cta:hover { color: #fff; }
+.contact .cta svg { stroke: #fff; stroke-width: 2.2; width: 14px; height: 14px; }
+
+/* ============================================================
+   Section shell
+   ============================================================ */
+
+.block { padding: clamp(56px, 9vh, 104px) 0; }
+
+.eyebrow {
+  font-family: var(--f-display);
+  font-size: clamp(34px, 5.4vw, 62px);
+  font-weight: 800;
+  letter-spacing: -0.035em;
+  line-height: 1;
+  margin: 0 0 clamp(30px, 4vw, 52px);
+  background-image: linear-gradient(96deg, #FFFFFF 0%, #C9C4FF 46%, var(--indigo) 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+/* ============================================================
+   Projects. One card, more presence than an experience card, because
+   this is the differentiator rather than another job. Same vocabulary
+   as the rest so it belongs - just louder.
+   ============================================================ */
+
+.project {
+  position: relative;
+  background: linear-gradient(180deg, rgba(255,255,255,0.085), rgba(255,255,255,0.032));
+  border: 1px solid rgba(139, 123, 240, 0.46);
+  border-radius: 22px;
+  padding: clamp(30px, 4vw, 56px) clamp(26px, 4vw, 60px);
+  overflow: hidden;
+  box-shadow: 0 0 56px -14px rgba(139, 123, 240, 0.46);
+}
+.project::before {
+  content: "";
+  position: absolute; top: 0; left: 0;
+  width: 4px; height: 100%;
+  background: linear-gradient(180deg, var(--indigo), var(--coral));
+}
+.project::after {
+  content: "";
+  position: absolute; top: 0; left: 0;
+  width: 52%; height: 100%;
+  background: linear-gradient(90deg, rgba(139,123,240,0.16), rgba(139,123,240,0));
+  pointer-events: none;
+  z-index: 0;
+}
+.project > * { position: relative; z-index: 1; }
+
+.project-lead {
+  font-size: clamp(18px, 2.1vw, 25px);
+  line-height: 1.55;
+  color: var(--ink-2);
+  margin: 0;
+  max-width: 46ch;
+  text-wrap: pretty;
+}
+.project-lead strong { color: var(--ink); font-weight: 600; }
+
+/* ============================================================
+   Experience — enlarged slots
+   ============================================================ */
+
+.roles { display: flex; flex-direction: column; gap: 20px; }
+
+.role {
+  position: relative;
+  background: linear-gradient(180deg, rgba(255,255,255,0.072), rgba(255,255,255,0.030));
+  border: 1px solid var(--edge-lit);
+  border-radius: 20px;
+  padding: clamp(26px, 3.4vw, 44px) clamp(24px, 3.6vw, 48px);
+  overflow: hidden;
+  box-shadow: 0 0 34px -12px rgba(139, 123, 240, 0.32);
+  transition: border-color 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
+}
+.role::before {
+  content: "";
+  position: absolute; top: 0; left: 0;
+  width: 3px; height: 100%;
+  background: linear-gradient(180deg, var(--indigo), var(--coral));
+}
+.role::after {
+  content: "";
+  position: absolute; top: 0; left: 0;
+  width: 44%; height: 100%;
+  background: linear-gradient(90deg, rgba(139,123,240,0.12), rgba(139,123,240,0));
+  pointer-events: none;
+  z-index: 0;
+}
+.role > * { position: relative; z-index: 1; }
+.role:hover {
+  border-color: rgba(139, 123, 240, 0.62);
+  box-shadow: 0 0 52px -10px rgba(139, 123, 240, 0.5);
+}
+
+.role-top { display: flex; justify-content: space-between; align-items: flex-start; gap: 28px; flex-wrap: wrap; }
+
+.role h2 {
+  font-family: var(--f-display);
+  font-size: clamp(21px, 2.4vw, 30px);
+  font-weight: 700;
+  letter-spacing: -0.022em;
+  line-height: 1.15;
+  margin: 0 0 6px;
+  color: var(--ink);
+  text-wrap: balance;
+}
+.role .title { font-size: clamp(15px, 1.4vw, 17px); color: var(--indigo); font-weight: 500; margin: 0; }
+
+.role .period {
+  font-family: var(--f-mono); font-size: 13px; color: var(--ink-2);
+  white-space: nowrap; padding-top: 6px;
+}
+
+.role .desc {
+  font-size: clamp(15px, 1.5vw, 17px);
+  line-height: 1.65;
+  color: var(--ink-3);
+  margin: clamp(14px, 1.8vw, 22px) 0 0;
+  max-width: 62ch;
+  text-wrap: pretty;
+}
+
+/* ============================================================
+   Fanned cascade on the experience cards.
+
+   Each card waits as part of a loose deck - offset to alternating sides,
+   tilted, slightly undersized, hinged from a corner below itself - then
+   swings flat as it scrolls into view. Transform and opacity only, so it
+   runs on the compositor and costs nothing to paint.
+   ============================================================ */
+
+.js .roles .role {
+  opacity: 0;
+  transform: translate3d(var(--dx, -26px), 54px, 0) scale(0.952) rotate(var(--tilt, -2.6deg));
+  transform-origin: var(--hinge, 100% 140%);
+  will-change: transform, opacity;
+}
+
+.js .roles .role.seen {
+  opacity: 1;
+  transform: translate3d(0, 0, 0) scale(1) rotate(0deg);
+  transition:
+    opacity 0.70s cubic-bezier(0.22, 1, 0.36, 1),
+    transform 0.94s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+/* alternate the side each card is dealt from */
+.roles .role:nth-child(even) {
+  --dx: 26px;
+  --tilt: 2.6deg;
+  --hinge: 0% 140%;
+}
+
+/* the top of the list is usually already on screen at load - stagger those
+   so they deal out in sequence instead of snapping in together */
+.js .roles .role:nth-child(1).seen { transition-delay: 0.00s, 0.00s; }
+.js .roles .role:nth-child(2).seen { transition-delay: 0.09s, 0.09s; }
+.js .roles .role:nth-child(3).seen { transition-delay: 0.18s, 0.18s; }
+
+/* On a phone the card already fills the column, so a 26px sideways deal
+   pushes it off-screen. Keep the tilt (scaled down) and drop the offset -
+   the cascade still reads, nothing escapes the viewport. */
+@media (max-width: 760px) {
+  .js .roles .role { --dx: 0px; --tilt: -1.3deg; --hinge: 100% 140%; }
+  .roles .role:nth-child(even) { --dx: 0px; --tilt: 1.3deg; --hinge: 0% 140%; }
+}
+
+/* ============================================================
+   Competence — enlarged panels
+   ============================================================ */
+
+.panels { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 20px; }
+
+.panel {
+  background: linear-gradient(180deg, rgba(255,255,255,0.068), rgba(255,255,255,0.026));
+  border: 1px solid rgba(255, 255, 255, 0.09);
+  border-radius: 22px;
+  padding: clamp(26px, 2.8vw, 40px) clamp(24px, 2.6vw, 36px);
+  transition: border-color 0.3s ease, transform 0.3s ease;
+}
+.panel:hover { border-color: rgba(139,123,240,0.4); transform: translateY(-3px); }
+
+.panel-label {
+  font-family: var(--f-mono); font-size: 11px; letter-spacing: 0.16em;
+  color: var(--indigo); margin: 0 0 22px;
+}
+.panel-label.mt { margin-top: 34px; }
+
+.panel-h {
+  font-family: var(--f-display);
+  font-size: clamp(19px, 1.9vw, 24px);
+  font-weight: 700; letter-spacing: -0.02em; margin: 0; color: var(--ink);
+}
+.panel-h.sm { font-size: clamp(17px, 1.7vw, 21px); color: #DDE1EC; }
+.panel-sub { font-size: 16px; color: var(--ink-3); margin: 5px 0 0; }
+.panel-date { font-family: var(--f-mono); font-size: 13px; color: var(--ink-4); margin: 9px 0 0; }
+.panel hr { border: none; border-top: 1px solid rgba(255,255,255,0.08); margin: 26px 0; }
+
+/* --- language bars --- */
+
+.langs { display: flex; flex-direction: column; gap: 16px; }
+.lang { display: flex; align-items: center; gap: 14px; }
+
+.lang-track {
+  position: relative;
+  flex-grow: 1;
+  height: 38px;
+  border-radius: 9px;
+  background: rgba(139, 123, 240, 0.09);
+  border: 1px solid rgba(255, 255, 255, 0.07);
+  overflow: hidden;
+}
+.lang-fill {
+  position: absolute; inset: 0 auto 0 0;
+  border-radius: 8px;
+  background: linear-gradient(90deg, var(--indigo-dp), var(--indigo) 60%, var(--coral));
+  box-shadow: 0 0 22px rgba(139, 123, 240, 0.30);
+  transform-origin: left center;
+}
+.lang-name {
+  position: absolute; left: 14px; top: 50%; transform: translateY(-50%);
+  font-size: 15px; font-weight: 600; color: #fff;
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.45);
+  white-space: nowrap;
+}
+.lang-lvl {
+  font-family: var(--f-mono); font-size: 13px; color: var(--coral-lt);
+  min-width: 3.6em; text-align: right; flex-shrink: 0;
+}
+
+/* --- certification rows --- */
+
+.rows { margin: 0; }
+.rows > div {
+  display: flex; justify-content: space-between; align-items: center; gap: 12px;
+  padding: 13px 0; border-bottom: 1px solid rgba(255, 255, 255, 0.07);
+}
+.rows > div:last-child { border-bottom: none; }
+.rows dt { font-size: 16px; color: #DDE1EC; }
+.rows dd { margin: 0; font-family: var(--f-mono); font-size: 13px; color: var(--ink-4); }
+
+/* --- strengths --- */
+
+.strengths { list-style: none; margin: 0; padding: 0; counter-reset: s; display: flex; flex-direction: column; gap: 18px; }
+.strengths li {
+  counter-increment: s;
+  display: flex; align-items: center; gap: 14px;
+  font-size: clamp(16px, 1.6vw, 19px); color: var(--ink);
+}
+.strengths li::before {
+  content: "0" counter(s);
+  font-family: var(--f-mono); font-size: 11px; color: var(--ink-5);
+  font-variant-numeric: tabular-nums;
+}
+
+/* ============================================================
+   Scroll reveal — only armed once JS confirms it is running
+   ============================================================ */
+
+.js .reveal { opacity: 0; transform: translateY(26px); }
+.js .reveal.seen {
+  opacity: 1; transform: none;
+  transition: opacity 0.7s cubic-bezier(0.22, 1, 0.36, 1), transform 0.7s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+/* ============================================================
+   Responsive
+   ============================================================ */
+
+@media (max-width: 940px) {
+  .panels { grid-template-columns: 1fr; }
+}
+@media (max-width: 700px) {
+  .topbar nav { gap: 11px; }
+  .topbar nav a { font-size: 10px; letter-spacing: 0.07em; }
+}
+
+@media (max-width: 620px) {
+  .role-top { gap: 10px; }
+  .role .period { padding-top: 0; }
+  .contact { gap: 9px; }
+  .contact a, .contact .place { padding: 11px 16px; font-size: 14px; }
+}
+
 @media (prefers-reduced-motion: reduce) {
-    html { scroll-behavior: auto; }
-    * { animation: none !important; transition: none !important; }
-    .reveal { opacity: 1 !important; transform: none !important; }
+  html { scroll-behavior: auto; }
+  .orb, .orb-indigo, .orb-coral, .stars > div, .aurora > div, .snow > div { animation: none; }
+  .js .reveal { opacity: 1; transform: none; }
+  .js .roles .role,
+  .js .roles .role.seen { opacity: 1; transform: none; transition: none; will-change: auto; }
+  .role, .panel, .contact a { transition: none; }
+  .role:hover, .panel:hover, .contact a:hover { transform: none; }
+}
+
+
+/* ============================================================
+   Narrow screens: the forest SVGs are width-driven, so at 360px the
+   spruces would render ~75px tall. Widen them past the viewport and
+   pull them back into centre - fewer trees, correct size, no distortion.
+   ============================================================ */
+
+@media (max-width: 760px) {
+  .forest-near .shape { width: 240%; margin-left: -70%; }
+  .forest-far .shape  { width: 175%; margin-left: -37.5%; }
+  .moon { width: 46px; height: 46px; top: 13vh; right: 12vw; }
+  .sun { width: 62px; height: 62px; left: 6vw; }
+}
+
+@media (max-width: 460px) {
+  .forest-near .shape { width: 340%; margin-left: -120%; }
+  .forest-far .shape  { width: 235%; margin-left: -67.5%; }
+}
+
+/* ============================================================
+   Scroll-driven card stack
+
+   Three window cards held in depth. The section is tall; a sticky frame
+   inside it pins the stack while you scroll past, and that scroll
+   position decides which card is at the front. Cards ahead wait behind,
+   smaller and up-left; the card you just left recedes back into the
+   deck rather than flying away.
+
+   Every frame writes only transform and opacity, from one rAF, and the
+   card positions come from a single scroll measurement per frame.
+   ============================================================ */
+
+.stack-section { height: 220vh; position: relative; }
+
+.stack-sticky {
+  position: sticky; top: 0;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.stack {
+  position: relative;
+  width: min(760px, 86vw);
+  height: min(430px, 62vh);
+  perspective: 1400px;
+}
+
+.scard {
+  position: absolute; inset: 0;
+  display: flex; flex-direction: column;
+  border-radius: 18px;
+  overflow: hidden;
+  background: linear-gradient(180deg, #171C2E 0%, #10141F 55%, #0B0E17 100%);
+  border: 1px solid rgba(139, 123, 240, 0.34);
+  box-shadow: 0 30px 70px -24px rgba(0, 0, 0, 0.8), 0 0 46px -18px rgba(139, 123, 240, 0.4);
+  transform-origin: 50% 50%;
+  will-change: transform, opacity;
+}
+
+.scard-bar {
+  display: flex; align-items: center; gap: 7px;
+  padding: 13px 18px;
+  background: rgba(255, 255, 255, 0.045);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  flex-shrink: 0;
+}
+.scard-bar .dot { width: 9px; height: 9px; border-radius: 50%; background: rgba(255, 255, 255, 0.17); }
+.scard-name {
+  margin-left: 10px;
+  font-family: var(--f-mono); font-size: 12px; letter-spacing: 0.06em;
+  color: var(--ink-4);
+}
+
+.scard-body {
+  flex-grow: 1;
+  padding: clamp(26px, 4vw, 48px) clamp(24px, 4vw, 52px);
+  display: flex; flex-direction: column; justify-content: center; gap: 0;
+}
+.scard-body h2 {
+  font-family: var(--f-display);
+  font-size: clamp(24px, 3.4vw, 40px);
+  font-weight: 700; letter-spacing: -0.03em; line-height: 1.1;
+  margin: 0 0 clamp(14px, 2vw, 22px);
+  color: var(--ink);
+  text-wrap: balance;
+}
+.scard-text {
+  font-size: clamp(16px, 1.8vw, 20px);
+  line-height: 1.55;
+  color: var(--ink-3);
+  margin: 0;
+  max-width: 52ch;
+  text-wrap: pretty;
+}
+
+/* workflow schema on the first card */
+.flow { width: 100%; height: auto; display: block; margin-top: clamp(16px, 2.2vw, 26px); }
+.flow rect {
+  fill: rgba(255, 255, 255, 0.045);
+  stroke: rgba(139, 123, 240, 0.42);
+  stroke-width: 1;
+}
+.flow text {
+  fill: #C3C9DA;
+  font-family: var(--f-mono);
+  font-size: 11px;
+  letter-spacing: 0.02em;
+}
+.flow .lbl { fill: var(--ink-4); font-size: 10px; letter-spacing: 0.08em; }
+.flow line, .flow path { fill: none; stroke: rgba(139, 123, 240, 0.6); stroke-width: 1.2; }
+.flow .head { fill: rgba(139, 123, 240, 0.85); stroke: none; }
+.flow .loop { stroke: rgba(255, 122, 89, 0.5); stroke-dasharray: 3 4; }
+.flow .head-l { fill: rgba(255, 122, 89, 0.75); stroke: none; }
+.flow .loop-lbl { fill: #FF8F6B; font-size: 10px; letter-spacing: 0.08em; }
+
+/* card 2 - failure modes, set in mono like a checklist of things that lie */
+.scard-text.tight { margin-bottom: clamp(16px, 2vw, 24px); }
+
+.fmodes { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: clamp(9px, 1.2vw, 13px); }
+.fmodes li {
+  position: relative;
+  padding-left: 22px;
+  font-family: var(--f-mono);
+  font-size: clamp(13px, 1.35vw, 15px);
+  color: var(--ink-2);
+  letter-spacing: 0.01em;
+}
+.fmodes li::before {
+  content: "";
+  position: absolute; left: 0; top: 0.62em;
+  width: 11px; height: 1px;
+  background: rgba(255, 122, 89, 0.75);
+}
+
+/* progress pips */
+.stack-pips {
+  position: absolute; left: 50%; bottom: clamp(18px, 5vh, 48px);
+  transform: translateX(-50%);
+  display: flex; gap: 10px;
+  list-style: none; margin: 0; padding: 0;
+}
+.stack-pips li {
+  width: 26px; height: 3px; border-radius: 2px;
+  background: rgba(255, 255, 255, 0.16);
+  transition: background 0.3s ease;
+}
+.stack-pips li.on { background: var(--indigo); }
+
+.stack-tail { height: 12vh; padding: 0; }
+
+@media (max-width: 700px) {
+  .stack-section { height: 210vh; }
+  .stack { height: min(400px, 64vh); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  /* no pinning, no depth - just read the three cards in order */
+  .stack-section { height: auto; }
+  .stack-sticky { position: static; height: auto; display: block; }
+  .stack { height: auto; display: flex; flex-direction: column; gap: 20px; width: 100%; }
+  .scard { position: static; transform: none !important; opacity: 1 !important; }
+  .stack-pips { display: none; }
+}
+
+/* ============================================================
+   Snowball page transition
+
+   The snowball hits the PROJECTS link, and the screen dims to the
+   page's own near-black over about two thirds of a second. Navigation
+   happens while it is fully dark, then the next page lifts back out of
+   the dark at the same pace.
+
+   Deliberately built with no fast movement anywhere: the only animated
+   property across the whole transition is OPACITY on two elements. A
+   dropped frame in a slow fade is invisible, where the same drop in a
+   sliding element reads as a stutter. It also never brightens - the
+   screen only ever gets darker than the page already is.
+   ============================================================ */
+
+.sb-stage {
+  position: fixed; inset: 0;
+  z-index: 9998;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+.sb-x { position: absolute; left: 0; top: 0; animation: sb-x var(--throw) linear forwards; }
+.sb-y { animation: sb-y var(--throw) cubic-bezier(0.34, -0.5, 0.62, 1) forwards; }
+
+.sb-ball {
+  width: var(--r); height: var(--r);
+  margin: calc(var(--r) / -2) 0 0 calc(var(--r) / -2);
+  border-radius: 50%;
+  background: radial-gradient(circle at 34% 28%, #F4F8FC 0%, #DCE7F2 52%, #B4C7DA 100%);
+  box-shadow: 0 0 16px 3px rgba(200, 220, 240, 0.38);
+  animation: sb-spin var(--throw) linear forwards;
+}
+
+@keyframes sb-x { from { transform: translateX(var(--x0)); } to { transform: translateX(var(--x1)); } }
+@keyframes sb-y { from { transform: translateY(var(--y0)); } to { transform: translateY(var(--y1)); } }
+@keyframes sb-spin { from { transform: rotate(0deg); } to { transform: rotate(415deg); } }
+
+.sb-fleck {
+  position: absolute; left: 0; top: 0;
+  width: 7px; height: 7px; margin: -3.5px 0 0 -3.5px;
+  border-radius: 50%;
+  background: #E7EFF8;
+  animation: sb-fleck 620ms cubic-bezier(0.16, 0.8, 0.36, 1) forwards;
+}
+@keyframes sb-fleck {
+  from { transform: translate(var(--sx), var(--sy)) scale(1); opacity: 0.95; }
+  to   { transform: translate(calc(var(--sx) + var(--fx)), calc(var(--sy) + var(--fy))) scale(0.15); opacity: 0; }
+}
+
+/* ---------- leaving: the lights go down ---------- */
+
+.dimmer {
+  position: fixed; inset: 0;
+  z-index: 9999;
+  pointer-events: none;
+  background: #04050A;
+  opacity: 0;
+  animation: dim-in var(--dim) cubic-bezier(0.4, 0, 0.5, 1) forwards;
+}
+@keyframes dim-in { to { opacity: 1; } }
+
+/* ---------- arriving: and back up ---------- */
+
+.page-cover { display: none; }
+
+.arriving .page-cover {
+  display: block;
+  position: fixed; inset: 0;
+  z-index: 9999;
+  pointer-events: none;
+  background: #04050A;
+  opacity: 1;
+  animation: dim-out 700ms cubic-bezier(0.4, 0, 0.5, 1) 40ms forwards;
+}
+@keyframes dim-out { to { opacity: 0; } }
+
+/* a whisper of snow still settling as the dark lifts - slow enough that
+   it can never read as stutter, faint enough to stay atmospheric */
+.arriving .cover-drift {
+  position: absolute; inset: -12% 0;
+  background-image:
+    radial-gradient(1.3px 1.3px at 6.4% 36.2%, rgba(214,228,244,0.14), transparent),
+    radial-gradient(2.2px 2.2px at 60.6% 60.8%, rgba(214,228,244,0.17), transparent),
+    radial-gradient(2.1px 2.1px at 61.0% 24.5%, rgba(214,228,244,0.26), transparent),
+    radial-gradient(2.1px 2.1px at 8.3% 91.6%, rgba(214,228,244,0.25), transparent),
+    radial-gradient(1.7px 1.7px at 50.4% 3.7%, rgba(214,228,244,0.29), transparent),
+    radial-gradient(1.4px 1.4px at 52.6% 18.5%, rgba(214,228,244,0.14), transparent),
+    radial-gradient(2.1px 2.1px at 36.8% 57.9%, rgba(214,228,244,0.31), transparent),
+    radial-gradient(2.5px 2.5px at 18.8% 25.1%, rgba(214,228,244,0.25), transparent),
+    radial-gradient(1.3px 1.3px at 67.5% 54.1%, rgba(214,228,244,0.31), transparent),
+    radial-gradient(1.2px 1.2px at 16.3% 38.5%, rgba(214,228,244,0.32), transparent),
+    radial-gradient(2.1px 2.1px at 67.7% 61.0%, rgba(214,228,244,0.18), transparent),
+    radial-gradient(2.0px 2.0px at 32.8% 0.3%, rgba(214,228,244,0.24), transparent),
+    radial-gradient(3.1px 3.1px at 94.9% 88.6%, rgba(214,228,244,0.27), transparent),
+    radial-gradient(2.1px 2.1px at 91.4% 43.2%, rgba(214,228,244,0.19), transparent),
+    radial-gradient(2.2px 2.2px at 91.5% 52.0%, rgba(214,228,244,0.20), transparent),
+    radial-gradient(2.3px 2.3px at 79.9% 59.6%, rgba(214,228,244,0.29), transparent),
+    radial-gradient(3.0px 3.0px at 48.8% 69.2%, rgba(214,228,244,0.25), transparent),
+    radial-gradient(2.3px 2.3px at 64.0% 12.4%, rgba(214,228,244,0.24), transparent),
+    radial-gradient(1.9px 1.9px at 95.2% 31.0%, rgba(214,228,244,0.17), transparent),
+    radial-gradient(2.7px 2.7px at 20.0% 15.5%, rgba(214,228,244,0.17), transparent),
+    radial-gradient(2.0px 2.0px at 45.6% 81.9%, rgba(214,228,244,0.28), transparent),
+    radial-gradient(3.0px 3.0px at 57.4% 6.5%, rgba(214,228,244,0.29), transparent),
+    radial-gradient(1.8px 1.8px at 31.9% 87.8%, rgba(214,228,244,0.19), transparent),
+    radial-gradient(2.1px 2.1px at 67.4% 76.0%, rgba(214,228,244,0.28), transparent);
+  background-size: 300px 300px;
+  animation: linger 1400ms linear forwards;
+}
+@keyframes linger {
+  from { transform: translate3d(0, -6vh, 0); opacity: 0.7; }
+  to   { transform: translate3d(-10px, 12vh, 0); opacity: 0; }
+}
+
+.arriving .page-in { animation: ease-up 760ms cubic-bezier(0.4, 0, 0.5, 1) 120ms both; }
+@keyframes ease-up { from { opacity: 0; } to { opacity: 1; } }
+
+@media (prefers-reduced-motion: reduce) {
+  .arriving .page-cover { display: none; }
+  .arriving .page-in { animation: none; }
 }
