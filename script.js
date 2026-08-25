@@ -34,8 +34,18 @@
     var io = new IntersectionObserver(function (entries) {
       for (var i = 0; i < entries.length; i++) {
         if (entries[i].isIntersecting) {
-          entries[i].target.classList.add("seen");
-          io.unobserve(entries[i].target);
+          var el = entries[i].target;
+          el.classList.add("seen");
+          io.unobserve(el);
+          // Drop the compositor layer once the card has arrived. Leaving
+          // will-change on keeps every card promoted for the life of the
+          // page - eight extra layers a phone has to composite on every
+          // frame of a fast scroll, long after they stopped moving.
+          el.addEventListener("transitionend", function done(ev) {
+            if (ev.propertyName !== "transform") return;
+            el.style.willChange = "auto";
+            el.removeEventListener("transitionend", done);
+          });
         }
       }
     }, { rootMargin: "0px 0px -8% 0px", threshold: 0.05 });

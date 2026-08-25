@@ -639,6 +639,19 @@ a:hover { color: #FFB098; }
   .contact a, .contact .place { padding: 11px 16px; font-size: 14px; }
 }
 
+/* A sticky element with backdrop-filter has to re-blur whatever is behind it
+   on every frame. During momentum scrolling on a phone that sampling lags the
+   scroll, which shows up as content smearing or tearing through the bar. Use a
+   near-opaque background there instead - visually almost identical, no
+   per-frame blur. */
+@media (max-width: 760px) {
+  .topbar {
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+    background: rgba(6, 7, 12, 0.94);
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
   .orb, .orb-indigo, .orb-coral, .stars > div, .aurora > div, .snow > div { animation: none; }
