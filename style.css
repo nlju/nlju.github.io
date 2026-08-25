@@ -652,6 +652,14 @@ a:hover { color: #FFB098; }
   }
 }
 
+/* Nothing in the backdrop moves on a phone, so nothing there needs its own
+   compositor layer. Only the layers that still cross-fade keep a hint, and
+   only for opacity. */
+@media (max-width: 760px) {
+  .layer { will-change: auto; }
+  .fades { will-change: opacity; }
+}
+
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
   .orb, .orb-indigo, .orb-coral, .stars > div, .aurora > div, .snow > div { animation: none; }

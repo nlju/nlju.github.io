@@ -16,6 +16,14 @@
 
   var reduced = window.matchMedia("(prefers-reduced-motion: reduce)");
 
+  // On a phone the backdrop is a position:fixed stack of 13 promoted layers.
+  // Writing a new transform to all of them on every scroll frame is more than
+  // a mobile compositor keeps in step with a fast flick: part of the frame is
+  // drawn with the old transforms and part with the new, which tears. Below
+  // this width the scene stays put and only the night-to-dawn cross-fade
+  // runs - opacity on a few layers, which cannot tear.
+  var small = window.matchMedia("(max-width: 760px)");
+
   /* ---------------- scroll reveal ---------------- */
 
   // Only armed once JS is confirmed running, so the page stays fully
@@ -121,7 +129,7 @@
     mx += (tmx - mx) * 0.10;
     my += (tmy - my) * 0.10;
 
-    for (var i = 0; i < layers.length; i++) {
+    for (var i = 0; i < layers.length && !small.matches; i++) {
       var l = layers[i];
       var rise = progress * l.travel * vh / 100;
       var y = Math.round((-rise + my * l.mouse) * 100) / 100;
@@ -224,7 +232,19 @@
     }
   }
 
-  function sync() { if (reduced.matches) stop(); else start(); }
+  function clearLayers() {
+    for (var i = 0; i < layers.length; i++) {
+      layers[i].el.style.transform = "";
+      layers[i].lastY = layers[i].lastX = null;
+    }
+  }
+
+  function sync() {
+    if (small.matches) clearLayers();
+    if (reduced.matches) stop(); else start();
+  }
+  if (small.addEventListener) small.addEventListener("change", sync);
+  else if (small.addListener) small.addListener(sync);
 
   if (reduced.addEventListener) reduced.addEventListener("change", sync);
   else if (reduced.addListener) reduced.addListener(sync);
