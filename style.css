@@ -842,7 +842,11 @@ a:hover { color: #FFB098; }
   width: min(36ch, 88%);
   margin: 0;
   padding: 14px 16px;
+  /* frosted: only ever drawn while a note is open, and at most two on the
+     page, so this is not the per-frame blur cost that removed it elsewhere */
   background: rgba(13, 17, 28, 0.25);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
   border: 1px solid rgba(236, 90, 139, 0.36);
   border-radius: 10px;
   box-shadow: 0 18px 40px -16px rgba(0, 0, 0, 0.85);
@@ -868,23 +872,13 @@ a:hover { color: #FFB098; }
 /* Escape dismisses it even while hovered or focused */
 .flow-spot.hush .flow-note { opacity: 0; visibility: hidden; transition: none; }
 
-/* The notes are see-through, so the dashed loop and its label would show
-   behind the text. They step aside while any note is open. */
-.flow .loop, .flow .loop-lbl { transition: opacity 0.18s ease; }
-.flow-wrap:has(.flow-spot:not(.hush) .flow-hit:focus-visible) .flow :is(.loop, .loop-lbl),
-.flow-wrap:has(.flow-spot.open) .flow :is(.loop, .loop-lbl) { opacity: 0; }
-@media (hover: hover) {
-  .flow-wrap:has(.flow-spot:not(.hush) .flow-hit:hover) .flow :is(.loop, .loop-lbl),
-  .flow-wrap:has(.flow-note:hover) .flow :is(.loop, .loop-lbl) { opacity: 0; }
-}
-
 @media (max-width: 560px) {
   .spot-data .flow-note, .spot-sample .flow-note { left: 0; right: 0; width: auto; }
   .flow-coral { width: 20px; height: 20px; right: -7px; }
 }
 @media (prefers-reduced-motion: reduce) {
   .flow-coral { animation: none; }
-  .flow-hit, .flow-note, .flow .loop, .flow .loop-lbl { transition: none; }
+  .flow-hit, .flow-note { transition: none; }
   .flow-hit:focus-visible ~ .flow-note, .flow-spot.open .flow-note, .flow-hit:hover ~ .flow-note, .flow-note:hover { transition: none; }
 }
 
@@ -1002,7 +996,9 @@ a:hover { color: #FFB098; }
   to   { transform: translate3d(-10px, 12vh, 0); opacity: 0; }
 }
 
-.arriving .page-in { animation: ease-up 760ms cubic-bezier(0.4, 0, 0.5, 1) 120ms both; }
+/* backwards, not both: a fill held after the end would keep main walled off
+   from the scene, and the notes could not blur what lies behind the card */
+.arriving .page-in { animation: ease-up 760ms cubic-bezier(0.4, 0, 0.5, 1) 120ms backwards; }
 @keyframes ease-up { from { opacity: 0; } to { opacity: 1; } }
 
 @media (prefers-reduced-motion: reduce) {
