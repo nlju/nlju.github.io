@@ -670,7 +670,6 @@ a:hover { color: #FFB098; }
   .role:hover, .panel:hover, .contact a:hover { transform: none; }
 }
 
-
 /* ============================================================
    Narrow screens: the forest SVGs are width-driven, so at 360px the
    spruces would render ~75px tall. Widen them past the viewport and
@@ -775,13 +774,14 @@ a:hover { color: #FFB098; }
 .flow .loop-lbl { fill: #FF8F6B; font-size: 10px; letter-spacing: 0.08em; }
 
 /* ============================================================
-   Note on the "second-res data" box.
+   Notes on the diagram boxes.
 
-   An HTML button laid exactly over the SVG box - positioned in
-   percentages of the viewBox (x 40, y 6, 124 x 38 of 640 x 106), so it
-   tracks the box at any width. Hover and keyboard focus show the note
-   in CSS alone; script.js adds tap, Escape and tap-outside, and marks
-   the note seen so the coral stops swaying.
+   Each .flow-spot is an HTML button laid exactly over an SVG box plus
+   the note it opens. The spot itself is unpositioned, so both place
+   themselves against .flow-wrap, in percentages of the viewBox
+   (640 x 106), and track the box at any width. Hover and keyboard focus
+   show a note in CSS alone; script.js adds tap, Escape and tap-outside,
+   and marks a note seen so its coral stops swaying.
    ============================================================ */
 
 .flow-wrap { position: relative; margin-top: clamp(16px, 2.2vw, 26px); }
@@ -789,11 +789,10 @@ a:hover { color: #FFB098; }
 
 .flow-hit {
   position: absolute;
-  left: 6.25%; top: 5.66%; width: 19.375%; height: 35.85%;
+  top: 5.66%; height: 35.85%;
   margin: 0; padding: 0;
   background: transparent;
   border: 1px solid transparent;
-  border-radius: 5.6% / 18.4%;
   cursor: help;
   transition: border-color 0.2s ease, background-color 0.2s ease;
 }
@@ -805,7 +804,16 @@ a:hover { color: #FFB098; }
   width: max(100%, 44px); height: max(100%, 44px);
   transform: translate(-50%, -50%);
 }
-.flow-wrap.open .flow-hit { border-color: rgba(236, 90, 139, 0.75); background: rgba(236, 90, 139, 0.07); }
+.flow-spot.open .flow-hit { border-color: rgba(236, 90, 139, 0.75); background: rgba(236, 90, 139, 0.07); }
+
+/* x 40, 124 wide */
+.spot-data .flow-hit { left: 6.25%; width: 19.375%; border-radius: 5.6% / 18.4%; }
+.spot-data .flow-note { left: 6.25%; }
+/* x 198, 90 wide */
+.spot-sample .flow-hit { left: 30.94%; width: 14.06%; border-radius: 7.8% / 18.4%; }
+.spot-sample .flow-note { left: 30.94%; }
+/* out of step with the first coral, so they do not sway in unison */
+.spot-sample .flow-coral { animation-delay: -1.4s; }
 
 /* The hint: a small pink coral growing from the box's top-right corner.
    It sways from its base, slowly, until the note has been seen, then
@@ -819,7 +827,7 @@ a:hover { color: #FFB098; }
   animation: sway 3.6s ease-in-out infinite;
 }
 .flow-coral svg { display: block; width: 100%; height: 100%; }
-.flow-wrap.noted .flow-coral { animation: none; }
+.flow-spot.noted .flow-coral { animation: none; }
 @keyframes sway {
   0%, 100% { transform: rotate(-4deg); }
   50%      { transform: rotate(4deg); }
@@ -830,11 +838,11 @@ a:hover { color: #FFB098; }
    note without it vanishing. */
 .flow-note {
   position: absolute; z-index: 3;
-  top: calc(41.5% + 8px); left: 6.25%;
+  top: calc(41.5% + 8px);
   width: min(36ch, 88%);
   margin: 0;
   padding: 14px 16px;
-  background: #0D111C;
+  background: rgba(13, 17, 28, 0.25);
   border: 1px solid rgba(236, 90, 139, 0.36);
   border-radius: 10px;
   box-shadow: 0 18px 40px -16px rgba(0, 0, 0, 0.85);
@@ -845,7 +853,7 @@ a:hover { color: #FFB098; }
   transition: opacity 0.18s ease, visibility 0s linear 0.18s;
 }
 .flow-hit:focus-visible ~ .flow-note,
-.flow-wrap.open .flow-note {
+.flow-spot.open .flow-note {
   opacity: 1; visibility: visible;
   transition: opacity 0.18s ease, visibility 0s;
 }
@@ -858,16 +866,26 @@ a:hover { color: #FFB098; }
   }
 }
 /* Escape dismisses it even while hovered or focused */
-.flow-wrap.hush .flow-note { opacity: 0; visibility: hidden; transition: none; }
+.flow-spot.hush .flow-note { opacity: 0; visibility: hidden; transition: none; }
+
+/* The notes are see-through, so the dashed loop and its label would show
+   behind the text. They step aside while any note is open. */
+.flow .loop, .flow .loop-lbl { transition: opacity 0.18s ease; }
+.flow-wrap:has(.flow-spot:not(.hush) .flow-hit:focus-visible) .flow :is(.loop, .loop-lbl),
+.flow-wrap:has(.flow-spot.open) .flow :is(.loop, .loop-lbl) { opacity: 0; }
+@media (hover: hover) {
+  .flow-wrap:has(.flow-spot:not(.hush) .flow-hit:hover) .flow :is(.loop, .loop-lbl),
+  .flow-wrap:has(.flow-note:hover) .flow :is(.loop, .loop-lbl) { opacity: 0; }
+}
 
 @media (max-width: 560px) {
-  .flow-note { left: 0; right: 0; width: auto; }
+  .spot-data .flow-note, .spot-sample .flow-note { left: 0; right: 0; width: auto; }
   .flow-coral { width: 20px; height: 20px; right: -7px; }
 }
 @media (prefers-reduced-motion: reduce) {
   .flow-coral { animation: none; }
-  .flow-hit, .flow-note { transition: none; }
-  .flow-hit:focus-visible ~ .flow-note, .flow-wrap.open .flow-note, .flow-hit:hover ~ .flow-note, .flow-note:hover { transition: none; }
+  .flow-hit, .flow-note, .flow .loop, .flow .loop-lbl { transition: none; }
+  .flow-hit:focus-visible ~ .flow-note, .flow-spot.open .flow-note, .flow-hit:hover ~ .flow-note, .flow-note:hover { transition: none; }
 }
 
 /* ============================================================

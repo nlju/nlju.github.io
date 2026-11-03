@@ -305,45 +305,46 @@
 
 
 /* ============================================================
-   Note on the "second-res data" box
+   Notes on the diagram boxes
 
-   Hover and keyboard focus show it through CSS alone. This adds what
+   Hover and keyboard focus show them through CSS alone. This adds what
    CSS cannot: tap to open on a phone (there is no hover), tap anywhere
-   else or Escape to close, and a "noted" class once it has been seen,
-   which stops the coral swaying.
+   else or Escape to close, and a "noted" class once one has been seen,
+   which stops its coral swaying.
    ============================================================ */
 
 (function () {
   "use strict";
 
-  var wrap = document.querySelector(".flow-wrap");
-  if (!wrap) return;
-  var hit = wrap.querySelector(".flow-hit");
+  [].forEach.call(document.querySelectorAll(".flow-spot"), function (spot) {
+    var hit = spot.querySelector(".flow-hit");
 
-  function noted() { wrap.classList.add("noted"); }
+    function noted() { spot.classList.add("noted"); }
 
-  function set(open) {
-    wrap.classList.toggle("open", open);
-    hit.setAttribute("aria-expanded", open ? "true" : "false");
-    if (open) noted();
-  }
+    function set(open) {
+      spot.classList.toggle("open", open);
+      hit.setAttribute("aria-expanded", open ? "true" : "false");
+      if (open) noted();
+    }
 
-  // a fresh hover or focus lifts an earlier Escape
-  function wake() { wrap.classList.remove("hush"); noted(); }
+    // a fresh hover or focus lifts an earlier Escape
+    function wake() { spot.classList.remove("hush"); noted(); }
 
-  hit.addEventListener("mouseenter", wake);
-  hit.addEventListener("focus", wake);
-  hit.addEventListener("click", function () {
-    wrap.classList.remove("hush");
-    set(!wrap.classList.contains("open"));
-  });
+    hit.addEventListener("mouseenter", wake);
+    hit.addEventListener("focus", wake);
+    hit.addEventListener("click", function () {
+      spot.classList.remove("hush");
+      set(!spot.classList.contains("open"));
+    });
 
-  document.addEventListener("click", function (e) {
-    if (!wrap.contains(e.target)) set(false);
-  });
-  document.addEventListener("keydown", function (e) {
-    if (e.key !== "Escape") return;
-    set(false);
-    wrap.classList.add("hush");
+    // tapping another box counts as outside, so only one stays open
+    document.addEventListener("click", function (e) {
+      if (!spot.contains(e.target)) set(false);
+    });
+    document.addEventListener("keydown", function (e) {
+      if (e.key !== "Escape") return;
+      set(false);
+      spot.classList.add("hush");
+    });
   });
 })();

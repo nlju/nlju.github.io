@@ -36,7 +36,7 @@ try {
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=Archivo:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="style.css?v=20261010a">
+<link rel="stylesheet" href="style.css?v=20261103a">
 </head>
 <body>
 
@@ -147,6 +147,7 @@ try {
               <path class="loop" d="M378,44 V74 H243 V52" marker-end="url(#ahL)"></path>
               <text x="311" y="94" text-anchor="middle" class="loop-lbl">most die here</text>
             </svg>
+            <div class="flow-spot spot-data">
             <button class="flow-hit" type="button" aria-label="second-res data" aria-describedby="note-data" aria-controls="note-data" aria-expanded="false"><span class="flow-coral" aria-hidden="true"><svg viewBox="0 0 32 32">
               <defs>
                 <linearGradient id="coral-g" x1="0" y1="31" x2="0" y2="7" gradientUnits="userSpaceOnUse">
@@ -155,6 +156,7 @@ try {
                   <stop offset="1" stop-color="#FF9FC0"></stop>
                 </linearGradient>
               </defs>
+              <g id="coral-art">
               <g fill="none" stroke="url(#coral-g)" stroke-linecap="round" stroke-linejoin="round">
                 <path d="M12.6 30.6C13.9 30.3 15 29.9 16 29.2C17 29.9 18.1 30.3 19.4 30.6" stroke-width="1.4"></path>
                 <path d="M16 29.6C15.8 27.4 15.6 25.4 15.4 23.4" stroke-width="3.2"></path>
@@ -184,14 +186,20 @@ try {
                 <circle cx="8.2" cy="20.4" r="0.36"></circle><circle cx="4.4" cy="15.4" r="0.34"></circle><circle cx="10.6" cy="18.4" r="0.36"></circle><circle cx="15.4" cy="18.6" r="0.38"></circle><circle cx="15.2" cy="11.2" r="0.34"></circle><circle cx="17.2" cy="11.4" r="0.34"></circle>
                 <circle cx="21.6" cy="18.6" r="0.36"></circle><circle cx="24.2" cy="20.2" r="0.36"></circle><circle cx="26.2" cy="14.2" r="0.34"></circle><circle cx="12.4" cy="12.6" r="0.32"></circle><circle cx="18.6" cy="25.4" r="0.38"></circle><circle cx="13.2" cy="25.6" r="0.38"></circle>
               </g>
+              </g>
             </svg></span></button>
-            <p class="flow-note" id="note-data">The first question is how a signal is measured, not whether it works. The same indicator reads differently on the same candle depending on prints, hours and smoothing, so I pin that down with a probe before any longer autoresearch run.</p>
+            <p class="flow-note" id="note-data">The first question is how a signal is measured, not whether it works.</p>
+            </div>
+            <div class="flow-spot spot-sample">
+            <button class="flow-hit" type="button" aria-label="in-sample" aria-describedby="note-sample" aria-controls="note-sample" aria-expanded="false"><span class="flow-coral" aria-hidden="true"><svg viewBox="0 0 32 32"><use href="#coral-art"></use></svg></span></button>
+            <p class="flow-note" id="note-sample">Simple rules over clever ones, on a faithful harness: exchange-only prints and partial fills, no phantoms.</p>
+            </div>
             </div>
           </div>
         </article>
   </section>
 </main>
 
-<script src="script.js?v=20261010a"></script>
+<script src="script.js?v=20261103a"></script>
 </body>
 </html>
