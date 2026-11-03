@@ -804,6 +804,7 @@ a:hover { color: #FFB098; }
   width: max(100%, 44px); height: max(100%, 44px);
   transform: translate(-50%, -50%);
 }
+.flow-spot.hovering .flow-hit,
 .flow-spot.open .flow-hit { border-color: rgba(236, 90, 139, 0.75); background: rgba(236, 90, 139, 0.07); }
 
 /* x 40, 124 wide */
@@ -845,11 +846,10 @@ a:hover { color: #FFB098; }
   /* frosted: only ever drawn while a note is open, and at most two on the
      page, so this is not the per-frame blur cost that removed it elsewhere */
   background: rgba(13, 17, 28, 0.25);
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
+  backdrop-filter: blur(3px);
+  -webkit-backdrop-filter: blur(3px);
   border: 1px solid rgba(236, 90, 139, 0.36);
   border-radius: 10px;
-  box-shadow: 0 18px 40px -16px rgba(0, 0, 0, 0.85);
   font-size: 14px; line-height: 1.55;
   color: var(--ink-2);
   text-wrap: pretty;
@@ -857,6 +857,7 @@ a:hover { color: #FFB098; }
   transition: opacity 0.18s ease, visibility 0s linear 0.18s;
 }
 .flow-hit:focus-visible ~ .flow-note,
+.flow-spot.hovering .flow-note,
 .flow-spot.open .flow-note {
   opacity: 1; visibility: visible;
   transition: opacity 0.18s ease, visibility 0s;
@@ -879,7 +880,7 @@ a:hover { color: #FFB098; }
 @media (prefers-reduced-motion: reduce) {
   .flow-coral { animation: none; }
   .flow-hit, .flow-note { transition: none; }
-  .flow-hit:focus-visible ~ .flow-note, .flow-spot.open .flow-note, .flow-hit:hover ~ .flow-note, .flow-note:hover { transition: none; }
+  .flow-hit:focus-visible ~ .flow-note, .flow-spot.hovering .flow-note, .flow-spot.open .flow-note, .flow-hit:hover ~ .flow-note, .flow-note:hover { transition: none; }
 }
 
 /* ============================================================

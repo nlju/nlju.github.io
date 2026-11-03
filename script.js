@@ -330,7 +330,16 @@
     // a fresh hover or focus lifts an earlier Escape
     function wake() { spot.classList.remove("hush"); noted(); }
 
-    hit.addEventListener("mouseenter", wake);
+    // Some devices with a mouse report that they cannot hover - touchscreen
+    // laptops, for one - and the CSS :hover rule stays off there. So watch
+    // the pointer itself. Touch is left out: it opens by tap.
+    function enter(e) { if (e.pointerType === "mouse") { spot.classList.add("hovering"); wake(); } }
+    function leave() { spot.classList.remove("hovering"); }
+    [hit, spot.querySelector(".flow-note")].forEach(function (el) {
+      el.addEventListener("pointerenter", enter);
+      el.addEventListener("pointerleave", leave);
+    });
+
     hit.addEventListener("focus", wake);
     hit.addEventListener("click", function () {
       spot.classList.remove("hush");
